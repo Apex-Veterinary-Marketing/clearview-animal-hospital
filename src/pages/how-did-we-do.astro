@@ -1,0 +1,40 @@
+---
+// Standalone "How'd We Do?" page: the reputation widget (normally the global
+// modal opened from the header dropdown) rendered inline, so clients can
+// paste one plain link into their PIM / practice-management software
+// (post-visit emails and texts). Deliberately NOT linked from the header,
+// footer or any other navigation, and noindex — it is a feedback funnel
+// for existing clients, not a page for search (noindex also keeps it out
+// of sitemap.xml, see astro.config.mjs).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import ReputationWidget from "../components/ReputationWidget.astro";
+import { getSiteInfo } from "../lib/data/site";
+
+const site = await getSiteInfo();
+---
+
+<BaseLayout
+  title="How'd We Do?"
+  description={`Tell ${site.practiceName} how your visit went.`}
+  noindex
+  breadcrumb={false}
+>
+  <Hero
+    eyebrow={site.practiceName}
+    heading="How'd We Do?"
+    subheading="Thank you for trusting us with your pet. Tell us about your visit — it only takes a moment."
+  />
+  <Section tone="soft">
+    <div class="how-did-we-do__widget">
+      <ReputationWidget inline />
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* Room above the card for the widget's peeking mascot (it sits 7.5rem
+     above the card's top edge — see ReputationWidget.astro). */
+  .how-did-we-do__widget { padding-block-start: calc(var(--space-2xl) + var(--space-xl)); }
+</style>
