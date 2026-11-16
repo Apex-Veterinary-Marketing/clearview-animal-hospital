@@ -80,7 +80,7 @@ export interface SiteInfo {
 // so components/pages have something real to render while the skeleton is
 // being built and reviewed.
 export const siteInfo: SiteInfo = {
-  practiceName: "[Practice Name]",
+  practiceName: "Clearview Animal Hospital",
   phoneNumber: "(000) 000-0000",
   email: "hello@example.com",
   address: "123 Main St",
