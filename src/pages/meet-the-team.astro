@@ -19,20 +19,20 @@ const staff = await getAllStaff();
 const clinicBlurbs = [
   {
     heading: "What We Stand For",
-    body: "A short paragraph on why the practice exists and what it's ultimately here to do for pets and their people goes here — replace with real client copy.",
+    body: "We are here to give Easley's pets compassionate, high-quality veterinary care with a personal touch, and to make every family feel welcome from the moment they walk in.",
   },
   {
     heading: "Where We're Headed",
-    body: "A short paragraph on what the practice is working toward — the kind of care it wants to keep building toward over time — goes here.",
+    body: "We want to keep bringing more of the care pets need close to home, so Upstate families can count on one familiar team through every stage of their pet's life.",
   },
   {
     heading: "How We Care For Your Pet",
-    body: "A short paragraph on the practice's day-to-day philosophy of care — how appointments feel, what pet owners can expect — goes here.",
+    body: "Every visit starts with listening. We take time to understand your pet and your concerns, explain what we find in plain terms, and work with you on a plan that fits your pet and your family.",
   },
 ];
 ---
 
-<BaseLayout title="Meet the Team" description="Meet our doctors and staff.">
+<BaseLayout title="Staff - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Meet the Team" description="Our staff is experienced with keeping your pets healthy and happy. We are a comprehensive small animal veterinary hospital in Easley, SC">
   <PageHeaderBanner heading="Meet the Team" image={bannerGeneric} />
 
   {doctors.length > 0 && (
@@ -56,7 +56,7 @@ const clinicBlurbs = [
 
   <section class="page-section about-staff">
     <h2>About Our Team</h2>
-    <p class="about-staff__body">A paragraph describing the team as a whole goes here — replace with real client copy about the people behind the practice, their experience, and what pet owners can expect when they meet them.</p>
+    <p class="about-staff__body">Led by Dr. Aimee Seguin, our team of veterinary assistants, a certified veterinary technician and a friendly front desk is here for you and your pet at every visit. Expect a warm welcome, gentle handling and people who are glad to answer your questions, because to us your pet is family too.</p>
   </section>
 
   {staff.length > 0 && (

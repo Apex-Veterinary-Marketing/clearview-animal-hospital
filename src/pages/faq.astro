@@ -13,7 +13,7 @@ const services = await getAllServices();
 const faqs = services.flatMap((s) => s.data.faqs);
 ---
 
-<BaseLayout title="FAQs" description="Frequently asked questions.">
+<BaseLayout title="Pet Care FAQs | Clearview Animal Hospital, Easley SC" titleTemplate="full" breadcrumb="FAQs" description="Answers to common questions about visits, payments, prescriptions and pet care at Clearview Animal Hospital, serving Easley, SC and the Upstate since 1958.">
   <PageHeaderBanner heading="Frequently Asked Questions" />
   <div class="page-section">
     <FaqAccordion faqs={faqs} />

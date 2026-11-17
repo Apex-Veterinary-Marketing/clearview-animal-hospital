@@ -1,0 +1,477 @@
+---
+// Clearview homepage — V3b "Clear View" (approved mockup, 2026-11-17:
+// client-docs/homepage-mockups/v3b-clear-view.html). Rendered by both
+// src/pages/index.astro (English) and src/pages/es/index.astro (Spanish);
+// all copy comes from src/data/home-copy.ts.
+//
+// Sections: full-bleed hero that fades into the navy quick-links bar (a paw
+// trail walks across it) → about → numbered service index → meet the doctor
+// (paw pattern) → why choose us → reviews (paw pattern) → visit (hours + map).
+import { Image } from "astro:assets";
+import { getSiteInfo } from "../../lib/data/site";
+import { getHomeDoctors } from "../../lib/data/doctors";
+import { getAllTestimonials } from "../../lib/data/testimonials";
+import { phoneHref } from "../../lib/utils/phone";
+import { homeCopy } from "../../data/home-copy";
+import type { Lang } from "../../data/i18n";
+import avatarGeneric from "../../assets/avatar-generic.png";
+import heroImg from "../../assets/home/hero-german-shepherd.jpg";
+import aboutImg from "../../assets/home/about-lab-and-cat.jpg";
+import aboutImg2 from "../../assets/home/about-small-dog.jpg";
+import teamImg from "../../assets/home/clearview-team.jpg";
+import svcWellness from "../../assets/home/svc-wellness.jpg";
+import svcDental from "../../assets/home/svc-dental.jpg";
+import svcSurgery from "../../assets/home/svc-surgery.jpg";
+import svcUrgent from "../../assets/home/svc-urgent.jpg";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = homeCopy[lang];
+const site = await getSiteInfo();
+const doctor = (await getHomeDoctors())[0];
+const [featured, ...sideReviews] = await getAllTestimonials();
+const svcImages = { wellness: svcWellness, dental: svcDental, surgery: svcSurgery, urgent: svcUrgent };
+const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+// Hours, built from site.openingHoursSpecification (the same data the schema uses).
+type Range = { opens: string; closes: string };
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const week: Range[][] = dayNames.map((name) =>
+  (site.openingHoursSpecification ?? [])
+    .filter((s) => s.dayOfWeek.includes(name))
+    .map(({ opens, closes }) => ({ opens, closes }))
+    .sort((a, b) => a.opens.localeCompare(b.opens))
+);
+const fmt = (hhmm: string) => {
+  const [h, m] = hhmm.split(":").map(Number);
+  return `${h % 12 || 12}${m ? `:${String(m).padStart(2, "0")}` : ""}${h < 12 ? "am" : "pm"}`;
+};
+const span = (ranges: Range[]) => `${fmt(ranges[0].opens)}–${fmt(ranges[ranges.length - 1].closes)}`;
+const rows: { label: string; days: number[]; value: string }[] = [];
+for (const d of [1, 2, 3, 4, 5]) rows.push({ label: c.days[d], days: [d], value: week[d].length ? span(week[d]) : c.closed });
+const satOpen = week[6].length > 0, sunOpen = week[0].length > 0;
+if (!satOpen && !sunOpen) rows.push({ label: c.weekend, days: [6, 0], value: c.closed });
+else for (const d of [6, 0]) rows.push({ label: c.days[d], days: [d], value: week[d].length ? span(week[d]) : c.closed });
+const lunchDay = week.find((r) => r.length > 1);
+const lunch = lunchDay ? c.lunch(`${fmt(lunchDay[0].closes)}–${fmt(lunchDay[1].opens)}`) : "";
+
+// Doctor: monogram until a real headshot replaces the generic avatar.
+const hasHeadshot = doctor?.data.mainImage && doctor.data.mainImage.src !== avatarGeneric.src;
+const initials = doctor ? doctor.data.name.replace(/^Dr\.?\s*/, "").split(/\s+/).map((w: string) => w[0]).join("").slice(0, 2) : "";
+const bookHref = site.bookingUrl || "/contact-us";
+---
+
+<section class="hero">
+  <Image class="hero__bg" src={heroImg} alt={c.heroImageAlt} widths={[640, 960, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow">{c.heroEyebrow}</p>
+      <h1 class="hero__title">{c.heroTitle} <span class="accent">{c.heroAccent}</span></h1>
+      <p class="hero__lede">{c.heroLede}</p>
+      <div class="hero__actions">
+        <a class="btn btn--cta" href={bookHref}>{c.bookAppointment} <Fragment set:html={arrow} /></a>
+        {site.phoneNumber && <a class="btn btn--line-light" href={phoneHref(site)}>{c.call} <span class="nowrap">{site.phoneNumber}</span></a>}
+      </div>
+      <p class="hero__today" data-today data-lang={lang} data-hours={JSON.stringify(week)}><i aria-hidden="true"></i><span>{c.hoursFallback}</span></p>
+    </div>
+  </div>
+  <div class="hero__seal" aria-hidden="true"><div><small>{c.since}</small><b>1958</b></div></div>
+</section>
+
+<div class="band">
+  <div class="band__inner"><div class="trail" data-trail aria-hidden="true"></div></div>
+  <ul class="band__inner quick">
+    {c.quick.map((q) => (
+      <li>
+        <a class="quick__link" href={q.href === "BOOKING" ? bookHref : q.href} {...(q.external || q.href === "BOOKING" ? { target: "_blank", rel: "noopener" } : {})}>
+          <span class="quick__tag">{q.tag}</span>
+          <b class="quick__title">{q.title}</b>
+          <span class="quick__text">{q.text}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<section class="sec about">
+  <div class="wrap about__grid">
+    <div class="about__stack" data-reveal="left">
+      <Image class="about__img" src={aboutImg} alt={c.aboutImageAlt} widths={[480, 720, 960]} sizes="(max-width: 900px) 82vw, 40vw" />
+      <Image class="about__img about__img--small" src={aboutImg2} alt="" widths={[320, 480]} sizes="(max-width: 900px) 45vw, 22vw" />
+    </div>
+    <div data-reveal>
+      <p class="eyebrow">{c.aboutEyebrow}</p>
+      <h2 class="sec__title">{c.aboutTitle} <span class="accent">{c.aboutAccent}</span></h2>
+      <p class="about__text">{c.aboutText}</p>
+      <a class="btn btn--line" href="/meet-the-team">{c.meetTeam} <Fragment set:html={arrow} /></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec services">
+  <div class="wrap">
+    <div class="services__head" data-reveal>
+      <div>
+        <p class="eyebrow">{c.servicesEyebrow}</p>
+        <h2 class="sec__title">{c.servicesTitle} <span class="accent">{c.servicesAccent}</span></h2>
+      </div>
+      <a class="btn btn--cta" href="/services">{c.allServices} <Fragment set:html={arrow} /></a>
+    </div>
+    <ol class="svc-list" data-reveal-stagger>
+      {c.services.map((s, i) => (
+        <li data-reveal>
+          <a class="svc" href={s.href}>
+            <span class="svc__n">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="svc__title">{s.title}</h3>
+            <p class="svc__text">{s.text}</p>
+            <span class="svc__thumb"><Image src={svcImages[s.image]} alt="" widths={[240, 360]} sizes="180px" /></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <ul class="chips" data-reveal>
+      {c.moreServices.map((m) => <li>{m}</li>)}
+    </ul>
+  </div>
+</section>
+
+{doctor && (
+  <section class="sec doc paws paws--warm">
+    <div class="wrap doc__grid">
+      <div class="doc__portrait" data-reveal="left">
+        <div class="doc__arch">
+          {hasHeadshot && doctor.data.mainImage ? (
+            <Image src={doctor.data.mainImage} alt={doctor.data.imageAltText || doctor.data.name} widths={[360, 540]} sizes="(max-width: 900px) 340px, 440px" />
+          ) : (
+            <span class="doc__mono" aria-hidden="true">{initials}</span>
+          )}
+        </div>
+        {!hasHeadshot && <span class="doc__soon">{c.headshotSoon}</span>}
+      </div>
+      <div data-reveal>
+        <p class="eyebrow">{c.doctorEyebrow}</p>
+        <h2 class="sec__title doc__name">{lang === "es" ? doctor.data.name.replace(/^Dr\./, "Dra.") : doctor.data.name}</h2>
+        <p class="doc__role">{c.doctorRole}</p>
+        <div class="doc__bio" set:html={c.doctorBio ?? doctor.data.bio ?? doctor.data.bioShort ?? ""} />
+        <div class="doc__actions">
+          <a class="btn btn--cta" href={bookHref}>{c.bookAppointment} <Fragment set:html={arrow} /></a>
+          <a class="btn btn--line" href={`/doctors/${doctor.id}`}>{c.readBio(doctor.data.shortName || doctor.data.name)}</a>
+        </div>
+        <a class="team" href="/meet-the-team">
+          <Image class="team__img" src={teamImg} alt={c.teamImageAlt} widths={[320, 480, 640]} sizes="(max-width: 560px) 90vw, 220px" />
+          <span class="team__copy">
+            <b>{c.teamTitle}</b>
+            <span>{c.teamText}</span>
+            <span class="team__more">{c.meetTeam} →</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+)}
+
+<section class="sec why">
+  <div class="wrap">
+    <div class="why__top" data-reveal>
+      <div>
+        <p class="eyebrow">{c.whyEyebrow}</p>
+        <h2 class="sec__title">{c.whyTitle} <span class="accent">{c.whyAccent}</span></h2>
+      </div>
+      <p>{c.whyText}</p>
+    </div>
+    <ul class="facts" data-reveal-stagger>
+      {c.facts.map((f) => (
+        <li class="fact" data-reveal>
+          <span class="fact__stat">{f.stat}</span>
+          <b>{f.title}</b>
+          <span class="fact__text">{f.text}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+{featured && (
+  <section class="sec reviews paws paws--warm">
+    <div class="wrap reviews__grid">
+      <figure class="reviews__featured" data-reveal>
+        <p class="eyebrow">{c.reviewsEyebrow}</p>
+        <span class="stars" aria-label="5 stars">★★★★★</span>
+        <blockquote class:list={["reviews__quote", { "reviews__quote--long": featured.data.testimonial.length > 160 }]} lang="en"><p>{featured.data.testimonial}</p></blockquote>
+        <figcaption class="reviews__who">{featured.data.name} <span>· {c.reviewSource}</span></figcaption>
+      </figure>
+      <div class="reviews__side" data-reveal-stagger>
+        {sideReviews.map((r) => (
+          <figure class="side-q" data-reveal>
+            <span class="stars" aria-label="5 stars">★★★★★</span>
+            <blockquote lang="en"><p>“{r.data.testimonial}”</p></blockquote>
+            <figcaption class="reviews__who">{r.data.name} <span>· Google</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<section class="sec visit" id="visit">
+  <div class="wrap visit__grid">
+    <div data-reveal>
+      <p class="eyebrow visit__eyebrow">{c.visitEyebrow}</p>
+      <h2 class="sec__title">{c.visitTitle} <span class="accent">{c.visitAccent}</span></h2>
+      <p class="visit__addr">
+        {site.address}, {site.addressLine2}<br />
+        {site.phoneNumber && <a class="nowrap visit__phone" href={phoneHref(site)}>{site.phoneNumber}</a>}
+        {site.email && <> · <a href={`mailto:${site.email}`}>{site.email}</a></>}
+      </p>
+      <table class="hours" data-hours-table>
+        <tbody>
+          {rows.map((r) => (
+            <tr data-days={r.days.join(" ")}><td>{r.label}<span class="hours__today"> · {c.today}</span></td><td>{r.value}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="visit__small">{lunch} {c.afterHours}</p>
+      <div class="visit__actions">
+        <a class="btn btn--cta" href={bookHref}>{c.bookNow}</a>
+        {site.addressLink && <a class="btn btn--line-light" href={site.addressLink} target="_blank" rel="noopener">{c.directions}</a>}
+      </div>
+    </div>
+    {site.mapEmbedLink && (
+      <div class="visit__map" data-reveal="right">
+        <iframe title={c.mapTitle} src={site.mapEmbedLink.replace("hl=en", `hl=${lang}`)} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  import { homeCopy } from "../../data/home-copy";
+  import type { Lang } from "../../data/i18n";
+
+  // "Open now" pill + today's row in the hours table (Easley = Eastern time).
+  const pill = document.querySelector<HTMLElement>("[data-today]");
+  if (pill) {
+    const c = homeCopy[(pill.dataset.lang as Lang) || "en"];
+    const week: { opens: string; closes: string }[][] = JSON.parse(pill.dataset.hours || "[]");
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+    const d = now.getDay();
+    const mins = now.getHours() * 60 + now.getMinutes();
+    const toMin = (t: string) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+    const fmt = (t: string) => { const [h, m] = t.split(":").map(Number); return `${h % 12 || 12}${m ? `:${String(m).padStart(2, "0")}` : ""}${h < 12 ? "am" : "pm"}`; };
+    const today = week[d] || [];
+    const current = today.find((r) => mins >= toMin(r.opens) && mins < toMin(r.closes));
+    const label = pill.querySelector("span");
+    if (label && week.length) {
+      if (current) {
+        label.textContent = c.openUntil(fmt(today[today.length - 1].closes));
+        pill.classList.add("is-open");
+      } else if (today.length && mins < toMin(today[today.length - 1].closes)) {
+        label.textContent = c.closedNowOpensToday(`${fmt(today[0].opens)}–${fmt(today[today.length - 1].closes)}`);
+      } else {
+        for (let i = 1; i <= 7; i++) {
+          const next = week[(d + i) % 7];
+          if (next?.length) { label.textContent = c.closedTodayNext(c.days[(d + i) % 7], fmt(next[0].opens)); break; }
+        }
+      }
+    }
+    document.querySelectorAll<HTMLElement>("[data-hours-table] tr").forEach((tr) => {
+      if ((tr.dataset.days || "").split(" ").includes(String(d))) tr.classList.add("is-today");
+    });
+  }
+
+  // Paw trail on the navy bar: prints step in one by one (left → right,
+  // alternating left/right paws), the trail holds, then they step out one by
+  // one in the same order and at the same pace, and the walk repeats.
+  // Reduced motion: the prints just sit there, no animation.
+  const trail = document.querySelector<HTMLElement>("[data-trail]");
+  if (trail) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const paw = '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.2" cy="10.2" rx="2.1" ry="2.7" transform="rotate(-25 5.2 10.2)"/><ellipse cx="9.4" cy="5.8" rx="2.1" ry="2.8" transform="rotate(-8 9.4 5.8)"/><ellipse cx="14.6" cy="5.8" rx="2.1" ry="2.8" transform="rotate(8 14.6 5.8)"/><ellipse cx="18.8" cy="10.2" rx="2.1" ry="2.7" transform="rotate(25 18.8 10.2)"/></svg>';
+    const STEP = 0.18, POP = 0.35, HOLD = 1.2, PAUSE = 0.8;
+    const build = () => {
+      const w = trail.clientWidth, gap = w < 600 ? 44 : 58, n = Math.max(0, Math.floor((w - 30) / gap));
+      const outAt = n * STEP + HOLD, D = outAt + n * STEP + PAUSE;
+      const pc = (s: number) => `${((s / D) * 100).toFixed(2)}%`;
+      let style = document.getElementById("paw-trail-kf");
+      if (!style) { style = document.createElement("style"); style.id = "paw-trail-kf"; document.head.appendChild(style); }
+      style.textContent =
+        `@keyframes paw-step{0%{opacity:0;transform:var(--r) scale(.5)}${pc(POP * 0.6)}{opacity:.7;transform:var(--r) scale(1.08)}${pc(POP)}{opacity:.6;transform:var(--r) scale(1)}` +
+        `${pc(outAt)}{opacity:.6;transform:var(--r) scale(1)}${pc(outAt + POP * 0.4)}{opacity:.7;transform:var(--r) scale(1.08)}${pc(outAt + POP)},100%{opacity:0;transform:var(--r) scale(.5)}}`;
+      let html = "";
+      for (let i = 0; i < n; i++) {
+        const up = i % 2 === 0, y = (up ? 14 : 40) + Math.round(Math.sin(i / 3) * 6), rot = 90 + (up ? -8 : 8);
+        const anim = reduce ? "opacity:.5" : `opacity:0;animation:paw-step ${D.toFixed(2)}s ${(i * STEP).toFixed(2)}s infinite both`;
+        html += paw.replace("<svg", `<svg style="left:${10 + i * gap}px;top:${y}px;--r:rotate(${rot}deg);transform:rotate(${rot}deg);${anim}"`);
+      }
+      trail.innerHTML = html;
+    };
+    build();
+    let t: number | undefined;
+    window.addEventListener("resize", () => { clearTimeout(t); t = window.setTimeout(build, 200); });
+  }
+</script>
+
+<style>
+  .wrap { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .nowrap { white-space: nowrap; }
+  /* overflow-x: clip keeps left/right reveals (which start off to the side) from
+     widening the page on phones. */
+  .sec { padding-block: 6rem; background: var(--surface-warm); overflow-x: clip; }
+  .sec__title { font-size: var(--font-size-section); margin: 0; }
+
+  /* --- Hero: full-bleed photo, navy scrim on the text side, bottom fades into the bar --- */
+  .hero { position: relative; overflow: hidden; display: flex; align-items: center; min-block-size: min(84vh, 46rem); padding-block: calc(var(--header-height) + 4rem) 5rem; margin-block-end: -1px; color: var(--white); }
+  .hero :global(.hero__bg) { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 70% 30%; }
+  .hero::after { content: ""; position: absolute; inset: 0; background:
+      linear-gradient(180deg, var(--main-transparent) 55%, var(--hero-fade-mid) 78%, var(--main) 96%, var(--main) 100%),
+      linear-gradient(90deg, var(--hero-scrim) 0%, var(--hero-scrim-mid) 38%, var(--hero-scrim-light) 70%, var(--dark-transparent) 100%); }
+  .hero__inner { position: relative; z-index: 1; inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .hero__copy { max-inline-size: 42rem; }
+  .hero__eyebrow { color: var(--accent-soft); }
+  .hero__title { color: var(--white); font-size: var(--font-size-display); margin: 0 0 var(--space-lg); }
+  .hero__title .accent { display: block; color: var(--accent-soft); }
+  .hero__lede { font-size: 1.2rem; color: var(--white-o85); max-inline-size: 36ch; margin: 0 0 var(--space-xl); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-block-end: var(--space-xl); }
+  .hero__today { display: inline-flex; align-items: center; gap: var(--space-sm); margin: 0; background: var(--white); color: var(--main); border-radius: var(--radius-pill); padding: 0.55rem 1.1rem 0.55rem 0.8rem; font-size: 0.93rem; font-weight: 600; }
+  .hero__today i { inline-size: 10px; block-size: 10px; border-radius: 50%; background: var(--text-muted); }
+  .hero__today.is-open i { background: var(--status-open); box-shadow: 0 0 0 5px var(--status-open-ring); }
+  .hero__seal { position: absolute; z-index: 1; inset-inline-end: 6%; inset-block-end: 2.6rem; inline-size: 128px; block-size: 128px; border-radius: 50%; background: var(--main); border: 3px solid var(--white); color: var(--white); display: grid; place-items: center; text-align: center; line-height: 1.05; transform: rotate(-8deg); box-shadow: var(--shadow-float); }
+  .hero__seal small { display: block; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.8; }
+  .hero__seal b { font-family: var(--font-accent); font-weight: 400; font-size: 2.5rem; }
+
+  /* --- Navy bar: paw trail + quick links --- */
+  .band { background: var(--main); color: var(--white); }
+  .band__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .trail { position: relative; block-size: 64px; overflow: hidden; }
+  .trail :global(svg) { position: absolute; inline-size: 24px; block-size: 24px; fill: var(--accent-soft); }
+  .quick { list-style: none; margin-block: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .quick li + li { border-inline-start: 1px solid var(--hairline-on-dark); }
+  .quick__link { display: flex; flex-direction: column; gap: 0.3rem; block-size: 100%; padding: 1.6rem 1.5rem 2rem; color: var(--white); transition: background-color var(--motion-duration-base) var(--motion-ease); }
+  .quick__link:hover { background: var(--main-dark); color: var(--white); }
+  .quick__tag { font-family: var(--font-accent); font-style: italic; font-size: 1.1rem; color: var(--accent-soft); }
+  .quick__title { font-size: 1.15rem; }
+  .quick__text { font-size: 0.88rem; color: var(--on-dark-muted); }
+
+  /* --- About --- */
+  .about__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 4rem; align-items: center; }
+  .about__stack { position: relative; padding-block-end: 2rem; }
+  .about__stack :global(.about__img) { border-radius: var(--radius-xl); aspect-ratio: 4 / 5; object-fit: cover; inline-size: 82%; }
+  .about__stack :global(.about__img--small) { position: absolute; inset-inline-end: 0; inset-block-end: 0; inline-size: 52%; aspect-ratio: 1; border: 8px solid var(--surface-warm); }
+  .about__text { font-size: 1.08rem; margin: var(--space-lg) 0 var(--space-xl); }
+
+  /* --- Services: numbered index --- */
+  .services { padding-block-start: 2rem; }
+  .services__head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; flex-wrap: wrap; margin-block-end: 2.6rem; }
+  .svc-list { list-style: none; margin: 0; padding: 0; border-block-start: 1.5px solid var(--main); }
+  .svc { display: grid; grid-template-columns: 70px 1fr 1.2fr 150px; gap: var(--space-lg); align-items: center; padding: var(--space-lg) 0; border-block-end: 1px solid var(--light-grey); color: var(--text); transition: padding var(--motion-duration-slow) var(--motion-ease); }
+  .svc__n { font-family: var(--font-accent); font-style: italic; font-size: 1.5rem; color: var(--cta); }
+  .svc__title { margin: 0; font-size: clamp(1.4rem, 2.3vw, 2rem); transition: color var(--motion-duration-base) var(--motion-ease); }
+  .svc__text { margin: 0; color: var(--text-muted); font-size: 0.98rem; }
+  .svc__thumb { display: block; block-size: 84px; border-radius: var(--radius-pill); overflow: hidden; }
+  .svc__thumb :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; filter: saturate(0.85); transition: transform var(--motion-duration-reveal) var(--motion-ease), filter var(--motion-duration-reveal) var(--motion-ease); }
+  .svc:hover { padding-inline: 0.8rem; color: var(--text); }
+  .svc:hover .svc__title { color: var(--cta); }
+  .svc:hover .svc__thumb :global(img) { transform: scale(1.08); filter: none; }
+  .chips { list-style: none; margin: 2rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .chips li { border: 1px solid var(--light-grey); background: var(--white); border-radius: var(--radius-pill); padding: 0.45rem 1rem; font-size: 0.9rem; font-weight: 600; color: var(--main); }
+
+  /* --- Meet the doctor --- */
+  .doc__grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 4.5rem; align-items: center; }
+  .doc__portrait { position: relative; max-inline-size: 440px; inline-size: 100%; }
+  .doc__arch { border-radius: var(--radius-pill) var(--radius-pill) var(--radius-xl) var(--radius-xl); overflow: hidden; aspect-ratio: 4 / 5; background: linear-gradient(160deg, var(--surface-sky) 0%, var(--surface-sky-edge) 100%); display: grid; place-items: center; border: 10px solid var(--white); box-shadow: var(--shadow-dropdown); }
+  .doc__arch :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .doc__mono { font-family: var(--font-accent); font-size: 6rem; color: var(--main); opacity: 0.35; line-height: 1; }
+  .doc__soon { position: absolute; inset-inline-start: 50%; inset-block-end: 1.6rem; transform: translateX(-50%); background: var(--white); border-radius: var(--radius-pill); padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+  .doc__name { margin-block-end: 0.4rem; }
+  .doc__role { font-family: var(--font-accent); font-style: italic; font-size: 1.6rem; color: var(--cta); margin: 0 0 var(--space-lg); }
+  .doc__bio { font-size: 1.08rem; max-inline-size: 56ch; margin-block-end: var(--space-xl); }
+  .doc__bio :global(p) { margin: 0 0 var(--space-sm); }
+  .doc__actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-block-end: 2.6rem; }
+  .team { display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; align-items: center; background: var(--white); border: 1px solid var(--light-grey); border-radius: 22px; padding: 0.8rem 1.4rem 0.8rem 0.8rem; color: var(--text); }
+  .team :global(.team__img) { border-radius: var(--radius-lg); aspect-ratio: 1600 / 948; inline-size: 100%; object-fit: cover; }
+  .team__copy { display: flex; flex-direction: column; gap: 0.3rem; }
+  .team__copy b { color: var(--main); font-size: 1.08rem; }
+  .team__copy > span { font-size: 0.92rem; color: var(--text-muted); }
+  .team .team__more { font-weight: 700; color: var(--cta); font-size: 0.95rem; }
+  .team:hover { color: var(--text); border-color: var(--main); }
+
+  /* --- Why choose us --- */
+  .why { background: var(--solid-bg); }
+  .why__top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-block-end: 3.5rem; }
+  .why__top > p { margin: 0; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-block-start: 1.5px solid var(--main); }
+  .fact { padding: 1.8rem 1.4rem 0 0; display: flex; flex-direction: column; }
+  .fact + .fact { padding-inline-start: 1.4rem; border-inline-start: 1px solid var(--surface-sky-edge); }
+  .fact__stat { font-family: var(--font-accent); font-size: var(--font-size-stat); line-height: 1; color: var(--main); margin-block-end: 0.8rem; }
+  .fact b { color: var(--main); margin-block-end: 0.2rem; }
+  .fact__text { font-size: 0.93rem; color: var(--text-muted); }
+
+  /* --- Reviews --- */
+  .reviews__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: start; }
+  .reviews figure { margin: 0; }
+  .stars { color: var(--star); letter-spacing: 0.12em; }
+  .reviews__quote { margin: var(--space-md) 0 var(--space-lg); }
+  .reviews__quote p { margin: 0; font-family: var(--font-accent); font-size: var(--font-size-quote); line-height: 1.15; color: var(--main); }
+  .reviews__quote--long p { font-size: var(--font-size-quote-long); line-height: 1.2; }
+  .reviews__quote p::before { content: "“"; color: var(--cta); }
+  .reviews__quote p::after { content: "”"; color: var(--cta); }
+  .reviews__who { font-weight: 700; color: var(--main); }
+  .reviews__who span { font-weight: 400; color: var(--text-muted); }
+  .reviews__side { padding-block-start: 2.4rem; }
+  .reviews .side-q { border-inline-start: 2px solid var(--cta); padding: 0.2rem 0 0.2rem 1.4rem; margin-block-end: 2.2rem; }
+  .side-q blockquote { margin: 0.4rem 0 0.6rem; }
+  .side-q blockquote p { margin: 0; }
+
+  /* --- Visit: hours + arched map on dark navy --- */
+  .visit { background: var(--main-dark); color: var(--on-dark-muted); }
+  .visit .sec__title { color: var(--white); margin-block-end: var(--space-lg); }
+  .visit .accent, .visit__eyebrow { color: var(--accent-soft); }
+  .visit a { color: var(--white); }
+  .visit a:hover { color: var(--accent-soft); }
+  .visit .btn--cta, .visit .btn--cta:hover { color: var(--on-cta); }
+  .visit .btn--line-light:hover { color: var(--main); }
+  .visit__grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; }
+  .visit__addr { font-size: 1.15rem; color: var(--white); margin: 0 0 1.6rem; }
+  .visit__phone { font-weight: 700; }
+  .hours { inline-size: 100%; max-inline-size: 440px; border-collapse: collapse; font-size: 0.97rem; margin-block-end: var(--space-sm); }
+  .hours td { padding: 0.55rem 0; border-block-end: 1px solid var(--hairline-on-dark); }
+  .hours td:last-child { text-align: end; color: var(--white); font-weight: 600; white-space: nowrap; }
+  .hours__today { display: none; color: var(--accent-soft); font-weight: 600; }
+  .hours tr.is-today td { color: var(--white); }
+  .hours tr.is-today .hours__today { display: inline; }
+  .visit__small { font-size: 0.86rem; max-inline-size: 440px; margin: 0 0 var(--space-xl); }
+  .visit__actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+  .visit__map { border-radius: var(--radius-pill) var(--radius-pill) 24px 24px; overflow: hidden; aspect-ratio: 4 / 5; border: 8px solid var(--hairline-on-dark); }
+  .visit__map iframe { inline-size: 100%; block-size: 100%; border: 0; }
+
+  @media (max-width: 900px) {
+    .sec { padding-block: 4.5rem; }
+    .hero { min-block-size: 0; align-items: flex-end; padding-block: calc(var(--header-height) + 290px) 2.6rem; background: linear-gradient(180deg, var(--main-dark) 0%, var(--main-dark) 50%, var(--main) 100%); }
+    .hero :global(.hero__bg) { inset-block-start: var(--header-height); block-size: 400px; object-position: 64% 40%; }
+    .hero::after { inset-block: var(--header-height) auto; block-size: 402px; background: linear-gradient(0deg, var(--main-dark) 0%, var(--hero-scrim-mid) 22%, var(--dark-transparent) 55%); }
+    .hero__seal { inset-block: calc(var(--header-height) + 1.2rem) auto; inset-inline-end: 16px; inline-size: 92px; block-size: 92px; }
+    .hero__seal b { font-size: 1.8rem; }
+    .quick { grid-template-columns: 1fr 1fr; }
+    .quick li:nth-child(3) { border-inline-start: 0; }
+    .quick li:nth-child(n + 3) { border-block-start: 1px solid var(--hairline-on-dark); }
+    .about__grid, .doc__grid, .why__top, .reviews__grid, .visit__grid { grid-template-columns: 1fr; gap: 2.6rem; }
+    .doc__portrait { margin-inline: auto; max-inline-size: 340px; }
+    .facts { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+    .fact:nth-child(3) { border-inline-start: 0; padding-inline-start: 0; }
+    .reviews__side { padding-block-start: 0; }
+    .visit__map { aspect-ratio: 1; }
+  }
+  @media (max-width: 767px) {
+    .svc { grid-template-columns: 44px 1fr 96px; row-gap: 0.3rem; }
+    .svc__text { grid-column: 2 / 4; grid-row: 2; }
+    .svc__thumb { grid-column: 3; grid-row: 1; block-size: 58px; }
+    .team { grid-template-columns: 1fr; padding: 0.8rem; }
+    .team__copy { padding: 0 0.4rem 0.4rem; }
+  }
+  @media (max-width: 480px) {
+    .quick { grid-template-columns: 1fr; }
+    .quick li + li { border-inline-start: 0; border-block-start: 1px solid var(--hairline-on-dark); }
+    .facts { grid-template-columns: 1fr; }
+    .fact, .fact + .fact { border-inline-start: 0; padding-inline-start: 0; }
+  }
+</style>

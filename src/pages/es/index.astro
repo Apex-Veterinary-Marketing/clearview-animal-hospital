@@ -1,0 +1,15 @@
+---
+// Página de inicio en español (/es/). Same design and sections as the
+// English homepage (components/home/HomePage.astro); copy from
+// data/home-copy.ts. The client's current site had this page at /es/ too,
+// so the old URL keeps working.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomePage from "../../components/home/HomePage.astro";
+import { homeCopy } from "../../data/home-copy";
+
+const c = homeCopy.es;
+---
+
+<BaseLayout title={c.metaTitle} titleTemplate="full" description={c.metaDescription} lang="es" altLangPath="/" breadcrumb="Inicio">
+  <HomePage lang="es" />
+</BaseLayout>

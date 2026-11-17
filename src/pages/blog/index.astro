@@ -9,7 +9,7 @@ import { getAllPosts } from "../../lib/data/blog";
 const posts = await getAllPosts();
 ---
 
-<BaseLayout title="Our Blog" description="News and articles from our practice.">
+<BaseLayout title="Blog - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Our Blog" description="Pet health tips and news from Clearview Animal Hospital in Easley, SC, from heartworm prevention to dental care, written for pet families across the Upstate.">
   <PageHeaderBanner heading="Our Blog" />
   <div class="page-section">
     {posts.length > 0 ? (

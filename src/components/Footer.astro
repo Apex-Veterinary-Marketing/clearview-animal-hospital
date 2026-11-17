@@ -28,6 +28,12 @@ import { getAllSocialLinks } from "../lib/data/socialLinks";
 import { SOCIAL_ICON_CLASSES, SOCIAL_LABELS } from "../lib/icons/social";
 import { BLOG_BASE } from "../lib/data/blog";
 import ReviewsBand from "./ReviewsBand.astro";
+import { type Lang, ui } from "../data/i18n";
+
+interface Props { lang?: Lang }
+const { lang = "en" } = Astro.props;
+const t = ui[lang];
+const es = lang === "es";
 
 const site = await getSiteInfo();
 const socialLinks = await getAllSocialLinks();
@@ -53,18 +59,18 @@ const generalServices = allServices.filter(
 
   <div class="footer__grid">
     <details class="footer__column footer__column--about" open>
-      <summary class="footer__column-title">About Us</summary>
+      <summary class="footer__column-title">{es ? "Nosotros" : "About Us"}</summary>
       <div class="footer__about">
         {site.logoWhite || site.logoColor ? (
           <img class="footer__logo" src={site.logoWhite || site.logoColor} alt={site.practiceName} />
         ) : (
           <span class="footer__logo-text">{site.practiceName}</span>
         )}
-        {site.footerAbout && <p class="footer__about-text">{site.footerAbout}</p>}
+        {site.footerAbout && <p class="footer__about-text">{es ? "El Hospital de Animales Clearview brinda atención veterinaria personal y compasiva a perros, gatos y otros miembros peludos de la familia en Easley, SC y toda la región." : site.footerAbout}</p>}
         <ul class="footer__link-list">
-          <li><a href="/meet-the-team">Meet the Team</a></li>
-          <li><button type="button" class="footer__link-button" data-modal-target="reputation-widget">How'd We Do?</button></li>
-          <li><a href="/photo-gallery">Photo Gallery</a></li>
+          <li><a href="/meet-the-team">{t.meetTeam}</a></li>
+          <li><button type="button" class="footer__link-button" data-modal-target="reputation-widget">{t.howdWeDo}</button></li>
+          <li><a href="/photo-gallery">{t.gallery}</a></li>
         </ul>
         <div class="footer__social-icons">
           {socialLinks.map((social) => (
@@ -83,12 +89,12 @@ const generalServices = allServices.filter(
     </details>
 
     <details class="footer__column" open>
-      <summary class="footer__column-title">Services</summary>
+      <summary class="footer__column-title">{t.services}</summary>
       <ul class="footer__link-list">
         {generalServices.map((service) => (
           <li><a href={`/services/${service.id}`}>{service.data.customName || service.data.name}</a></li>
         ))}
-        <li><a href="/services"><strong>All Services</strong></a></li>
+        <li><a href="/services"><strong>{t.allServices}</strong></a></li>
       </ul>
     </details>
 
@@ -115,36 +121,36 @@ const generalServices = allServices.filter(
     )}
 
     <details class="footer__column" open>
-      <summary class="footer__column-title">Resources</summary>
+      <summary class="footer__column-title">{es ? "Recursos" : "Resources"}</summary>
       <ul class="footer__link-list">
-        <li><a href="/faq">FAQs</a></li>
-        <li><a href="/online-forms">Online Forms</a></li>
-        <li><a href={BLOG_BASE}>Our Blog</a></li>
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/terms-of-use">Terms of Use</a></li>
+        <li><a href="/faq">{t.faq}</a></li>
+        <li><a href="/online-forms">{es ? "Formularios en Línea" : "Online Forms"}</a></li>
+        <li><a href={BLOG_BASE}>{t.blog}</a></li>
+        <li><a href="/privacy-policy">{t.privacy}</a></li>
+        <li><a href="/terms-of-use">{t.terms}</a></li>
       </ul>
     </details>
   </div>
 
   <div class="footer__bottom">
-    <p class="footer__copyright">&copy; {year} {site.practiceName}. All rights reserved.</p>
+    <p class="footer__copyright">&copy; {year} {site.practiceName}. {t.rights}</p>
     <a class="footer__signature" href="https://veterinarymarketing.com/" target="_blank" rel="noopener noreferrer">
-      Made with &hearts; by Veterinary Marketing
+      {es ? "Hecho con" : "Made with"} &hearts; {es ? "por" : "by"} Veterinary Marketing
     </a>
   </div>
 </footer>
 
 <style>
-  .footer { background: var(--footer-bg); color: var(--footer-text); padding-block-start: var(--space-xl); }
+  .footer { background: var(--footer-bg); color: var(--footer-text); padding-block-start: var(--space-2xl); }
   .footer__grid { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--space-md); display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: var(--space-lg); }
   .footer__column { border-block-end: 1px solid var(--footer-border); padding-block-end: var(--space-sm); }
-  .footer__column-title { font-weight: 600; font-size: var(--font-size-md); color: var(--footer-heading); cursor: default; padding-block: var(--space-xs); }
+  .footer__column-title { font-weight: 700; font-size: var(--font-size-md); color: var(--footer-heading); cursor: default; padding-block: var(--space-xs); }
   .footer__link-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-xs); margin-block-start: var(--space-sm); }
   .footer__link-list a, .footer__link-button { color: inherit; text-decoration: none; background: none; border: 0; font: inherit; padding: 0; text-align: start; cursor: pointer; }
-  .footer__link-list a:hover, .footer__link-button:hover { text-decoration: underline; }
+  .footer__link-list a:hover, .footer__link-button:hover { color: var(--accent-soft); }
 
   .footer__about { display: flex; flex-direction: column; gap: var(--space-sm); margin-block-start: var(--space-sm); }
-  .footer__logo { max-width: 9rem; max-height: 3rem; width: auto; height: auto; object-fit: contain; }
+  .footer__logo { max-width: 13rem; max-height: 3.4rem; width: auto; height: auto; object-fit: contain; object-position: left center; }
   .footer__logo-text { font-weight: 700; font-size: 1.1rem; color: var(--footer-heading); }
   .footer__about-text { margin: 0; font-size: var(--font-size-sm); opacity: 0.85; line-height: 1.5; }
   .footer__about .footer__link-list { margin-block-start: 0; }
@@ -153,10 +159,15 @@ const generalServices = allServices.filter(
   .footer__social-icon { color: inherit; display: inline-flex; font-size: 1.4rem; opacity: 0.85; }
   .footer__social-icon:hover { opacity: 1; }
 
-  .footer__bottom { max-width: var(--container-max); margin-inline: auto; padding: var(--space-lg) var(--space-md); margin-block-start: var(--space-lg); border-block-start: 1px solid var(--footer-border); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm); font-size: var(--font-size-sm); }
+  /* Extra bottom padding so the last line clears the fixed widgets (UserWay,
+     reviews pill; on ≤900px the callbar) — agency rule. */
+  .footer__bottom { max-width: var(--container-max); margin-inline: auto; padding: var(--space-lg) var(--space-md) calc(var(--space-lg) + 4.5rem); margin-block-start: var(--space-lg); border-block-start: 1px solid var(--footer-border); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm); font-size: var(--font-size-sm); }
   .footer__signature { color: inherit; opacity: 0.8; text-decoration: none; }
+  .footer__signature:hover { color: var(--accent-soft); opacity: 1; }
 
   @media (min-width: 900px) {
+    /* The column dividers only separate the accordion on phones. */
+    .footer__column { border-block-end: 0; }
     .footer__column summary { pointer-events: none; }
     .footer__column summary::marker,
     .footer__column summary::-webkit-details-marker { display: none; content: ""; }
@@ -165,5 +176,6 @@ const generalServices = allServices.filter(
   @media (max-width: 899px) {
     .footer__grid { grid-template-columns: 1fr; }
     .footer__column-title { cursor: pointer; }
+    .footer__bottom { padding-block-end: calc(var(--callbar-height) + 4.5rem); }
   }
 </style>

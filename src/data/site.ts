@@ -45,6 +45,8 @@ export interface SiteInfo {
   openingHoursSpecification?: { dayOfWeek: string[]; opens: string; closes: string }[];
   hours?: string; // rich text/HTML — formatted hours table, not a plain string
   afterHours?: string; // rich text/HTML
+  hoursEs?: string; // Spanish versions for the /es/ pages (bilingual site)
+  afterHoursEs?: string;
   mapEmbedLink?: string;
   googleReviewsLink?: string;
   facebookReviewsLink?: string;
@@ -76,36 +78,52 @@ export interface SiteInfo {
   businessSchemaType?: string | string[];
 }
 
-// Placeholder example data — replace during client intake. Kept non-empty
-// so components/pages have something real to render while the skeleton is
-// being built and reviewed.
+// Clearview Animal Hospital — from client-docs/intake.json and the current
+// site (clearvieweasley.com), prelaunch sequence 2026-11-16.
 export const siteInfo: SiteInfo = {
   practiceName: "Clearview Animal Hospital",
-  phoneNumber: "(000) 000-0000",
-  email: "hello@example.com",
-  address: "123 Main St",
-  addressLine2: "[City, ST 00000]",
-  bookingUrl: "/appointment-request",
+  phoneNumber: "(864) 442-6192",
+  email: "hello@clearvieweasley.com",
+  address: "6714 Calhoun Memorial Hwy",
+  addressLine2: "Easley, SC 29640",
+  addressLocality: "Easley",
+  addressRegion: "SC",
+  postalCode: "29640",
+  addressLink:
+    "https://www.google.com/maps/dir//6714+Calhoun+Memorial+Hwy,+Easley,+SC+29640",
+  mapEmbedLink:
+    "https://www.google.com/maps?q=Clearview+Animal+Hospital,+6714+Calhoun+Memorial+Hwy,+Easley,+SC+29640&hl=en&output=embed",
+  showStreetAddress: true,
+  // AllyDVM online booking (current site's "Book Now With Us").
+  bookingUrl: "https://practices.allydvm.com/online-booking?practice=clearviewanimal",
   bookingLabel: "Book Now",
-  cityState: "[City, ST]",
-  hours: "<p>Mon&ndash;Fri: 8am&ndash;6pm<br>Sat: 9am&ndash;1pm<br>Sun: Closed</p>",
-  // Exactly 160 characters — replace during client intake with real copy.
+  cityState: "Easley, SC",
+  // Contact-page hours. The old footer says Mon–Fri 8am–5pm — CONFIRM with the client.
+  hours:
+    "<p>Mon, Tue, Thu, Fri: 9am&ndash;5pm<br>Wed: 9am&ndash;1pm<br>Sat&ndash;Sun: Closed<br>Closed daily 1:00&ndash;2:30pm for lunch</p>",
+  openingHoursSpecification: [
+    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "13:00" },
+    { dayOfWeek: ["Monday", "Tuesday", "Thursday", "Friday"], opens: "14:30", closes: "17:00" },
+  ],
+  afterHours:
+    '<p>During business hours, call us at (864) 442-6192 for urgent care. After hours, please contact <a href="https://veterinaryemergencygroup.com/lp/greenville/">Veterinary Emergency Group (Greenville)</a>, <a href="https://fetchvets.com/greenville-sc/">FETCH Greenville</a> or <a href="https://upstatevet.com/">Upstate Veterinary Specialists</a>.</p>',
+  hoursEs:
+    "<p>Lun, Mar, Jue, Vie: 9am&ndash;5pm<br>Mié: 9am&ndash;1pm<br>Sáb&ndash;Dom: Cerrado<br>Cerrado de 1:00 a 2:30pm para almorzar</p>",
+  afterHoursEs:
+    '<p>En horario de atención, llámenos al (864) 442-6192 para cuidado urgente. Fuera de horario, comuníquese con <a href="https://veterinaryemergencygroup.com/lp/greenville/">Veterinary Emergency Group (Greenville)</a>, <a href="https://fetchvets.com/greenville-sc/">FETCH Greenville</a> o <a href="https://upstatevet.com/">Upstate Veterinary Specialists</a>.</p>',
+  businessDescription:
+    "Clearview Animal Hospital is a full-service veterinary hospital in Easley, SC, caring for pets across the Upstate since 1958. Services include wellness care, dentistry, surgery, an in-house laboratory, ultrasound and urgent care.",
+  // 156 characters.
   footerAbout:
-    "[Practice Name] provides compassionate, high-quality veterinary care for dogs, cats, and other companion animals throughout [City, ST] and the surrounding area.",
-  // Example values — replace during client intake. Kept non-empty (same
-  // reasoning as the other placeholder fields above) so ReputationWidget's
-  // "leave a public review" stage actually has links to render instead of
-  // silently filtering all three out.
-  googleReviewsLink: "https://g.page/r/example/review",
-  facebookReviewsLink: "https://www.facebook.com/example/reviews",
-  yelpReviewLink: "https://www.yelp.com/biz/example",
-  googleRating: 4.8, // example value — matches the real V2 export's placeholder rating
-  googleReviewCount: 120, // example value only, not sourced from anywhere real
+    "Clearview Animal Hospital offers compassionate, personal veterinary care for dogs, cats and other furry family members in Easley, SC and across the Upstate.",
+  googleReviewsLink: "https://g.page/r/Cab0mhOxHH2gEBM/review",
+  facebookReviewsLink: "https://www.facebook.com/clearviewanimalhospitalSC/reviews",
+  // No Yelp profile; googleRating/googleReviewCount left unset until the real
+  // numbers are confirmed (the reviews pill hides without a rating).
   url: "https://example.com", // REPLACE with the real domain before launch — see the field comment above
-  // Placeholder mark + wordmark (scripts/generate-logo-placeholders.mjs) —
-  // proves Header's crossfade renders end-to-end. REPLACE both with the
-  // client's real logo files before launch (same public/ paths, or update
-  // these to point at new ones).
-  logoWhite: "/logo-white.svg",
-  logoColor: "/logo-color.svg",
+  // Logo from the current site (PNG, 1200x304). logo-white.png = the same file
+  // with the grey artwork turned white for dark backgrounds (footer). Swap in
+  // vector (SVG) versions if the client has them.
+  logoWhite: "/logo-white.png",
+  logoColor: "/logo-color.png",
 };

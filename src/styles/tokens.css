@@ -45,28 +45,28 @@
   /* --- Neutrals & text --------------------------------------------------- */
   --white: #ffffff; /* page/card surface; text on dark */
   --text: #333333; /* body copy */
-  --text-muted: #606f87; /* captions, meta, placeholders — brand hue, always
+  --text-muted: #616f87; /* captions, meta, placeholders — brand hue, always
                       visibly lighter than --text, AA on every light bg */
   --light-grey: #d1d1d1; /* neutral borders/dividers */
 
   /* --- Backgrounds (very soft, brand-tinted) ----------------------------- */
-  --solid-bg: #f3f5f8; /* soft section/card/hover background (opaque) */
-  --base-bg: #e8ecf17a; /* same tint @48% — for layering over images/other bgs */
-  --alt-bg: #1f304bcc; /* dark brand tint @80% — dark section over an image/pattern
+  --solid-bg: #f2f4f7; /* soft section/card/hover background (opaque) */
+  --base-bg: #e9ecf17a; /* same tint @48% — for layering over images/other bgs */
+  --alt-bg: #20304bcc; /* dark brand tint @80% — dark section over an image/pattern
                           (white text stays AA even over a white page) */
 
   /* --- Brand ------------------------------------------------------------- */
-  --main: #16253c; /* primary brand; headings, links, primary buttons */
-  --main-dark: #070c13; /* darkest brand; footer bg, deep sections, hovers */
-  --main-light: #385f99; /* lighter brand; accents, focus ring, link hover */
-  --main-soft: #394b65; /* muted brand; subtle fills, borders on dark */
-  --cta: #008484; /* the action color: primary CTA buttons (white text is AA on it) */
-  --cta-hover: #00191a; /* CTA hover/pressed */
+  --main: #2b4570; /* primary brand; headings, links, primary buttons */
+  --main-dark: #080c14; /* darkest brand; footer bg, deep sections, hovers */
+  --main-light: #456fb5; /* lighter brand; accents, focus ring, link hover */
+  --main-soft: #556c93; /* muted brand; subtle fills, borders on dark */
+  --cta: #b01a3c; /* the action color: primary CTA buttons (white text is AA on it) */
+  --cta-hover: #530c1c; /* CTA hover/pressed */
 
   /* --- Translucent siblings & effects ------------------------------------ */
   --white-o85: #ffffffd9; /* white @85% — text on dark, glass panels */
-  --main-o50: #16253c80; /* --main @50% — image scrims, tinted overlays */
-  --main-soft-o50: #394b6580; /* --main-soft @50% */
+  --main-o50: #2b457080; /* --main @50% — image scrims, tinted overlays */
+  --main-soft-o50: #556c9380; /* --main-soft @50% */
   --overlay-color: #00000080; /* black @50% — modal/hero scrim */
   --shadow: #0000001a; /* black @10% — the shadow COLOR (see --shadow-* below) */
 
@@ -107,19 +107,29 @@
   --space-2xl: 4rem;
 
   /* Type */
-  --font-body: "Inter", system-ui, sans-serif; /* loaded by styles/fonts.css — per-client: swap both, see that file */
+  --font-body: "Bricolage Grotesque", system-ui, sans-serif; /* loaded by styles/fonts.css — per-client: swap both, see that file */
   --font-heading: var(--font-body);
+  --font-accent: "Instrument Serif", Georgia, serif; /* italic accent words in headings, pull-quotes, big numbers */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1.1rem;
   --font-size-lg: 1.25rem;
   --font-size-3xl: 2.25rem;
   --font-size-4xl: 2.75rem;
+  --font-size-display: clamp(2.9rem, 6.4vw, 5.6rem); /* homepage hero h1 */
+  --font-size-section: clamp(2.1rem, 4vw, 3.4rem); /* homepage section h2s */
+  --font-size-quote: clamp(1.9rem, 3.4vw, 2.9rem); /* featured review pull-quote */
+  --font-size-quote-long: clamp(1.5rem, 2.4vw, 2.1rem); /* the same quote when the review runs long */
+  --font-size-stat: clamp(2.4rem, 4vw, 3.4rem); /* big italic numbers (1958, Same day) */
+  --letter-spacing-tight: -0.025em; /* display headings */
+  --letter-spacing-eyebrow: 0.14em; /* uppercase eyebrow labels */
 
   /* Radius */
   --radius-sm: 3px;
   --radius-md: 6px;
   --radius-lg: 10px;
+  --radius-xl: 28px; /* photos and large panels */
+  --radius-pill: 999px; /* pill buttons, chips, arch tops */
 
   /* Shadows — all built from the Base --shadow color */
   --shadow-header: 0 1px 4px var(--shadow);
@@ -137,9 +147,9 @@
    * (Breakpoints can't be variables inside @media; they are the literals
    * 900px (nav/callbar switch) and 767px (narrow) — see AGENTS.md.)
    */
-  --header-height: 6.5rem; /* fixed header incl. utility bar; heroes pad by this */
+  --header-height: 5rem; /* fixed one-row header (Clearview V3b); heroes pad by this */
   --callbar-height: 5.5rem; /* mobile call bar; BaseLayout pads <main> by this */
-  --logo-height: 2.5rem;
+  --logo-height: 2.75rem;
   --page-header-height: 16rem; /* PageHeaderBanner min-height */
   --reviews-pill-left: 5.5em; /* ReviewsBand offset, sits right of the a11y button */
 
@@ -176,4 +186,23 @@
   --color-warning: #92400e; /* amber-800ish — warning text/icon */
   --color-warning-bg: #fef3c7; /* amber-100ish — warning background */
   --color-warning-code-bg: #00000014; /* black @8% — inline <code> highlight inside a warning */
+
+  /* Clearview design accents (homepage V3b, 2026-11-17). Hand-picked to sit with the
+     generated navy/red palette above; none of them carries body text on white. */
+  --surface-warm: #faf8f4; /* warm cream page/section background (header, light sections) */
+  --accent-soft: #ffb3c3; /* soft pink: accent words and paw prints on dark navy (AA on --main and --main-dark) */
+  --surface-sky: #e8eef7; /* soft blue panel behind the doctor monogram */
+  --surface-sky-edge: #d6e1f0; /* divider on --solid-bg / sky panels */
+  --status-open: #2e9e5b; /* "Open now" dot */
+  --status-open-ring: #2e9e5b29; /* --status-open @16% — the dot's glow */
+  --on-dark-muted: #c3cee0; /* secondary text on --main / --main-dark */
+  --hairline-on-dark: #ffffff24; /* white @14% — dividers on dark navy */
+  --hero-scrim: #080c14e6; /* --main-dark @90% — hero text side */
+  --hero-scrim-mid: #080c14a8; /* --main-dark @66% */
+  --hero-scrim-light: #080c141f; /* --main-dark @12% */
+  --hero-fade-mid: #2b45708c; /* --main @55% — hero bottom fading into the blue bar */
+  --main-transparent: #2b457000; /* --main @0% — start of that fade */
+  --dark-transparent: #080c1400; /* --main-dark @0% */
+  --pattern-ink: #2b457012; /* --main @7% — paw-print background pattern on light sections */
+  --pattern-ink-warm: #b01a3c0d; /* --cta @5% — the same pattern on cream */
 }

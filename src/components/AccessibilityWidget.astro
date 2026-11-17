@@ -57,25 +57,18 @@ const accountId = site.userwayAccountId || AGENCY_USERWAY_ACCOUNT_ID;
   }
 
   /* Mobile/tablet: land in MobileCallbar's reserved 5th column (last 1/5 of
-     the viewport width, center ≈ 90%), vertically centered to match the
-     callbar's circular call button's own center. Value below (-2.96rem)
-     was derived 2026-09-08 against the call circle's size/raise at the
-     time and re-verified after that circle's positioning mechanism was
-     later reworked off position:absolute onto a flex + negative-margin
-     approach (see MobileCallbar.astro) — the circle's rendered center
-     barely moved (<0.5px, confirmed via getBoundingClientRect), so this
-     offset didn't need updating. If the call circle's size/raise changes
-     again, re-verify this against its new center the same way — don't
-     assume the box-model math transfers, MobileCallbar's own comment
-     explains why it doesn't hold cleanly there.
-     If the call circle's size/raise ever changes again, recompute this
-     the same way rather than eyeballing it. */
+     the viewport width, center ≈ 90%), vertically centered INSIDE the bar
+     like the call circle (2026-10-16: neither may poke above the bar's top
+     edge). UserWay's visible button renders 64px inside this 50px wrapper and
+     overflows it downward by 14px (0.875rem), so the wrapper sits that much
+     higher than plain centering: (bar − 64px) / 2 + 14px. Verified with
+     getBoundingClientRect; re-verify if the bar height changes. */
   @media (max-width: 900px) {
     body .uwy.userway_p1 .userway_buttons_wrapper {
       top: auto !important;
       left: 90% !important;
       right: auto !important;
-      bottom: calc(var(--callbar-height) - 2.96rem) !important;
+      bottom: calc((var(--callbar-height) - 4rem) / 2 + 0.875rem) !important;
       transform: translateX(-50%) !important;
       width: 50px !important;
       height: 50px !important;

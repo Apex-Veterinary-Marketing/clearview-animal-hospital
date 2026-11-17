@@ -1,0 +1,7 @@
+# Cloudflare Workers static assets: extra response headers.
+# CSS is served as plain "text/css" with no charset, and the built CSS holds
+# non-ASCII characters (icon-font glyphs). Without a declared charset a
+# browser can decode them wrong (Wild Magnolia's review stars showed as
+# "â˜…"), so declare UTF-8 explicitly. 2026-10-16.
+/_astro/*.css
+  Content-Type: text/css; charset=utf-8

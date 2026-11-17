@@ -76,6 +76,7 @@ if (service.data.manualSchema) {
 
 <BaseLayout
   title={service.data.metaTitle || heading}
+  titleTemplate={service.data.metaTitle ? "full" : "page"}
   description={service.data.metaDescription}
   ogImage={service.data.pageHeaderImage}
   ogImageAlt={`${heading} at ${site.practiceName}`}

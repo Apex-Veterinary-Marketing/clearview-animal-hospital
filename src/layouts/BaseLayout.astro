@@ -29,8 +29,9 @@ import type { ImageMetadata } from "astro";
 // `?url` resolves to the real hashed build output path. Swapping the
 // typeface in styles/fonts.css? Update these two paths to match (or drop
 // the preload if the new choice doesn't warrant it) — see that file.
-import interLatin400 from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
-import interLatin700 from "@fontsource/inter/files/inter-latin-700-normal.woff2?url";
+import bodyLatin400 from "@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-400-normal.woff2?url";
+import bodyLatin700 from "@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-700-normal.woff2?url";
+import { type Lang, langAlternates } from "../data/i18n";
 
 export interface Props {
   title: string; // page-specific title segment (e.g. "Contact Us") unless titleTemplate="full"
@@ -49,9 +50,16 @@ export interface Props {
   webPage?: Record<string, any>;
   /** Breadcrumb label for this page (defaults to `title`); false = no breadcrumb. */
   breadcrumb?: string | false;
+  /** Page language (default "en"). Spanish pages live under /es/. */
+  lang?: Lang;
+  /** Path of this page in the other language, when one exists. Drives the
+   *  header's EN/ES switch and the hreflang links. Omit = switch goes to
+   *  the other language's homepage, no hreflang. */
+  altLangPath?: string;
 }
 
-const { title, description, canonical, ogImage, ogImageAlt, ogType, titleTemplate = "page", noindex, schemaGraph, webPage, breadcrumb } = Astro.props;
+const { title, description, canonical, ogImage, ogImageAlt, ogType, titleTemplate = "page", noindex, schemaGraph, webPage, breadcrumb, lang = "en", altLangPath } = Astro.props;
+const alternates = langAlternates(lang, Astro.url.pathname, altLangPath);
 const site = await getSiteInfo();
 
 // Title: see the Props doc comment above for the two modes.
@@ -115,7 +123,7 @@ const webPageNode = {
   isPartOf: { "@id": "#website" },
   about: { "@id": "#business" },
   primaryImageOfPage: { "@type": "ImageObject", url: resolvedOgImage },
-  inLanguage: "en-US",
+  inLanguage: lang === "es" ? "es-US" : "en-US",
   ...(breadcrumbNode ? { breadcrumb: { "@id": "#breadcrumb" } } : {}),
   ...(webPage || {}),
 };
@@ -127,12 +135,19 @@ const graph = normalizeIds(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href={interLatin400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={interLatin700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyLatin400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyLatin700} as="font" type="font/woff2" crossorigin />
+    {alternates.linked && (
+      <>
+        <link rel="alternate" hreflang="en" href={toAbsolute(alternates.en)} />
+        <link rel="alternate" hreflang="es" href={toAbsolute(alternates.es)} />
+        <link rel="alternate" hreflang="x-default" href={toAbsolute(alternates.en)} />
+      </>
+    )}
     <SeoHead
       title={finalTitle}
       description={finalDescription}
@@ -149,13 +164,13 @@ const graph = normalizeIds(
     <MotionLayer />
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <Header />
+    <a class="skip-link" href="#main-content">{lang === "es" ? "Ir al contenido" : "Skip to content"}</a>
+    <Header lang={lang} altHref={lang === "es" ? alternates.en : alternates.es} />
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
-    <MobileCallbar />
+    <Footer lang={lang} />
+    <MobileCallbar lang={lang} />
 
     <Modal id="contact-modal">
       <GravityFormEmbed formId="contact" context="modal" heading="Contact Us" />
@@ -166,14 +181,40 @@ const graph = normalizeIds(
     <style is:global>
       :root { box-sizing: border-box; }
       *, *::before, *::after { box-sizing: inherit; }
-      body { margin: 0; font-family: var(--font-body); color: var(--text); line-height: 1.5; }
+      body { margin: 0; font-family: var(--font-body); color: var(--text); line-height: 1.6; background: var(--white); }
       img { max-width: 100%; height: auto; display: block; }
       /* Base typography + focus — token-driven so re-skinning never touches components.
          :where() keeps specificity at zero so any component rule still wins. Sections on
          dark backgrounds (Hero, PageHeaderBanner, CtaBand) set color: inherit on their
          headings; a new dark section must do the same. */
       :where(h1, h2, h3, h4, h5, h6) { color: var(--heading); font-family: var(--font-heading); }
-      :where(a) { color: var(--main); }
+      /* No underlined links anywhere (agency rule): links read by color, hovers darken. */
+      :where(a) { color: var(--main); text-decoration: none; }
+      :where(a:hover) { color: var(--main-dark); }
+      :where(h1, h2, h3) { letter-spacing: var(--letter-spacing-tight); line-height: 1.08; }
+
+      /* Shared primitives (Clearview V3b). Pill buttons with an optional arrow
+         icon that nudges right on hover; eyebrow label with a short rule;
+         italic serif accent words inside headings. */
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); padding: var(--space-md) var(--space-lg); border-radius: var(--radius-pill); border: 1.5px solid transparent; font: inherit; font-weight: 700; line-height: 1.2; white-space: nowrap; cursor: pointer; text-decoration: none; transition: background-color var(--motion-duration-base) var(--motion-ease), color var(--motion-duration-base) var(--motion-ease), border-color var(--motion-duration-base) var(--motion-ease); }
+      .btn svg { inline-size: 1.1em; block-size: 1.1em; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--motion-duration-base) var(--motion-ease); }
+      .btn:hover svg { transform: translateX(3px); }
+      .btn--cta { background: var(--cta); color: var(--on-cta); }
+      .btn--cta:hover { background: var(--cta-hover); color: var(--on-cta); }
+      .btn--line { border-color: var(--main); color: var(--main); background: transparent; }
+      .btn--line:hover { background: var(--main); color: var(--on-main); }
+      .btn--line-light { border-color: var(--white); color: var(--white); background: transparent; }
+      .btn--line-light:hover { background: var(--white); color: var(--main); }
+      .eyebrow { display: flex; align-items: center; gap: var(--space-sm); margin: 0 0 var(--space-md); font-size: var(--font-size-xs); font-weight: 700; letter-spacing: var(--letter-spacing-eyebrow); text-transform: uppercase; color: var(--cta); }
+      .eyebrow::before { content: ""; inline-size: 28px; block-size: 2px; background: currentColor; }
+      .accent { font-family: var(--font-accent); font-style: italic; font-weight: 400; letter-spacing: 0; color: var(--cta); }
+
+      /* Paw-print background pattern. The tile is a mask, so the ink color is a
+         token: .paws (navy ink) / .paws--warm (red ink on cream). */
+      .paws { position: relative; isolation: isolate; }
+      .paws::before { content: ""; position: absolute; inset: 0; z-index: -1; background-color: var(--pattern-ink); -webkit-mask: url("/images/paw-tile.svg") 0 0 / 420px 420px repeat; mask: url("/images/paw-tile.svg") 0 0 / 420px 420px repeat; pointer-events: none; }
+      .paws--warm { background-color: var(--surface-warm); }
+      .paws--warm::before { background-color: var(--pattern-ink-warm); -webkit-mask-position: 120px 60px; mask-position: 120px 60px; }
       :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
       /* No top padding here (2026-09-08) — the header is fixed+transparent
          by default (see Header.astro), so Hero/PageHeaderBanner need to
