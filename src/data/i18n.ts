@@ -28,6 +28,10 @@ export const routes = {
 
 /** External links from the client's current site. */
 export const PHARMACY_URL = "https://clearvieweasley.vetsfirstchoice.com/";
+// AllyDVM PetPage links (same as the current site's buttons).
+export const PET_RECORDS_URL = "https://practices.allydvm.com?practice=clearviewanimal";
+export const RX_REFILL_URL = "https://practices.allydvm.com/product-request?practice=clearviewanimal";
+export const PETPAGE_APP_URL = "https://www.allydvm.com/solutions/petpage-patient-portal/mobile-app";
 
 export const ui = {
   en: {
@@ -46,6 +50,9 @@ export const ui = {
     events: "Events",
     pharmacy: "Pharmacy",
     paymentPlans: "Payment Plans",
+    petRecords: "Pet Records",
+    rxRefill: "Rx Refill Request",
+    petPageApp: "PetPage App",
     menu: "Menu",
     language: "Language",
     callUs: "Call us at",
@@ -72,6 +79,9 @@ export const ui = {
     events: "Eventos",
     pharmacy: "Farmacia",
     paymentPlans: "Opciones de Pago",
+    petRecords: "Portal de Mascotas",
+    rxRefill: "Resurtido de Recetas",
+    petPageApp: "App PetPage",
     menu: "Menú",
     language: "Idioma",
     callUs: "Llámenos al",

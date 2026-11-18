@@ -18,7 +18,7 @@ import { getAllServiceCategories } from "../lib/data/serviceCategories";
 import { getServicesByCategory } from "../lib/data/services";
 import { phoneHref } from "../lib/utils/phone";
 import { BLOG_BASE } from "../lib/data/blog";
-import { type Lang, ui, routes, serviceCategoryEs, PHARMACY_URL } from "../data/i18n";
+import { type Lang, ui, routes, serviceCategoryEs, PHARMACY_URL, PET_RECORDS_URL, RX_REFILL_URL, PETPAGE_APP_URL } from "../data/i18n";
 import { getEsSlugMap, getAllServicesEs, ES_SERVICES_BASE } from "../lib/data/servicesEs";
 
 interface Props {
@@ -129,6 +129,9 @@ const esHref = lang === "es" ? here : altHref;
             <li><a href={BLOG_BASE}>{t.blog}</a></li>
             <li><a href="/online-forms">{t.forms}</a></li>
             <li><a href={r.payment}>{t.paymentPlans}</a></li>
+            <li><a href={PET_RECORDS_URL} target="_blank" rel="noopener">{t.petRecords}</a></li>
+            <li><a href={RX_REFILL_URL} target="_blank" rel="noopener">{t.rxRefill}</a></li>
+            <li><a href={PETPAGE_APP_URL} target="_blank" rel="noopener">{t.petPageApp}</a></li>
           </ul>
         </li>
 
