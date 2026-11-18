@@ -57,6 +57,10 @@ const esHref = lang === "es" ? here : altHref;
           <span>{site.phoneNumber}</span>
         </a>
       )}
+      <ul class="header__badges">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.7 2.7L16.2 9.4"/></svg>{t.acceptingPatients}</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16M8.5 3v4M15.5 3v4m-6 8 1.8 1.8 3.4-3.4"/></svg>{t.sameDay}</li>
+      </ul>
       <div class="header__actions">
         <div class="header__lang" role="group" aria-label={t.language}>
           <svg class="header__lang-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3z"/></svg>
@@ -194,6 +198,10 @@ const esHref = lang === "es" ? here : altHref;
   .header__submenu a:hover { background: var(--solid-bg); color: var(--main); }
   .header__dropdown-menu.is-capped, .header__submenu.is-capped { overflow-y: auto; overscroll-behavior: contain; }
 
+  .header__badges { display: flex; align-items: center; gap: var(--space-xl); list-style: none; margin: 0 auto; padding: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; }
+  .header__badges li { display: inline-flex; align-items: center; gap: 0.5em; }
+  .header__badges svg { inline-size: 18px; block-size: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  @media (max-width: 1100px) { .header__badges { display: none; } }
   .header__actions { display: flex; align-items: center; gap: var(--space-sm); flex-shrink: 0; margin-inline-start: auto; }
   .header__lang { display: inline-flex; align-items: center; gap: 0.1rem; border: 1px solid var(--on-main-line); border-radius: var(--radius-pill); padding: 0.12rem 0.15rem 0.12rem 0.5rem; }
   .header__lang-icon { inline-size: 14px; block-size: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; margin-inline-end: 0.2rem; opacity: 0.85; }
