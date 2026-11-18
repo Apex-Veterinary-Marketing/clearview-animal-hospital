@@ -394,7 +394,7 @@ const bookHref = site.bookingUrl || "/contact-us";
   .band__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
   .trail { position: relative; block-size: 64px; overflow: hidden; }
   .trail :global(svg) { position: absolute; inline-size: 24px; block-size: 24px; fill: var(--accent-soft); }
-  .quick { list-style: none; margin-block: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .quick { list-style: none; margin-block: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); }
   .quick li + li { border-inline-start: 1px solid var(--hairline-on-dark); }
   .quick__link { display: flex; flex-direction: column; gap: 0.3rem; block-size: 100%; padding: 1.6rem 1.5rem 2rem; color: var(--white); transition: background-color var(--motion-duration-base) var(--motion-ease); }
   .quick__link:hover { background: var(--main-dark); color: var(--white); }
@@ -473,6 +473,7 @@ const bookHref = site.bookingUrl || "/contact-us";
   .side-q blockquote p { margin: 0; }
 
   /* --- Emergencies: red band (business hours) + navy band (after-hours partner ERs), like the current site --- */
+  .er { scroll-margin-block-start: var(--header-height); } /* #emergency jump lands below the fixed header */
   .er__title { margin: 0 0 var(--space-md); color: var(--white); font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
   .er p { margin: 0 0 var(--space-sm); font-size: 1.05rem; }
   .er p:last-child { margin-block-end: 0; }
@@ -523,8 +524,9 @@ const bookHref = site.bookingUrl || "/contact-us";
     .hero__seal { inset-block: calc(var(--header-height) + 1.2rem) auto; inset-inline-end: 16px; inline-size: 92px; block-size: 92px; }
     .hero__seal b { font-size: 1.8rem; }
     .quick { grid-template-columns: 1fr 1fr; }
-    .quick li:nth-child(3) { border-inline-start: 0; }
+    .quick li + li:nth-child(odd) { border-inline-start: 0; }
     .quick li:nth-child(n + 3) { border-block-start: 1px solid var(--hairline-on-dark); }
+    .quick li:last-child:nth-child(odd) { grid-column: 1 / -1; } /* 5th tile (Emergencies) spans the row */
     .about__grid, .doc__grid, .why__top, .reviews__grid, .visit__grid { grid-template-columns: 1fr; gap: 2.6rem; }
     .doc__portrait { margin-inline: auto; max-inline-size: 340px; }
     .facts { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
