@@ -2,6 +2,7 @@
 name: "Emergency / Urgent Care"
 customName: "Emergency / Urgent Care"
 pageHeaderImage: "../../assets/services/emergency-1.jpg"
+pageHeaderPosition: "50% 55%"
 serviceCategory: ["urgent-emergency"]
 featured: true
 featuredHeading: "Emergency / Urgent Care"

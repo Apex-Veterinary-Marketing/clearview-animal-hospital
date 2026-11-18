@@ -156,7 +156,7 @@
   --header-height: calc(var(--topbar-height) + var(--header-row-height)); /* whole fixed header; heroes pad by this */
   --callbar-height: 5.5rem; /* mobile call bar; BaseLayout pads <main> by this */
   --logo-height: 2.75rem;
-  --page-header-height: 26rem; /* PageHeaderBanner min-height (incl. the header it sits under) */
+  --page-header-height: calc(var(--header-height) + 22rem); /* PageHeaderBanner min-height incl. the fixed header — same as Acton; grows with width at >=1200px (see PageHeaderBanner) */
   --reviews-pill-left: 5.5em; /* ReviewsBand offset, sits right of the a11y button */
 
   /*

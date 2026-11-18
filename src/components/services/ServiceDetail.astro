@@ -24,17 +24,18 @@ export interface Props {
   categoryId?: string;
   serviceId: string; // English service id (sidebar highlight)
   headerImage?: ImageMetadata;
+  headerPosition?: string;
   blocks: { body: string; image?: ImageMetadata; style: "default" | "cta" }[];
   faqs: { question: string; answer: string }[];
 }
-const { lang, heading, categoryName, categoryId, serviceId, headerImage, blocks, faqs } = Astro.props;
+const { lang, heading, categoryName, categoryId, serviceId, headerImage, headerPosition, blocks, faqs } = Astro.props;
 const site = await getSiteInfo();
 const es = lang === "es";
 const bookHref = site.bookingUrl || "/contact-us";
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 ---
 
-<PageHeaderBanner heading={heading} eyebrow={categoryName} image={headerImage} imageAlt="" />
+<PageHeaderBanner heading={heading} eyebrow={categoryName} image={headerImage} imageAlt="" imagePosition={headerPosition} />
 
 <div class="svc-page">
   <div class="svc-page__main">

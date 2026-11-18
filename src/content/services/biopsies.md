@@ -2,6 +2,7 @@
 name: "Biopsies"
 customName: "Biopsies"
 pageHeaderImage: "../../assets/services/biopsies-1.jpg"
+pageHeaderPosition: "50% 5%"
 serviceCategory: ["surgery"]
 featured: false
 showOnSidebarMenu: true

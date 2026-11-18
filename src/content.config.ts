@@ -53,6 +53,8 @@ const services = defineCollection({
       customName: z.string().optional(),
       serviceIcon: image().optional(),
       pageHeaderImage: image().optional(),
+      // object-position for the page-banner photo (e.g. "50% 20%") so the pet stays in frame; default "50% 40%".
+      pageHeaderPosition: z.string().optional(),
       contentBlocks: z
         .array(
           z.object({

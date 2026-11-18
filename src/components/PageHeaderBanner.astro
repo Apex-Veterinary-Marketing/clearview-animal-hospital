@@ -35,10 +35,12 @@ const { heading, accent, eyebrow, lede, image, imageAlt = "", imagePosition = "5
 
 <style>
   /* Pads by --header-height: the fixed header sits over the top of the banner. */
-  .page-banner { position: relative; isolation: isolate; display: flex; align-items: flex-end; min-block-size: var(--page-header-height); padding: calc(var(--header-height) + 4rem) 0 3.5rem; background: var(--main-dark); color: var(--white); overflow: hidden; }
-  .page-banner__image { position: absolute; inset: 0; z-index: -2; inline-size: 100%; block-size: 100%; object-fit: cover; }
-  .page-banner::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--hero-scrim) 0%, var(--hero-scrim-mid) 45%, var(--hero-scrim-light) 80%, var(--dark-transparent) 100%); }
-  .page-banner--plain { background: var(--main); }
+  .page-banner { position: relative; isolation: isolate; display: flex; align-items: center; min-block-size: var(--page-header-height); padding: calc(var(--header-height) + 3.5rem) 0 3.5rem; /* text centered in the photo area below the header (2026-11-18) */ background: var(--main-dark); color: var(--white); overflow: hidden; }
+  /* Photo + scrim start BELOW the fixed header: the header is opaque, so the
+     top of the photo (often the pet's face) was hidden behind it (2026-11-18). */
+  .page-banner__image { position: absolute; inset: var(--header-height) 0 0; z-index: -2; inline-size: 100%; block-size: calc(100% - var(--header-height)); object-fit: cover; }
+  .page-banner::after { content: ""; position: absolute; inset: var(--header-height) 0 0; z-index: -1; background: linear-gradient(90deg, var(--hero-scrim) 0%, var(--hero-scrim-mid) 45%, var(--hero-scrim-light) 80%, var(--dark-transparent) 100%); }
+  .page-banner--plain { background: var(--main); min-block-size: calc(var(--header-height) + 16rem); }
   .page-banner--plain::after { display: none; }
   .page-banner__content { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
   .page-banner__content > * { max-inline-size: 44rem; }
@@ -47,8 +49,14 @@ const { heading, accent, eyebrow, lede, image, imageAlt = "", imagePosition = "5
   .page-banner__heading .accent { color: var(--accent-soft); }
   .page-banner__lede { margin: var(--space-lg) 0 0; font-size: 1.15rem; color: var(--white-o85); }
 
+  /* Same heights as Acton (2026-11-18): on large screens the photo band grows
+     with the width (about 3.3:1 at 1900px) so wide screens don't crop pets. */
+  @media (min-width: 1200px) {
+    .page-banner:not(.page-banner--plain) { min-block-size: calc(var(--header-height) + clamp(22rem, 30vw, 38rem)); }
+  }
+
   @media (max-width: 900px) {
-    .page-banner { padding-block: calc(var(--header-height) + 3rem) 2.5rem; min-block-size: 0; }
+    .page-banner { padding-block: calc(var(--header-height) + 2.5rem) 2.5rem; min-block-size: calc(var(--header-height) + 16rem); }
     .page-banner::after { background: linear-gradient(90deg, var(--hero-scrim) 0%, var(--hero-scrim-mid) 100%); }
   }
 </style>

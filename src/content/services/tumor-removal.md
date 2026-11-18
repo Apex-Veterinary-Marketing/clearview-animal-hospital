@@ -2,6 +2,7 @@
 name: "Tumor Removal"
 customName: "Tumor Removal"
 pageHeaderImage: "../../assets/services/tumor-removal-1.jpg"
+pageHeaderPosition: "50% 20%"
 serviceCategory: ["surgery"]
 featured: false
 showOnSidebarMenu: true

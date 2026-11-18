@@ -2,6 +2,7 @@
 name: "Ultrasound"
 customName: "Ultrasound"
 pageHeaderImage: "../../assets/services/ultrasound-1.jpg"
+pageHeaderPosition: "50% 80%"
 serviceCategory: ["diagnostics"]
 featured: false
 showOnSidebarMenu: true

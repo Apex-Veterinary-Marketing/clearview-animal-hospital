@@ -2,6 +2,7 @@
 name: "Surgical Procedures"
 customName: "Surgical Procedures"
 pageHeaderImage: "../../assets/services/surgical-1.jpg"
+pageHeaderPosition: "50% 75%"
 serviceCategory: ["surgery"]
 featured: true
 featuredHeading: "Surgical Procedures"

@@ -2,6 +2,7 @@
 name: "Wellness and Preventative Care"
 customName: "Wellness and Preventative Care"
 pageHeaderImage: "../../assets/services/wellness-1.jpg"
+pageHeaderPosition: "50% 20%"
 serviceCategory: ["wellness"]
 featured: true
 featuredHeading: "Wellness and Preventative Care"
