@@ -1,28 +1,10 @@
 ---
-// ServicesSidebar mounted 2026-09-17 (direct instruction: every
-// services-related page always carries it). No active category here —
-// this page browses everything.
+// All services (old URL /services/, old meta kept). Body shared with the
+// Spanish page /es/servicios-veterinarios/ — components/services/ServicesIndex.astro.
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageHeaderBanner from "../../components/PageHeaderBanner.astro";
-import ServiceGrid from "../../components/ServiceGrid.astro";
-import ServicesSidebar from "../../components/ServicesSidebar.astro";
-import { getAllServices } from "../../lib/data/services";
-import bannerGeneric from "../../assets/banner-generic.png";
-
-const services = await getAllServices();
+import ServicesIndex from "../../components/services/ServicesIndex.astro";
 ---
 
-<BaseLayout title="Vet Services - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Our Services" description="From Wellness and Preventative Care to Urgent Care and Surgical Procedures, we can care for your pets from head to toe with in house labs and meds.">
-  <PageHeaderBanner heading="Veterinary Services" image={bannerGeneric} />
-  <div class="services-layout">
-    <div class="page-section">
-      <ServiceGrid services={services} />
-    </div>
-    <ServicesSidebar />
-  </div>
+<BaseLayout title="Vet Services - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Our Services" description="From Wellness and Preventative Care to Urgent Care and Surgical Procedures, we can care for your pets from head to toe with in house labs and meds." altLangPath="/es/servicios-veterinarios/">
+  <ServicesIndex lang="en" heading="Vet Services" />
 </BaseLayout>
-
-<style>
-  .services-layout { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); display: flex; gap: var(--space-xl); align-items: flex-start; flex-wrap: wrap; }
-  .page-section { flex: 1 1 30rem; }
-</style>

@@ -4,13 +4,14 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeaderBanner from "../../components/PageHeaderBanner.astro";
 import BlogGrid from "../../components/BlogGrid.astro";
+import CtaBand from "../../components/CtaBand.astro";
 import { getAllPosts } from "../../lib/data/blog";
 
 const posts = await getAllPosts();
 ---
 
 <BaseLayout title="Blog - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Our Blog" description="Pet health tips and news from Clearview Animal Hospital in Easley, SC, from heartworm prevention to dental care, written for pet families across the Upstate.">
-  <PageHeaderBanner heading="Our Blog" />
+  <PageHeaderBanner heading="Our Blog" eyebrow="Pet care tips" lede="Pet health tips and news from our team in Easley." />
   <div class="page-section">
     {posts.length > 0 ? (
       <BlogGrid posts={posts} />
@@ -21,10 +22,11 @@ const posts = await getAllPosts();
       </div>
     )}
   </div>
+  <CtaBand heading="Ready to book" accent="your visit?" text="Book online in minutes or give us a call, we’re happy to help." />
 </BaseLayout>
 
 <style>
-  .page-section { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); }
+  .page-section { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; padding-block: 4.5rem 5rem; }
   .blog-coming-soon { max-width: var(--container-max-narrow); margin-inline: auto; padding: var(--space-xl) var(--space-lg); text-align: center; background: var(--solid-bg); border-radius: var(--radius-lg); }
   .blog-coming-soon__heading { margin: 0 0 var(--space-sm); color: var(--heading); font-family: var(--font-heading); }
   .blog-coming-soon__text { margin: 0; color: var(--text-muted); }

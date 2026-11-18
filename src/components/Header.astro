@@ -18,7 +18,8 @@ import { getAllServiceCategories } from "../lib/data/serviceCategories";
 import { getServicesByCategory } from "../lib/data/services";
 import { phoneHref } from "../lib/utils/phone";
 import { BLOG_BASE } from "../lib/data/blog";
-import { type Lang, ui } from "../data/i18n";
+import { type Lang, ui, routes, serviceCategoryEs, PHARMACY_URL } from "../data/i18n";
+import { getEsSlugMap, getAllServicesEs, ES_SERVICES_BASE } from "../lib/data/servicesEs";
 
 interface Props {
   lang?: Lang;
@@ -27,6 +28,11 @@ interface Props {
 }
 const { lang = "en", altHref = lang === "es" ? "/" : "/es/" } = Astro.props;
 const t = ui[lang];
+const r = routes[lang];
+const es = lang === "es";
+const esSlugs = es ? await getEsSlugMap() : {};
+const esNames = es ? Object.fromEntries((await getAllServicesEs()).map((s) => [s.data.enSlug, s.data.name])) : {};
+const serviceHref = (id: string) => (es && esSlugs[id] ? `${ES_SERVICES_BASE}/${esSlugs[id]}/` : `/services/${id}`);
 
 const site = await getSiteInfo();
 const categories = await getAllServiceCategories();
@@ -65,10 +71,12 @@ const esHref = lang === "es" ? here : altHref;
           <button class="header__menu-link header__dropdown-toggle" type="button" data-dropdown-toggle aria-expanded="false">
             <span>{t.about}</span> <span class="header__caret" aria-hidden="true"></span>
           </button>
-          {/* Fixed slot: keep all three items through any redesign. */}
+          {/* Fixed slot (Meet the Team, gallery, How'd We Do?). Clearview's
+              launch sheet puts "Virtual Tour" in the gallery's place; it is
+              hidden until the client's photos/video arrive (2026-11-17) —
+              add `<li><a href="/virtual-tour">` here then. */}
           <ul class="header__dropdown-menu">
-            <li><a href="/meet-the-team">{t.meetTeam}</a></li>
-            <li><a href="/photo-gallery">{t.gallery}</a></li>
+            <li><a href={r.team}>{t.meetTeam}</a></li>
             <li><button type="button" class="header__dropdown-link-button" data-modal-target="reputation-widget">{t.howdWeDo}</button></li>
           </ul>
         </li>
@@ -81,16 +89,16 @@ const esHref = lang === "es" ? here : altHref;
             {servicesByCategory.map(({ category, services }) => (
               <li class="header__dropdown-item header__dropdown-item--has-submenu">
                 <button type="button" class="header__submenu-toggle" data-dropdown-toggle aria-expanded="false">
-                  {category.data.name} <span class="header__caret header__caret--side" aria-hidden="true"></span>
+                  {es ? serviceCategoryEs[category.id] ?? category.data.name : category.data.name} <span class="header__caret header__caret--side" aria-hidden="true"></span>
                 </button>
                 <ul class="header__submenu">
                   {services.map((service) => (
-                    <li><a href={`/services/${service.id}`}>{service.data.customName || service.data.name}</a></li>
+                    <li><a href={serviceHref(service.id)}>{es ? esNames[service.id] ?? service.data.customName ?? service.data.name : service.data.customName || service.data.name}</a></li>
                   ))}
                 </ul>
               </li>
             ))}
-            <li class="header__dropdown-item header__dropdown-item--all"><a href="/services">{t.allServices}</a></li>
+            <li class="header__dropdown-item header__dropdown-item--all"><a href={r.services}>{t.allServices}</a></li>
           </ul>
         </li>
 
@@ -100,12 +108,15 @@ const esHref = lang === "es" ? here : altHref;
           </button>
           <ul class="header__dropdown-menu">
             <li><a href="/faq">{t.faq}</a></li>
-            <li><a href="/online-forms">{t.forms}</a></li>
             <li><a href={BLOG_BASE}>{t.blog}</a></li>
+            <li><a href="/online-forms">{t.forms}</a></li>
+            <li><a href={r.payment}>{t.paymentPlans}</a></li>
           </ul>
         </li>
 
-        <li class="header__menu-item"><a class="header__menu-link" href="/contact-us">{t.contact}</a></li>
+        <li class="header__menu-item"><a class="header__menu-link" href={r.events}>{t.events}</a></li>
+        <li class="header__menu-item"><a class="header__menu-link" href={PHARMACY_URL} target="_blank" rel="noopener">{t.pharmacy}</a></li>
+        <li class="header__menu-item"><a class="header__menu-link" href={r.contact}>{t.contact}</a></li>
       </ul>
     </nav>
 
@@ -146,7 +157,7 @@ const esHref = lang === "es" ? here : altHref;
   .header__nav { flex: 1; display: flex; justify-content: center; }
   .header__menu { display: flex; align-items: center; gap: var(--space-lg); list-style: none; margin: 0; padding: 0; }
   .header__menu-link { background: none; border: 0; font: inherit; font-weight: 600; font-size: 0.95rem; color: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35em; padding: var(--space-xs) 0; text-align: center; line-height: 1.25; transition: color var(--motion-duration-fast) var(--motion-ease); }
-  .header__menu-link > span:first-child { max-inline-size: 9.5em; }
+  .header__menu-link > span:first-child { inline-size: max-content; max-inline-size: 9.5em; }
   .header__menu-link:hover, .header__menu-link[aria-expanded="true"] { color: var(--cta); }
   .header__caret { flex-shrink: 0; inline-size: 0.45em; block-size: 0.45em; border-inline-end: 2px solid currentColor; border-block-end: 2px solid currentColor; transform: rotate(45deg); margin-block-start: -0.2em; }
   .header__caret--side { transform: rotate(-45deg); margin-block-start: 0; }

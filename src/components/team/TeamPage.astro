@@ -1,0 +1,193 @@
+---
+// Meet the Team — Clearview V3b (2026-11-17), shared by /meet-the-team and
+// /es/staff/ (the old site's URLs). Team photo + "About Our Team", the
+// doctor (monogram until her headshot arrives, like the homepage), the three
+// practice blurbs, then everyone on the team in the old site's order.
+import { Image } from "astro:assets";
+import PageHeaderBanner from "../PageHeaderBanner.astro";
+import CtaBand from "../CtaBand.astro";
+import { getAllDoctors } from "../../lib/data/doctors";
+import { getAllStaff } from "../../lib/data/staff";
+import type { Lang } from "../../data/i18n";
+import avatarGeneric from "../../assets/avatar-generic.png";
+import teamImg from "../../assets/home/clearview-team.jpg";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === "es";
+
+const doctors = await getAllDoctors();
+// The old site's staff-page order.
+const ORDER = ["sara-dorsett", "avery-martin", "elly-green", "katarina", "victoria", "sarai", "liz", "sommer", "jon-agramonte"];
+const pos = (id: string) => (ORDER.includes(id) ? ORDER.indexOf(id) : ORDER.length);
+const staff = (await getAllStaff()).sort((a, b) => pos(a.id) - pos(b.id));
+
+const roleEs: Record<string, string> = {
+  Veterinarian: "Veterinaria",
+  "Lead Veterinary Assistant": "Asistente Principal de Veterinaria",
+  "Certified Veterinary Technician": "Técnico Veterinario Certificado",
+  "Veterinary Assistant": "Asistente de Veterinaria",
+  Receptionist: "Recepcionista",
+  "IT Specialist": "Especialista en TI",
+};
+const role = (p?: string) => (p ? (es ? roleEs[p] ?? p : p) : "");
+const initials = (name: string) => name.replace(/^Dr\.?\s*/, "").split(/\s+/).map((w) => w[0]).join("").slice(0, 2);
+const isGeneric = (img?: { src: string }) => !img || img.src === avatarGeneric.src;
+
+const c = es
+  ? {
+      eyebrow: "Nuestro Equipo",
+      heading: "Staff",
+      lede: "Las personas que cuidan a su mascota en cada visita.",
+      teamTitle: "Sobre nuestro",
+      teamAccent: "equipo",
+      teamText: "Bajo la dirección de la Dra. Aimee Seguin, nuestro equipo de asistentes de veterinaria, un técnico veterinario certificado y una recepción amable está aquí para usted y su mascota en cada visita. Espere una cálida bienvenida, un trato gentil y personas con gusto de responder sus preguntas, porque para nosotros su mascota también es familia.",
+      teamAlt: "El equipo del Hospital de Animales Clearview con uniformes rojos afuera del hospital",
+      doctorsTitle: "Nuestra",
+      doctorsAccent: "veterinaria",
+      bio: "Leer biografía",
+      soon: "Foto próximamente",
+      practiceTitle: "Sobre nuestra",
+      practiceAccent: "práctica",
+      blurbs: [
+        { heading: "Lo Que Nos Representa", body: "Estamos aquí para brindar a las mascotas de Easley una atención veterinaria compasiva y de alta calidad con un toque personal, y para que cada familia se sienta bienvenida desde el momento en que llega." },
+        { heading: "Hacia Dónde Vamos", body: "Queremos seguir acercando a casa más de la atención que las mascotas necesitan, para que las familias de la región puedan contar con un mismo equipo de confianza en cada etapa de la vida de su mascota." },
+        { heading: "Cómo Cuidamos a Su Mascota", body: "Cada visita comienza escuchando. Nos tomamos el tiempo de entender a su mascota y sus inquietudes, le explicamos lo que encontramos con palabras sencillas y trabajamos con usted en un plan que se ajuste a su mascota y a su familia." },
+      ],
+      staffTitle: "Conozca al",
+      staffAccent: "equipo",
+    }
+  : {
+      eyebrow: "Our Team",
+      heading: "Meet the Team",
+      lede: "The people who care for your pet at every visit.",
+      teamTitle: "About Our",
+      teamAccent: "Team",
+      teamText: "Led by Dr. Aimee Seguin, our team of veterinary assistants, a certified veterinary technician and a friendly front desk is here for you and your pet at every visit. Expect a warm welcome, gentle handling and people who are glad to answer your questions, because to us your pet is family too.",
+      teamAlt: "The Clearview Animal Hospital team in red scrubs outside the hospital",
+      doctorsTitle: "Our",
+      doctorsAccent: "Doctor",
+      bio: "Read Bio",
+      soon: "Headshot coming soon",
+      practiceTitle: "About Our",
+      practiceAccent: "Practice",
+      blurbs: [
+        { heading: "What We Stand For", body: "We are here to give Easley's pets compassionate, high-quality veterinary care with a personal touch, and to make every family feel welcome from the moment they walk in." },
+        { heading: "Where We're Headed", body: "We want to keep bringing more of the care pets need close to home, so Upstate families can count on one familiar team through every stage of their pet's life." },
+        { heading: "How We Care For Your Pet", body: "Every visit starts with listening. We take time to understand your pet and your concerns, explain what we find in plain terms, and work with you on a plan that fits your pet and your family." },
+      ],
+      staffTitle: "Meet the",
+      staffAccent: "Crew",
+    };
+---
+
+<PageHeaderBanner heading={c.heading} eyebrow={c.eyebrow} lede={c.lede} />
+
+<section class="tm-sec">
+  <div class="tm-wrap tm-intro">
+    <Image class="tm-intro__img" src={teamImg} alt={c.teamAlt} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 55vw" data-reveal="left" />
+    <div data-reveal>
+      <h2 class="tm-title">{c.teamTitle} <span class="accent">{c.teamAccent}</span></h2>
+      <p class="tm-intro__text">{c.teamText}</p>
+    </div>
+  </div>
+</section>
+
+{doctors.length > 0 && (
+  <section class="tm-sec tm-sec--soft">
+    <div class="tm-wrap">
+      <h2 class="tm-title" data-reveal>{c.doctorsTitle} <span class="accent">{c.doctorsAccent}</span></h2>
+      <ul class="tm-doctors">
+        {doctors.map((d) => (
+          <li class="tm-doctor" data-reveal>
+            <div class="tm-doctor__arch">
+              {isGeneric(d.data.mainImage) ? <span class="tm-mono" aria-hidden="true">{initials(d.data.name)}</span> : d.data.mainImage && <Image src={d.data.mainImage} alt={d.data.imageAltText || d.data.name} widths={[320, 480]} sizes="280px" />}
+            </div>
+            <div>
+              <h3 class="tm-doctor__name">{es ? d.data.name.replace(/^Dr\./, "Dra.") : d.data.name}</h3>
+              <p class="tm-role">{role("Veterinarian")}</p>
+              {isGeneric(d.data.mainImage) && <p class="tm-soon">{c.soon}</p>}
+              <a class="btn btn--line" href={`/doctors/${d.id}`}>{c.bio}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<section class="tm-sec paws paws--warm">
+  <div class="tm-wrap">
+    <h2 class="tm-title" data-reveal>{c.practiceTitle} <span class="accent">{c.practiceAccent}</span></h2>
+    <ol class="tm-blurbs" data-reveal-stagger>
+      {c.blurbs.map((b, i) => (
+        <li class="tm-blurb" data-reveal>
+          <span class="tm-blurb__n">{String(i + 1).padStart(2, "0")}</span>
+          <h3>{b.heading}</h3>
+          <p>{b.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+{staff.length > 0 && (
+  <section class="tm-sec tm-sec--soft">
+    <div class="tm-wrap">
+      <h2 class="tm-title" data-reveal>{c.staffTitle} <span class="accent">{c.staffAccent}</span></h2>
+      <ul class="tm-staff" data-reveal-stagger>
+        {staff.map((s) => (
+          <li class="tm-person" data-reveal>
+            <div class="tm-person__pic">
+              {isGeneric(s.data.image) ? <span class="tm-mono tm-mono--sm" aria-hidden="true">{initials(s.data.name)}</span> : s.data.image && <Image src={s.data.image} alt={s.data.imageAltText || s.data.name} widths={[240, 360]} sizes="180px" />}
+            </div>
+            <b class="tm-person__name">{s.data.name}</b>
+            {s.data.position && <span class="tm-role tm-role--sm">{role(s.data.position)}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<CtaBand lang={lang} heading={es ? "¿Listo para conocernos" : "Ready to meet us"} accent={es ? "en persona?" : "in person?"} text={es ? "Agende en línea en minutos o llámenos; con gusto le ayudamos." : "Book online in minutes or give us a call — we’re happy to help."} />
+
+<style>
+  .tm-sec { padding-block: 5rem; background: var(--surface-warm); overflow-x: clip; }
+  .tm-sec--soft { background: var(--solid-bg); }
+  .tm-wrap { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .tm-title { margin: 0 0 2.5rem; font-size: var(--font-size-section); }
+  .tm-intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: 4rem; align-items: center; }
+  .tm-intro .tm-title { margin-block-end: var(--space-lg); }
+  .tm-intro :global(.tm-intro__img) { inline-size: 100%; block-size: auto; border-radius: var(--radius-xl); }
+  .tm-intro__text { font-size: 1.08rem; margin: 0; }
+
+  .tm-doctors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); gap: var(--space-xl); }
+  .tm-doctor { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-xl); align-items: center; }
+  .tm-doctor__arch { aspect-ratio: 4 / 5; border-radius: var(--radius-pill) var(--radius-pill) var(--radius-xl) var(--radius-xl); overflow: hidden; background: linear-gradient(160deg, var(--surface-sky) 0%, var(--surface-sky-edge) 100%); border: 8px solid var(--white); display: grid; place-items: center; box-shadow: var(--shadow-dropdown); }
+  .tm-doctor__arch :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .tm-doctor__name { margin: 0; font-size: 1.9rem; letter-spacing: var(--letter-spacing-tight); }
+  .tm-role { margin: var(--space-2xs) 0 var(--space-md); font-family: var(--font-accent); font-style: italic; font-size: 1.35rem; color: var(--cta); }
+  .tm-soon { margin: 0 0 var(--space-md); font-size: var(--font-size-sm); color: var(--text-muted); }
+  .tm-mono { font-family: var(--font-accent); font-size: 4.5rem; color: var(--main); opacity: 0.35; line-height: 1; }
+  .tm-mono--sm { font-size: 2.6rem; }
+
+  .tm-blurbs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+  .tm-blurb { background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2rem; }
+  .tm-blurb__n { font-family: var(--font-accent); font-style: italic; font-size: 1.6rem; color: var(--cta); }
+  .tm-blurb h3 { margin: var(--space-xs) 0 var(--space-sm); color: var(--main); }
+  .tm-blurb p { margin: 0; color: var(--text); }
+
+  .tm-staff { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--space-lg); }
+  .tm-person { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .tm-person__pic { inline-size: 9rem; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: linear-gradient(160deg, var(--white) 0%, var(--surface-sky) 100%); border: 6px solid var(--white); box-shadow: var(--shadow-card); display: grid; place-items: center; margin-block-end: var(--space-md); }
+  .tm-person__pic :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .tm-person__name { color: var(--main); font-size: 1.1rem; }
+  .tm-role--sm { margin: var(--space-2xs) 0 0; font-size: 1.1rem; }
+
+  @media (max-width: 900px) {
+    .tm-sec { padding-block: 3.5rem; }
+    .tm-intro, .tm-blurbs { grid-template-columns: 1fr; gap: 2rem; }
+    .tm-doctor { grid-template-columns: 160px 1fr; gap: var(--space-lg); }
+  }
+</style>

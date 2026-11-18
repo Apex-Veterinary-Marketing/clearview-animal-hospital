@@ -1,0 +1,9 @@
+---
+// Contacto (old Spanish URL and meta kept). Same body as /contact-us.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactPage from "../../components/contact/ContactPage.astro";
+---
+
+<BaseLayout lang="es" title="Contacto - Clearview Animal Hospital - (864) 442-6192" titleTemplate="full" breadcrumb="Contacto" description="Visitanos 6714 Calhoun Memorial Hwy, Easley, SC 29640 o llamanos al (864) 442-6192. Tenemos citas para el mismo día." webPage={{ "@type": "ContactPage" }} altLangPath="/contact-us">
+  <ContactPage lang="es" />
+</BaseLayout>

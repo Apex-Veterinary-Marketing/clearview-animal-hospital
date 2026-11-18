@@ -16,6 +16,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeaderBanner from "../../components/PageHeaderBanner.astro";
 import BlogGrid from "../../components/BlogGrid.astro";
+import CtaBand from "../../components/CtaBand.astro";
 import { getAllPosts, getPostBySlug } from "../../lib/data/blog";
 import { getDoctorBySlug } from "../../lib/data/doctors";
 
@@ -34,11 +35,8 @@ const author = post.data.author ? await getDoctorBySlug(post.data.author.id) : u
 const allPosts = await getAllPosts();
 const morePosts = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-const formattedDate = post.data.pubDate.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+// UTC so a YYYY-MM-DD pubDate never shows the day before (agency rule).
+const formattedDate = post.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 
 const graph = [
   {
@@ -53,44 +51,52 @@ const graph = [
 ];
 ---
 
-<BaseLayout title={heading} description={post.data.metaDescription || post.data.postSummary} ogImage={post.data.postThumbnail} ogType="article" schemaGraph={graph}>
-  <PageHeaderBanner heading={post.data.name} />
+<BaseLayout title={heading} description={post.data.metaDescription || post.data.postSummary} ogImage={post.data.postThumbnail} ogImageAlt={post.data.thumbnailAlt} ogType="article" schemaGraph={graph} breadcrumb={post.data.name}>
+  {/* No byline (agency rule): the date sits under the title in the banner. */}
+  <PageHeaderBanner heading={post.data.name} eyebrow="Our Blog">
+    <p class="blog-post-date">{post.data.monthLabel || formattedDate}</p>
+  </PageHeaderBanner>
 
-  <div class="blog-post-meta">
-    {author ? (
-      <span class="blog-post-meta__author">
-        Written by <a href={`/doctors/${author.id}`}>{author.data.shortName || author.data.name}</a>
-      </span>
-    ) : post.data.authorName && (
-      <span class="blog-post-meta__author">Written by {post.data.authorName}</span>
+  <article class="blog-post">
+    {post.data.postThumbnail && (
+      <Image src={post.data.postThumbnail} alt={post.data.thumbnailAlt || ""} class="blog-post__img" widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 52rem" />
     )}
-    <span class="blog-post-meta__date">{post.data.monthLabel || formattedDate}</span>
-  </div>
-
-  {post.data.postThumbnail && (
-    <div class="blog-post-image">
-      <Image src={post.data.postThumbnail} alt={post.data.thumbnailAlt || ""} class="blog-post-image__img" />
+    <div class="blog-post__body content-rt">
+      <Content />
     </div>
-  )}
-
-  <div class="blog-post-body content-rt">
-    <Content />
-  </div>
+    {post.data.sources && post.data.sources.length > 0 && (
+      <ol class="blog-post__sources">
+        {post.data.sources.map((s, i) => <li id={`source-${i + 1}`}><a href={s.url} target="_blank" rel="noopener">{s.text}</a></li>)}
+      </ol>
+    )}
+  </article>
 
   {morePosts.length > 0 && (
     <section class="blog-post-more">
-      <h2 class="blog-post-more__heading">Our Latest Stories</h2>
-      <BlogGrid posts={morePosts} />
+      <div class="blog-post-more__inner">
+        <h2 class="blog-post-more__heading">More <span class="accent">articles</span></h2>
+        <BlogGrid posts={morePosts} />
+      </div>
     </section>
   )}
+
+  <CtaBand heading="Ready to book" accent="your visit?" text="Book online in minutes or give us a call, we’re happy to help." />
 </BaseLayout>
 
 <style>
-  .blog-post-meta { max-width: var(--container-max-narrow); margin: var(--space-md) auto 0; padding: 0 var(--space-md); display: flex; gap: var(--space-md); align-items: center; flex-wrap: wrap; color: var(--text-muted); font-size: var(--font-size-sm); }
-  .blog-post-meta__author a { color: var(--main); }
-  .blog-post-image { max-width: var(--container-max); margin: var(--space-lg) auto; padding: 0 var(--space-md); }
-  .blog-post-image__img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: var(--radius-md); }
-  .blog-post-body { max-width: var(--container-max-narrow); margin-inline: auto; padding: var(--space-md); }
-  .blog-post-more { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); background: var(--solid-bg); }
-  .blog-post-more__heading { text-align: center; margin: 0 0 var(--space-lg); }
+  .blog-post-date { margin: var(--space-md) 0 0; font-family: var(--font-accent); font-style: italic; font-size: 1.3rem; color: var(--accent-soft); }
+  .blog-post { inline-size: min(52rem, 100% - 2.5rem); margin-inline: auto; padding-block: 4rem 5rem; }
+  .blog-post :global(.blog-post__img) { inline-size: 100%; block-size: auto; max-block-size: 34rem; object-fit: cover; border-radius: var(--radius-xl); margin-block-end: 2.5rem; }
+  .blog-post__body { font-size: 1.08rem; }
+  .blog-post__body :global(h2) { margin: 2.5rem 0 var(--space-md); }
+  .blog-post__body :global(h3) { margin: 2rem 0 var(--space-sm); color: var(--main); }
+  .blog-post__body :global(p) { margin: 0 0 var(--space-md); }
+  .blog-post__body :global(ul), .blog-post__body :global(ol) { margin: 0 0 var(--space-md); padding-inline-start: 1.3rem; }
+  .blog-post__body :global(li) { margin-block-end: var(--space-xs); }
+  .blog-post__body :global(li::marker) { color: var(--cta); }
+  .blog-post__body :global(a) { font-weight: 500; }
+  .blog-post__sources { margin: 2.5rem 0 0; padding: var(--space-lg) var(--space-lg) var(--space-lg) 2.5rem; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-lg); font-size: var(--font-size-sm); color: var(--text-muted); }
+  .blog-post-more { background: var(--solid-bg); padding-block: 4.5rem; }
+  .blog-post-more__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .blog-post-more__heading { margin: 0 0 2rem; font-size: var(--font-size-section); }
 </style>

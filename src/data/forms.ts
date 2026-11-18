@@ -37,8 +37,8 @@
 // Key = the same `formId` string each <GravityFormEmbed formId="..."> call
 // already uses. Current call sites (Skeleton-Build-Spec.md §8):
 //   contact                 — /contact-us
-//   appointment-request     — /appointment-request
-//   general-information-request — /general-information-request
+//   appointment-request     — (page retired 2026-11-17: booking is AllyDVM; see public/_redirects)
+//   general-information-request — (page retired 2026-11-17: the info-request form is on /contact-us)
 //   new-patient              — /online-forms
 //   contact (again)          — the sitewide contact modal (BaseLayout)
 //   reputation-feedback      — ReputationWidget's negative-feedback stage

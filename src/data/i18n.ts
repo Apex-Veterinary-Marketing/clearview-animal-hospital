@@ -19,6 +19,16 @@ export function langAlternates(lang: Lang, pathname: string, altLangPath?: strin
   return { en: here, es: altLangPath ?? `${ES_BASE}/`, linked: !!altLangPath };
 }
 
+/** Where each shared link goes in each language. Spanish entries fall back to
+ *  the English page until a Spanish version exists. */
+export const routes = {
+  en: { services: "/services", contact: "/contact-us", team: "/meet-the-team", payment: "/payment-plans", events: "/events", privacy: "/privacy-policy" },
+  es: { services: "/es/servicios-veterinarios/", contact: "/es/contacto/", team: "/es/staff/", payment: "/es/opciones-de-pago/", events: "/events", privacy: "/es/poliza-de-privacidad/" },
+} as const;
+
+/** External links from the client's current site. */
+export const PHARMACY_URL = "https://clearvieweasley.vetsfirstchoice.com/";
+
 export const ui = {
   en: {
     home: "/",
@@ -30,9 +40,12 @@ export const ui = {
     allServices: "All Services",
     forPetOwners: "For Pet Owners",
     faq: "FAQs",
-    forms: "New Patient Forms",
+    forms: "Forms",
     blog: "Our Blog",
     contact: "Contact",
+    events: "Events",
+    pharmacy: "Pharmacy",
+    paymentPlans: "Payment Plans",
     menu: "Menu",
     language: "Language",
     callUs: "Call us at",
@@ -53,9 +66,12 @@ export const ui = {
     allServices: "Todos los Servicios",
     forPetOwners: "Para Dueños de Mascotas",
     faq: "Preguntas Frecuentes",
-    forms: "Formularios para Nuevos Pacientes",
+    forms: "Formularios",
     blog: "Nuestro Blog",
     contact: "Contacto",
+    events: "Eventos",
+    pharmacy: "Farmacia",
+    paymentPlans: "Opciones de Pago",
     menu: "Menú",
     language: "Idioma",
     callUs: "Llámenos al",
@@ -67,3 +83,14 @@ export const ui = {
     terms: "Términos de Uso",
   },
 } as const;
+
+/** Spanish names for the service categories (ids from src/content/service-categories/). */
+export const serviceCategoryEs: Record<string, string> = {
+  wellness: "Bienestar y Medicina Preventiva",
+  dental: "Cuidado Dental",
+  surgery: "Cirugía",
+  diagnostics: "Diagnóstico",
+  "urgent-emergency": "Cuidado Urgente y de Emergencia",
+  pharmacy: "Farmacia",
+  "end-of-life": "Cuidado al Final de la Vida",
+};

@@ -1,0 +1,37 @@
+---
+name: "Procedimientos quirúrgicos"
+enSlug: "surgical"
+pageHeaderImage: "../../assets/services/surgical-1.jpg"
+featuredText: "Esterilización y castración, biopsias, extirpación de tumores y cirugía general, con comunicación clara en cada paso."
+metaTitle: "Procedimientos quirúrgicos - Clearview Animal Hospital"
+metaDescription: "Nuestros servicios abarcan una variedad de procedimientos quirúrgicos, que incluyen cirugía de control natal en hembras (OSH) y castración, biopsias, extirpación de tumores, cirugías generales, procedimientos de emergencia e incluso acceso a un cirujano ortopédico itinerante."
+contentBlocks:
+  - image: "../../assets/services/surgical-2.jpg"
+    body: |-
+      <h2>Veterinario de cirugía animal cerca de Easley, SC</h2><p>Entendemos que someterse a un procedimiento quirúrgico puede ser una experiencia estresante, tanto para su querida mascota como para usted. Nuestro equipo está dedicado a garantizar una comunicación clara, seguridad y atención experta en cada paso del proceso Desde evaluaciones preoperatorias hasta apoyo postoperatorio, priorizamos el bienestar de su mascota Nuestros servicios abarcan una variedad de procedimientos quirúrgicos, que incluyen cirugía de control natal en hembras (OSH) y castración, biopsias, extirpación de tumores, cirugías generales, procedimientos de emergencia e incluso acceso a un cirujano ortopédico itinerante. La salud y bienestar de su mascota son nuestras principales prioridades.</p>
+  - image: "../../assets/services/surgical-3.jpg"
+    body: |-
+      <h2>Qué esperar cuando su mascota tiene una cirugía</h2><p>La cirugía empieza mucho antes del procedimiento. Una evaluación preoperatoria, que incluye un examen y, en la mayoría de los casos, análisis de sangre de nuestro laboratorio propio, nos ayuda a confirmar que su mascota está lista para la anestesia y a adaptar el plan a ella. Le explicaremos el procedimiento, responderemos sus preguntas y le daremos instrucciones para la noche anterior, como a qué hora dejar de darle de comer.</p><p>El día de la cirugía, su mascota recibe anestesia general para que no sienta dolor durante el procedimiento. Su mascota es vigilada de cerca durante la cirugía y mientras despierta, y revisaremos con usted las instrucciones de alta cuando sea hora de volver a casa.</p><p>La recuperación en casa es igual de importante. Aprenderá a mantener la incisión limpia y seca, a limitar la actividad, a dar los medicamentos y qué señales vigilar. Si tiene preguntas después de llegar a casa, estamos a una llamada de distancia.</p>
+  - image: "../../assets/services/surgical-4.jpg"
+    body: |-
+      <h2>¿Necesita cirugía su mascota?</h2><p>Muchas cirugías se planean con tiempo, como esterilizar o castrar a una mascota joven o retirar una bolita para analizarla. Otras se recomiendan después de que un examen o una prueba diagnóstica encuentra un problema, como un crecimiento que necesita una biopsia o la extirpación de un tumor. Hable con nosotros si nota una bolita nueva o que está creciendo, una herida que no sana, o si su mascota todavía no ha sido esterilizada o castrada.</p><h2>¿Cuándo debe tener cirugía su mascota?</h2><p>La mayoría de las cirugías son procedimientos únicos, y el momento depende del motivo. La edad para esterilizar o castrar varía según la especie, la raza, el tamaño y la salud de su mascota, así que le recomendaremos la edad adecuada para ella. En el caso de bolitas y otras preocupaciones, cuanto antes mejor: un examen rápido nos puede decir si la cirugía tiene sentido.</p><h2>Lo que nos distingue</h2><p>Por qué las familias eligen Clearview para la cirugía de su mascota:</p><ul><li><strong>Laboratorio propio</strong> — Los análisis de sangre prequirúrgicos se pueden hacer aquí mismo en nuestro hospital.</li><li><strong>Cirujano ortopédico itinerante</strong> — Los procedimientos ortopédicos los realiza un cirujano ortopédico itinerante, para que su mascota reciba tratamiento cerca de casa.</li><li><strong>Radiografía digital</strong> — Los rayos X ayudan con la planificación y el seguimiento cuando se necesitan.</li><li><strong>Opciones de pago</strong> — CareCredit y Cherry pueden ayudarle a planificar el costo de la cirugía.</li></ul>
+  - style: "cta"
+    body: |-
+      <h2>Hable con nosotros sobre la cirugía de su mascota</h2><p>Agende una consulta quirúrgica en Clearview Animal Hospital. Le explicaremos cada paso para que usted y su mascota se sientan preparados.</p>
+faqs:
+  - question: "¿Por qué se recomiendan análisis de sangre antes de la cirugía?"
+    answer: |-
+      <p>Los análisis de sangre previos a la anestesia revisan la salud general de su mascota, incluido el funcionamiento del hígado y los riñones, y ayudan a saber si es buena candidata para la anestesia. Los problemas menores se pueden corregir antes de la cirugía, y los importantes pueden hacer que se posponga el procedimiento hasta resolverlos.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/bloodwork">VCA Animal Hospitals, Preanesthetic Bloodwork</a></p>
+  - question: "¿Cuándo debo esterilizar o castrar a mi mascota?"
+    answer: |-
+      <p>Para los gatos, la American Veterinary Medical Association apoya la esterilización o castración antes de los 5 meses de edad. Para los perros no hay una sola edad ideal: el momento adecuado depende de la raza, el tamaño, el sexo, el estilo de vida y la salud, así que es una decisión que conviene tomar junto con su veterinario.</p><p class="faq-source">Fuente: <a href="https://www.avma.org/resources-tools/pet-owners/petcare/spaying-and-neutering">American Veterinary Medical Association, Spaying and neutering</a></p>
+  - question: "¿Qué beneficios tiene esterilizar o castrar a mi mascota?"
+    answer: |-
+      <p>Esterilizar a las hembras puede prevenir infecciones del útero y reducir el riesgo de cáncer de mama. Castrar a los machos elimina el riesgo de cáncer testicular, reduce el riesgo de agrandamiento de la próstata y disminuye las escapadas y el marcaje con orina. Ambos procedimientos también evitan camadas no planeadas.</p><p class="faq-source">Fuente: <a href="https://www.avma.org/resources-tools/pet-owners/petcare/spaying-and-neutering">American Veterinary Medical Association, Spaying and neutering</a></p>
+  - question: "¿Cómo cuido a mi mascota en casa después de la cirugía?"
+    answer: |-
+      <p>Mantenga a su mascota dentro de casa y tranquila, sin correr, saltar, subir escaleras ni jugar brusco durante el tiempo que indique su veterinario, que a menudo es de 7 a 14 días. Sáquela con correa solo para hacer sus necesidades, mantenga la incisión seca y use un cono (collar isabelino) o un traje de recuperación para que no pueda lamer ni morder los puntos.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/surgical-discharge-instructions-for-dogs">VCA Animal Hospitals, Surgical Discharge Instructions for Dogs</a></p>
+  - question: "¿Cuándo debo llamar después de la cirugía de mi mascota?"
+    answer: |-
+      <p>Revise la incisión todos los días. Un poco de enrojecimiento e hinchazón es normal en los primeros días y debe mejorar poco a poco. Llame a su equipo veterinario si ve más que una hinchazón leve, cualquier secreción, puntos abiertos, o si el estado de su mascota cambia o empeora.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/surgical-discharge-instructions-for-dogs">VCA Animal Hospitals, Surgical Discharge Instructions for Dogs</a></p>
+---

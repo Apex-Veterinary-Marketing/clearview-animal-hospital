@@ -1,0 +1,22 @@
+---
+// Virtual Tour (launch sheet: About menu). Hidden — noindex, out of the menus
+// and sitemap — until the client sends hospital photos or a tour video
+// (decision 2026-11-17). When it arrives: add the content below, drop
+// `noindex`, and add the link to the About dropdown in Header.astro.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeaderBanner from "../components/PageHeaderBanner.astro";
+import CtaBand from "../components/CtaBand.astro";
+---
+
+<BaseLayout title="Virtual Tour" noindex breadcrumb="Virtual Tour" description="Take a virtual tour of Clearview Animal Hospital in Easley, SC.">
+  <PageHeaderBanner heading="Virtual Tour" eyebrow="Inside Clearview" lede="A look inside our hospital in Easley." />
+  <section class="vt">
+    <p>Our virtual tour is coming soon.</p>
+  </section>
+  <CtaBand heading="Come see us" accent="in person" text="Book online in minutes or give us a call, we’re happy to help." />
+</BaseLayout>
+
+<style>
+  .vt { inline-size: min(44rem, 100% - 2.5rem); margin-inline: auto; margin-block: 4.5rem 5rem; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2.5rem; text-align: center; }
+  .vt p { margin: 0; }
+</style>

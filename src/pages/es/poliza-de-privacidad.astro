@@ -1,0 +1,11 @@
+---
+// Póliza de privacidad — the client's own Spanish policy, word for word
+// (old URL kept). The old page had no meta description; this one is new.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LegalPage from "../../components/LegalPage.astro";
+import { Content } from "../../data/legal/privacy-policy.es.md";
+---
+
+<BaseLayout lang="es" title="Poliza de privacidad - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Póliza de privacidad" description="Conozca cómo el Hospital de Animales Clearview en Easley, SC recaba, usa y protege la información personal que usted comparte a través de este sitio web." altLangPath="/privacy-policy">
+  <LegalPage heading="Poliza de privacidad" eyebrow="Legal"><Content /></LegalPage>
+</BaseLayout>

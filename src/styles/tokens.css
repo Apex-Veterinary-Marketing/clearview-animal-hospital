@@ -121,6 +121,8 @@
   --font-size-quote: clamp(1.9rem, 3.4vw, 2.9rem); /* featured review pull-quote */
   --font-size-quote-long: clamp(1.5rem, 2.4vw, 2.1rem); /* the same quote when the review runs long */
   --font-size-stat: clamp(2.4rem, 4vw, 3.4rem); /* big italic numbers (1958, Same day) */
+  --font-size-page-title: clamp(2.5rem, 5vw, 4.25rem); /* inner-page banner h1 */
+  --font-size-h2: clamp(1.75rem, 2.8vw, 2.4rem); /* inner-page section h2s */
   --letter-spacing-tight: -0.025em; /* display headings */
   --letter-spacing-eyebrow: 0.14em; /* uppercase eyebrow labels */
 
@@ -150,7 +152,7 @@
   --header-height: 5rem; /* fixed one-row header (Clearview V3b); heroes pad by this */
   --callbar-height: 5.5rem; /* mobile call bar; BaseLayout pads <main> by this */
   --logo-height: 2.75rem;
-  --page-header-height: 16rem; /* PageHeaderBanner min-height */
+  --page-header-height: 26rem; /* PageHeaderBanner min-height (incl. the header it sits under) */
   --reviews-pill-left: 5.5em; /* ReviewsBand offset, sits right of the a11y button */
 
   /*
@@ -205,4 +207,5 @@
   --dark-transparent: #080c1400; /* --main-dark @0% */
   --pattern-ink: #2b457012; /* --main @7% — paw-print background pattern on light sections */
   --pattern-ink-warm: #b01a3c0d; /* --cta @5% — the same pattern on cream */
+  --pattern-ink-light: #ffffff0d; /* white @5% — the same pattern on dark navy */
 }

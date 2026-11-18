@@ -4,8 +4,8 @@
 // "Solicitud de Cita" and "Portal de Mascotas"). Google reviews are never
 // translated — they render in the language they were written in.
 //
-// Service rows link to the service pages that exist today; update the hrefs
-// when the client's services list is imported.
+// Service rows link to the service pages (old-site URLs; Spanish rows to the
+// /es/servicios-veterinarios/ pages).
 import type { Lang } from "./i18n";
 
 export interface HomeCopy {
@@ -105,10 +105,10 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     servicesAccent: "under one roof",
     allServices: "All Services",
     services: [
-      { title: "Wellness & Preventive Care", text: "Annual exams, bloodwork, fecal and heartworm testing, and vaccines matched to your pet’s lifestyle.", href: "/services/wellness-exams", image: "wellness" },
-      { title: "Dental Cleaning", text: "Cleanings and extractions to keep your pet comfortable.", href: "/services/dental-care", image: "dental" },
-      { title: "Surgery", text: "Soft tissue and orthopedic procedures, close to home.", href: "/services/surgery", image: "surgery" },
-      { title: "Urgent Care", text: "Same-day visits during business hours when your pet can’t wait.", href: "/services", image: "urgent" },
+      { title: "Wellness & Preventive Care", text: "Annual exams, bloodwork, fecal and heartworm testing, and vaccines matched to your pet’s lifestyle.", href: "/services/wellness", image: "wellness" },
+      { title: "Dental Cleaning", text: "Cleanings and extractions to keep your pet comfortable.", href: "/services/dental", image: "dental" },
+      { title: "Surgery", text: "Soft tissue and orthopedic procedures, close to home.", href: "/services/surgical", image: "surgery" },
+      { title: "Urgent Care", text: "Same-day visits during business hours when your pet can’t wait.", href: "/services/emergency", image: "urgent" },
     ],
     moreServices: ["In-house laboratory", "Ultrasound", "Microchipping", "Pet nutrition", "Pet pharmacy", "End of life care"],
     doctorEyebrow: "Meet the Doctor",
@@ -178,10 +178,10 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     servicesAccent: "en un solo lugar",
     allServices: "Todos los Servicios",
     services: [
-      { title: "Bienestar y Medicina Preventiva", text: "Exámenes anuales, análisis de sangre, pruebas de heces y de gusano del corazón, y vacunas según el estilo de vida de su mascota.", href: "/services/wellness-exams", image: "wellness" },
-      { title: "Limpieza Dental", text: "Limpiezas y extracciones para mantener a su mascota cómoda.", href: "/services/dental-care", image: "dental" },
-      { title: "Cirugía", text: "Procedimientos de tejidos blandos y ortopédicos, cerca de casa.", href: "/services/surgery", image: "surgery" },
-      { title: "Cuidado Urgente", text: "Citas el mismo día, en horario de atención, cuando su mascota no puede esperar.", href: "/services", image: "urgent" },
+      { title: "Bienestar y Medicina Preventiva", text: "Exámenes anuales, análisis de sangre, pruebas de heces y de gusano del corazón, y vacunas según el estilo de vida de su mascota.", href: "/es/servicios-veterinarios/bienestar-y-medicina-preventiva/", image: "wellness" },
+      { title: "Limpieza Dental", text: "Limpiezas y extracciones para mantener a su mascota cómoda.", href: "/es/servicios-veterinarios/limpieza-dental-extracciones-dentales/", image: "dental" },
+      { title: "Cirugía", text: "Procedimientos de tejidos blandos y ortopédicos, cerca de casa.", href: "/es/servicios-veterinarios/procedimientos-quirurgicos/", image: "surgery" },
+      { title: "Cuidado Urgente", text: "Citas el mismo día, en horario de atención, cuando su mascota no puede esperar.", href: "/es/servicios-veterinarios/emergencias-cuidado-urgente/", image: "urgent" },
     ],
     moreServices: ["Laboratorio en casa", "Ultrasonido", "Microchip", "Nutrición para mascotas", "Farmacia veterinaria", "Cuidado al final de la vida"],
     doctorEyebrow: "Conozca a la Doctora",

@@ -7,7 +7,7 @@
 // for existing clients, not a page for search (noindex also keeps it out
 // of sitemap.xml, see astro.config.mjs).
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
+import PageHeaderBanner from "../components/PageHeaderBanner.astro";
 import Section from "../components/Section.astro";
 import ReputationWidget from "../components/ReputationWidget.astro";
 import { getSiteInfo } from "../lib/data/site";
@@ -21,11 +21,7 @@ const site = await getSiteInfo();
   noindex
   breadcrumb={false}
 >
-  <Hero
-    eyebrow={site.practiceName}
-    heading="How'd We Do?"
-    subheading="Thank you for trusting us with your pet. Tell us about your visit — it only takes a moment."
-  />
+  <PageHeaderBanner eyebrow={site.practiceName} heading="How'd We Do?" lede="Thank you for trusting us with your pet. Tell us about your visit — it only takes a moment." />
   <Section tone="soft">
     <div class="how-did-we-do__widget">
       <ReputationWidget inline />

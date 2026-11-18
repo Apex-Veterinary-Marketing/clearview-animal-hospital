@@ -1,0 +1,42 @@
+---
+// Events (old URL kept; old page had no meta description — this one is new).
+// Copy word for word from the old page. The listed event (Sept 26, 2026)
+// has passed; swap in the next event when the client sends it.
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeaderBanner from "../components/PageHeaderBanner.astro";
+import CtaBand from "../components/CtaBand.astro";
+import flyer from "../assets/pages/hounds-and-hoses.jpg";
+---
+
+<BaseLayout title="Events - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Events" description="Community events from Clearview Animal Hospital in Easley, SC, like our low-cost canine vaccine and microchip clinic with the Pickens Fire Department.">
+  <PageHeaderBanner heading="Events" eyebrow="In the community" />
+
+  <section class="ev-sec">
+    <article class="ev-card" data-reveal>
+      <Image class="ev-card__img" src={flyer} alt="Hounds and Hoses flyer: a cartoon firefighter with two dogs and free pup cups" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 34rem" />
+      <div class="ev-card__body">
+        <h2>Hounds and Hoses</h2>
+        <h3>Canine Vaccination &amp; Microchip Clinic</h3>
+        <p class="ev-card__meta">Saturday, September 26, 2026, 9AM - 12PM</p>
+        <p class="ev-card__meta">Pickens Fire Department</p>
+        <p>Clearview Animal Hospital with the Pickens Fire Department is offering our community a low-cost canine vaccine and microchip clinic! Come by and get a free pup cup, and keep your dogs safe and vaccinated!</p>
+        <p>We will be at 302 Johnson Street in Pickens, and advance registration is not required. Walk Ups welcome! (This event is for dogs only, and they must remain leashed at all times. While supplies last.)</p>
+      </div>
+    </article>
+  </section>
+
+  <CtaBand heading="Ready to book" accent="your visit?" text="Book online in minutes or give us a call — we’re happy to help." />
+</BaseLayout>
+
+<style>
+  .ev-sec { padding-block: 5rem; overflow-x: clip; }
+  .ev-card { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2rem; }
+  .ev-card :global(.ev-card__img) { inline-size: 100%; block-size: auto; border-radius: var(--radius-lg); }
+  .ev-card h2 { margin: 0 0 var(--space-xs); font-size: var(--font-size-section); }
+  .ev-card h3 { margin: 0 0 var(--space-md); font-family: var(--font-accent); font-style: italic; font-weight: 400; font-size: 1.6rem; color: var(--cta); }
+  .ev-card__meta { margin: 0 0 var(--space-2xs); font-weight: 700; color: var(--main); }
+  .ev-card__meta + p:not(.ev-card__meta) { margin-block-start: var(--space-md); }
+  .ev-card p { margin: 0 0 var(--space-md); }
+  @media (max-width: 900px) { .ev-sec { padding-block: 3.5rem; } .ev-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.25rem; } }
+</style>

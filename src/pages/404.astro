@@ -8,14 +8,14 @@ import PageHeaderBanner from "../components/PageHeaderBanner.astro";
 ---
 
 <BaseLayout title="Page Not Found" noindex>
-  <PageHeaderBanner heading="404" />
+  <PageHeaderBanner heading="Page not found" eyebrow="404" />
   <div class="not-found">
-    <p>Sorry, we couldn't find that page.</p>
-    <a href="/">Back to Home</a>
+    <p>Sorry, we couldn't find that page. It may have moved when our new website launched.</p>
+    <p class="not-found__links"><a class="btn btn--cta" href="/">Back to Home</a> <a class="btn btn--line" href="/services">Our Services</a> <a class="btn btn--line" href="/contact-us">Contact Us</a></p>
   </div>
 </BaseLayout>
 
 <style>
-  .not-found { max-width: 32rem; margin-inline: auto; padding: var(--space-2xl) var(--space-md); text-align: center; }
-  .not-found a { color: var(--main); font-weight: 600; }
+  .not-found { inline-size: min(40rem, 100% - 2.5rem); margin-inline: auto; padding-block: 4.5rem 5rem; text-align: center; font-size: 1.1rem; }
+  .not-found__links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-block-start: var(--space-lg); }
 </style>

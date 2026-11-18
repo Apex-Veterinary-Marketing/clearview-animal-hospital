@@ -1,0 +1,37 @@
+---
+name: "Farmacia Veterinaria"
+enSlug: "pharmacy"
+pageHeaderImage: "../../assets/services/pharmacy-1.jpg"
+featuredText: "Medicamentos disponibles en nuestra clínica, entrega a domicilio a través de nuestra farmacia en línea y resurtidos fáciles."
+metaTitle: "Farmacia Veterinaria - Clearview Animal Hospital"
+metaDescription: "Obtenga la receta de su mascota directamente de Clearview si está en stock o utilice nuestra farmacia en línea para la entrega a domicilio de medicamentos o dietas con receta."
+contentBlocks:
+  - image: "../../assets/services/pharmacy-2.jpg"
+    body: |-
+      <h2>Recoge las Recetas Veterinarias Cerca de Easley, SC</h2><p>Cuando su mascota requiere medicamentos, es porque su veterinario ha diagnosticado cuidadosamente su problema de salud y ha determinado que el tratamiento es necesario. Los medicamentos recetados están diseñados para problemas específicos y pueden ser dañinos si no se usan correctamente.</p><p>Tiene algunas opciones para obtener los medicamentos de su mascota:</p><ul><li>Puede obtenerlas directamente de Clearview si se encuentra en stock</li><li>Utilice nuestra farmacia veterinaria en línea para realizar cómodamente la entrega a domicilio de medicamentos o dietas recetadas.</li><li>Podemos proporcionarle una receta para una farmacia local que venda el medicamento, ya sea escribiéndola o llamándola de acuerdo a lo que le parezca mas cómodo.</li></ul>
+  - image: "../../assets/services/pharmacy-3.jpg"
+    body: |-
+      <h2>Qué esperar al surtir o resurtir una receta</h2><p>Cuando recetamos un medicamento, le explicaremos para qué sirve, cuánto darle, con qué frecuencia y por cuánto tiempo, además de los efectos secundarios a los que debe estar atento. Si no está seguro de cómo dárselo, pídanos que le mostremos; una demostración rápida puede hacer mucho más fácil darle una pastilla a un gato o administrar un medicamento líquido.</p><p>Los resurtidos son sencillos. Envíenos una solicitud a través de nuestro formulario en línea para resurtir recetas, o pregunte por el portal para mascotas PetPage para tener la información de su mascota en un solo lugar. Si prefiere recibir los medicamentos o las dietas recetadas en su puerta, nuestra farmacia en línea, Vets First Choice, ofrece una cómoda entrega a domicilio.</p><p>Para las mascotas con medicamentos a largo plazo, recomendaremos revisiones periódicas y, en algunos casos, análisis de sangre. Estas visitas nos permiten confirmar que el medicamento sigue funcionando, ajustar la dosis si es necesario y asegurarnos de que siga siendo seguro para su mascota con el tiempo.</p>
+  - image: "../../assets/services/pharmacy-4.jpg"
+    body: |-
+      <h2>Para quién es nuestra farmacia veterinaria</h2><p>Nuestra farmacia atiende a todos los pacientes de Clearview, desde un cachorro que necesita un tratamiento corto después de una visita hasta un gato mayor que toma un medicamento diario por una condición a largo plazo. Es especialmente práctica para las familias que manejan recetas continuas, prevención de parásitos o dietas recetadas, y para quienes prefieren recibir sus resurtidos a domicilio en lugar de hacer un viaje adicional.</p><h2>¿Con qué frecuencia se deben revisar las recetas de su mascota?</h2><p>Depende del medicamento y de la salud de su mascota. Los medicamentos de corto plazo suelen revisarse en una visita de seguimiento, mientras que los medicamentos de largo plazo requieren exámenes regulares para que las recetas puedan renovarse de forma segura. Le avisaremos cuando le toque a su mascota.</p><h2>Lo que nos distingue</h2><p>Así es como Clearview le facilita manejar los medicamentos de su mascota:</p><ul><li><strong>Solicitudes de resurtido en línea</strong> — Solicite el resurtido de una receta en línea, en cualquier momento.</li><li><strong>Entrega a domicilio</strong> — Nuestra farmacia en línea, Vets First Choice, envía alimentos y medicamentos hasta su puerta.</li><li><strong>Portal para mascotas PetPage</strong> — Tenga a la mano los registros y la información de su mascota.</li><li><strong>Opciones de pago</strong> — CareCredit y Cherry pueden ayudarle con el costo de la atención.</li></ul>
+  - style: "cta"
+    body: |-
+      <h2>¿Necesita un resurtido o una revisión?</h2><p>Agende una cita o solicite un resurtido con Clearview Animal Hospital. Le ayudaremos a darle a su mascota el medicamento correcto, de la manera correcta.</p>
+faqs:
+  - question: "¿Puedo darle a mi mascota analgésicos para personas?"
+    answer: |-
+      <p>No sin antes hablar con su veterinario. Algunos analgésicos comunes para personas pueden ser peligrosos para las mascotas: el acetaminofén es especialmente peligroso para los gatos, y los antiinflamatorios no esteroideos (AINE), como el ibuprofeno, no deben darse a menos que un veterinario los apruebe.</p><p class="faq-source">Fuente: <a href="https://www.fda.gov/animal-veterinary/animal-health-literacy/get-facts-about-pain-relievers-pets">U.S. Food and Drug Administration, Get the Facts about Pain Relievers for Pets</a></p>
+  - question: "¿Por qué mi mascota necesita un examen antes de resurtir una receta?"
+    answer: |-
+      <p>Los veterinarios solo pueden recetar dentro de una relación veterinario-cliente-paciente (VCPR, por sus siglas en inglés), y las mascotas con medicamentos continuos necesitan revisiones regulares para asegurarse de que la dosis siga siendo eficaz y segura. La frecuencia depende de la salud de su mascota y del medicamento.</p><p class="faq-source">Fuente: <a href="https://www.avma.org/resources-tools/animal-health-and-welfare/animal-health/pharmacy/prescriptions-and-pharmacies-faq-pet-owner">American Veterinary Medical Association, Prescriptions and pharmacies: FAQs for pet owners</a></p>
+  - question: "¿Puedo surtir la receta de mi mascota en otra farmacia?"
+    answer: |-
+      <p>En la mayoría de los casos, sí. La mayoría de los estados exigen que los veterinarios proporcionen una receta cuando se les solicita si el medicamento es médicamente necesario, así que usted puede elegir dónde surtirla. También podemos proporcionar una receta a una farmacia local que venda el medicamento, ya sea por escrito o por teléfono.</p><p class="faq-source">Fuente: <a href="https://www.avma.org/resources-tools/animal-health-and-welfare/animal-health/pharmacy/prescriptions-and-pharmacies-faq-pet-owner">American Veterinary Medical Association, Prescriptions and pharmacies: FAQs for pet owners</a></p>
+  - question: "¿Algún consejo para darle una pastilla a mi gato?"
+    answer: |-
+      <p>Intente esconder la pastilla en una pequeña cantidad de comida húmeda, atún o un premio blando cuando su gato tenga hambre. Si necesita dársela directamente, colóquela lo más atrás posible sobre la lengua, cierre la boca, acaricie suavemente la garganta y luego dele un poco de agua con una jeringa. Si darle pastillas es difícil, pregúntenos si el medicamento se puede preparar como un líquido o un premio con sabor.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/giving-pills-to-cats">VCA Animal Hospitals, Giving Pills to Cats</a></p>
+  - question: "¿Cómo solicito un resurtido?"
+    answer: |-
+      <p>Puede enviarnos una solicitud de resurtido de receta en línea, llamarnos al (864) 442-6192, o pedir medicamentos y dietas recetadas con entrega a domicilio a través de nuestra farmacia en línea, Vets First Choice.</p>
+---

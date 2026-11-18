@@ -1,0 +1,37 @@
+---
+name: "Limpieza Dental para Mascotas"
+enSlug: "dental"
+pageHeaderImage: "../../assets/services/dental-1.jpg"
+featuredText: "Limpiezas completas con raspado ultrasónico, pulido y radiografía digital, y extracciones cuando son necesarias."
+metaTitle: "Limpieza dental/ Extracciones dentales - Clearview Animal Hospital"
+metaDescription: "Nuestras limpiezas dentales son exhaustivas, incluyendo raspado ultrasónico, pulido y radiografía digital, e incluso extracciones dentales si es necesario."
+contentBlocks:
+  - image: "../../assets/services/dental-2.jpg"
+    body: |-
+      <h2>Cuidado dental para mascotas cerca de Easley, SC</h2><p>Como tutores responsables de mascotas, es fácil pasar por alto la importancia de la higiene dental de nuestros amigos peludos. Sin embargo, estudios recientes revelan que los problemas de salud oral afectan a una mayoría significativa de perros y gatos adultos Ignorar signos como el mal aliento puede acarrear graves problemas de salud a nuestras mascotas, al igual que a nosotros.</p><p>A veces, cambios sutiles en el comportamiento son las únicas pistas que nos dan nuestras mascotas sobre molestias dentales, como reducción del apetito o pocas ganas de jugar. Sin embargo, priorizar su salud oral puede mejorar enormemente su bienestar y su esperanza de vida.. Nuestras limpiezas dentales son exhaustivas e incluyen raspado ultrasónico, pulido y radiografía digital, e incluso extracciones dentales si es necesario. Además, ofrecemos consejos prácticos y herramientas para ayudarte a mantener la higiene oral de tu mascota en casa. Es un pequeño esfuerzo que puede marcar una gran diferencia en la felicidad y la salud de su mascota.</p>
+  - image: "../../assets/services/dental-3.jpg"
+    body: |-
+      <h2>Qué esperar durante la limpieza dental de su mascota</h2><p>Una limpieza dental profesional se realiza con anestesia general. Así su mascota se mantiene quieta, cómoda y segura, y podemos limpiar y examinar cada diente, incluso debajo de la línea de las encías, donde se esconde la mayor parte de la enfermedad dental.</p><p>La limpieza incluye raspado ultrasónico para quitar la placa y el sarro de la superficie de los dientes y debajo de las encías, seguido de un pulido que alisa el esmalte para que a la placa le cueste más adherirse. Las radiografías digitales (rayos X dentales) nos permiten ver las raíces y el hueso que no se ven a simple vista. Si encontramos un diente muy dañado o enfermo, podemos recomendar una extracción para aliviar el dolor y detener la infección.</p><p>Cuando su mascota regrese a casa, le explicaremos lo que encontramos y le daremos consejos prácticos y herramientas para mantener sus dientes limpios entre visitas. Una boca limpia y sana significa un aliento más fresco y una mascota más cómoda.</p>
+  - image: "../../assets/services/dental-4.jpg"
+    body: |-
+      <h2>Señales de que su mascota podría necesitar una limpieza dental</h2><p>Los problemas dentales son fáciles de pasar por alto porque las mascotas rara vez muestran dolor evidente. Esté atento al mal aliento, sarro amarillo o café en los dientes, encías rojas o que sangran, babeo, comida que se le cae de la boca, masticar de un solo lado, rascarse la boca con la pata, menos apetito o menos ganas de jugar. Cualquiera de estas señales es un buen motivo para agendar un examen dental.</p><h2>¿Con qué frecuencia debe recibir su mascota una limpieza dental?</h2><p>Cada mascota es diferente. Revisamos los dientes de su mascota en cada examen de bienestar y recomendamos una limpieza profesional según lo que vemos: algunas mascotas necesitan una cada año, mientras que otras pueden esperar más, sobre todo con un buen cuidado en casa. Las razas pequeñas y las mascotas propensas al sarro suelen necesitar limpiezas con más frecuencia.</p><h2>Lo que nos distingue</h2><p>Lo que puede esperar del cuidado dental en Clearview:</p><ul><li><strong>Limpiezas completas</strong> — Raspado ultrasónico y pulido en cada limpieza dental.</li><li><strong>Radiografía digital</strong> — Los rayos X dentales nos ayudan a encontrar problemas escondidos debajo de las encías.</li><li><strong>Extracciones cuando son necesarias</strong> — Los dientes dolorosos o enfermos se pueden retirar durante el mismo procedimiento.</li><li><strong>Opciones de pago</strong> — CareCredit y Cherry pueden ayudarle a planificar el cuidado dental de su mascota.</li></ul>
+  - style: "cta"
+    body: |-
+      <h2>Dele a su mascota una sonrisa más sana</h2><p>Agende un examen o una limpieza dental en Clearview Animal Hospital en Easley. Un aliento más fresco y una mascota más cómoda están a solo una visita de distancia.</p>
+faqs:
+  - question: "¿Por qué mi mascota necesita anestesia para una limpieza dental?"
+    answer: |-
+      <p>Un examen oral completo, los rayos X dentales y la limpieza debajo de las encías no son posibles en una mascota despierta. Raspar el sarro de los dientes de una mascota despierta es solo cosmético: no diagnostica ni trata la enfermedad debajo de las encías. La anestesia general permite al equipo veterinario hacer un trabajo completo, seguro y minucioso.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/dental-disease-in-cats">VCA Animal Hospitals, Dental Disease in Cats</a></p>
+  - question: "¿Qué tan común es la enfermedad dental en las mascotas?"
+    answer: |-
+      <p>Muy común. La enfermedad periodontal es el problema dental más frecuente en perros y gatos, y para cuando una mascota cumple 3 años, es muy probable que ya tenga algunas señales tempranas. Sin cuidado preventivo, empeora con la edad.</p><p class="faq-source">Fuente: <a href="https://www.avma.org/resources-tools/pet-owners/petcare/pet-dental-care">American Veterinary Medical Association, Pet dental care</a></p>
+  - question: "¿Por qué los rayos X dentales son parte de la limpieza?"
+    answer: |-
+      <p>Gran parte de cada diente está debajo de la línea de las encías, fuera de la vista. Los rayos X dentales permiten al equipo veterinario ver las raíces y el hueso que las rodea, y encontrar problemas, como infección, pérdida de hueso o raíces dañadas, que un examen visual no detectaría.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/dental-disease-in-cats">VCA Animal Hospitals, Dental Disease in Cats</a></p>
+  - question: "¿Cómo puedo cuidar los dientes de mi mascota en casa?"
+    answer: |-
+      <p>El cepillado diario es lo ideal. Use una pasta dental para mascotas, nunca pasta dental para personas, y vaya poco a poco para que su mascota aprenda a disfrutarlo. Los premios, masticables, dietas y aditivos para el agua con el sello del Veterinary Oral Health Council (VOHC) también pueden ayudar. Evite raspar el sarro en casa con herramientas de metal.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/dental-disease-in-cats">VCA Animal Hospitals, Dental Disease in Cats</a></p>
+  - question: "¿Revisan a mi mascota antes de la anestesia?"
+    answer: |-
+      <p>Por lo general se recomiendan análisis de sangre previos a la anestesia para revisar cómo funcionan los órganos de su mascota, como el hígado y los riñones, y si es buena candidata para la anestesia. Si algo sale anormal, el plan se puede ajustar para mantener segura a su mascota.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/bloodwork">VCA Animal Hospitals, Preanesthetic Bloodwork</a></p>
+---

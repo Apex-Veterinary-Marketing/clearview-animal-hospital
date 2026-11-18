@@ -1,18 +1,10 @@
 ---
+// Contact (old /contact/ → 301 here; old meta kept). Body shared with
+// /es/contacto/ — components/contact/ContactPage.astro.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHeaderBanner from "../components/PageHeaderBanner.astro";
-import GravityFormEmbed from "../components/GravityFormEmbed.astro";
-import LocationSection from "../components/LocationSection.astro";
+import ContactPage from "../components/contact/ContactPage.astro";
 ---
 
-<BaseLayout title="Contact - Clearview Animal Hospital - (864) 442-6192" titleTemplate="full" breadcrumb="Contact Us" description="Visit us as 6714 Calhoun Memorial Hwy, Easley, SC 29640 or give us a call at (864) 442-6192. We have same day appointments available.">
-  <PageHeaderBanner heading="Contact Us" />
-  <div class="page-section">
-    <GravityFormEmbed formId="contact" context="contact" heading="Send Us a Message" />
-  </div>
-  <LocationSection />
+<BaseLayout title="Contact - Clearview Animal Hospital - (864) 442-6192" titleTemplate="full" breadcrumb="Contact Us" description="Visit us as 6714 Calhoun Memorial Hwy, Easley, SC 29640 or give us a call at (864) 442-6192. We have same day appointments available." webPage={{ "@type": "ContactPage" }} altLangPath="/es/contacto/">
+  <ContactPage lang="en" />
 </BaseLayout>
-
-<style>
-  .page-section { max-width: 40rem; margin-inline: auto; padding: var(--space-xl) var(--space-md); }
-</style>

@@ -1,0 +1,108 @@
+---
+// All-services page body — Clearview V3b (2026-11-17), shared by /services
+// and /es/servicios-veterinarios/. Category pills jump to one section per
+// category; each service is a card (photo, name, the opening sentence of its
+// page — the same teaser the old site showed — and a "More Info" link).
+import { Image } from "astro:assets";
+import PageHeaderBanner from "../PageHeaderBanner.astro";
+import CtaBand from "../CtaBand.astro";
+import { getAllServiceCategories } from "../../lib/data/serviceCategories";
+import { getServicesByCategory } from "../../lib/data/services";
+import { getAllServicesEs, ES_SERVICES_BASE } from "../../lib/data/servicesEs";
+import { stripHtml } from "../../lib/utils/stripHtml";
+import { type Lang, serviceCategoryEs } from "../../data/i18n";
+import bannerImg from "../../assets/home/about-lab-and-cat.jpg";
+
+interface Props { lang: Lang; heading: string }
+const { lang, heading } = Astro.props;
+const es = lang === "es";
+const esByEn = es ? Object.fromEntries((await getAllServicesEs()).map((s) => [s.data.enSlug, s])) : {};
+
+// Teaser = first sentence of the page's first paragraph.
+const teaser = (html: string) => {
+  const firstP = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? html;
+  const text = stripHtml(firstP).trim();
+  return text.match(/^.+?[.!?](?=\s|$)/)?.[0] ?? text;
+};
+
+const categories = await getAllServiceCategories();
+const groups = (
+  await Promise.all(
+    categories.map(async (category) => {
+      const services = (await getServicesByCategory(category.id)).map((s) => {
+        const tr = esByEn[s.id];
+        const blocks = (tr ?? s).data.contentBlocks;
+        return {
+          id: s.id,
+          name: tr ? tr.data.name : s.data.customName || s.data.name,
+          href: tr ? `${ES_SERVICES_BASE}/${tr.id}/` : `/services/${s.id}`,
+          image: s.data.pageHeaderImage,
+          text: blocks[0] ? teaser(blocks[0].body) : (tr?.data.featuredText ?? s.data.featuredText ?? ""),
+        };
+      });
+      return { id: category.id, name: es ? serviceCategoryEs[category.id] ?? category.data.name : category.data.name, services };
+    })
+  )
+).filter((g) => g.services.length > 0);
+---
+
+<PageHeaderBanner
+  heading={heading}
+  eyebrow={es ? "Easley, Carolina del Sur" : "Easley, South Carolina"}
+  lede={es ? "Todo lo que su mascota necesita, en un solo lugar." : "Everything your pet needs, under one roof."}
+  image={bannerImg}
+  imageAlt=""
+  imagePosition="50% 35%"
+/>
+
+<section class="svc-index">
+  <div class="svc-index__inner">
+    <nav class="svc-index__pills" aria-label={es ? "Categorías de servicios" : "Service categories"}>
+      {groups.map((g) => <a href={`#${g.id}`}>{g.name}</a>)}
+    </nav>
+
+    {groups.map((g) => (
+      <section class="svc-index__group" id={g.id} data-reveal>
+        <h2 class="svc-index__title">{g.name}</h2>
+        <ul class="svc-index__grid">
+          {g.services.map((s) => (
+            <li>
+              <a class="svc-card" href={s.href}>
+                {s.image && <Image class="svc-card__img" src={s.image} alt="" widths={[400, 640, 800]} sizes="(max-width: 767px) 100vw, (max-width: 1100px) 50vw, 380px" />}
+                <span class="svc-card__body">
+                  <span class="svc-card__name">{s.name}</span>
+                  <span class="svc-card__text">{s.text}</span>
+                  <span class="svc-card__more">{es ? "Más Información" : "More Info"} →</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</section>
+
+<CtaBand lang={lang} heading={es ? "¿Listo para agendar" : "Ready to book"} accent={es ? "su visita?" : "your visit?"} text={es ? "Agende en línea en minutos o llámenos; con gusto le ayudamos." : "Book online in minutes or give us a call — we’re happy to help."} />
+
+<style>
+  .svc-index { padding-block: 4rem 5rem; overflow-x: clip; }
+  .svc-index__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; display: flex; flex-direction: column; gap: 4rem; }
+  .svc-index__pills { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .svc-index__pills a { border: 1px solid var(--light-grey); background: var(--white); border-radius: var(--radius-pill); padding: 0.5rem 1.1rem; font-size: 0.92rem; font-weight: 600; color: var(--main); transition: background-color var(--motion-duration-base) var(--motion-ease), color var(--motion-duration-base) var(--motion-ease); }
+  .svc-index__pills a:hover { background: var(--main); color: var(--on-main); }
+  .svc-index__group { scroll-margin-block-start: calc(var(--header-height) + var(--space-lg)); }
+  .svc-index__title { margin: 0 0 var(--space-lg); padding-block-start: var(--space-md); border-block-start: 1.5px solid var(--main); }
+  .svc-index__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-lg); }
+  .svc-card { display: flex; flex-direction: column; block-size: 100%; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); overflow: hidden; color: var(--text); transition: border-color var(--motion-duration-base) var(--motion-ease), box-shadow var(--motion-duration-base) var(--motion-ease); }
+  .svc-card:hover { color: var(--text); border-color: var(--main); box-shadow: var(--shadow-dropdown); }
+  .svc-card :global(.svc-card__img) { inline-size: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .svc-card__body { display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-lg); flex: 1; }
+  .svc-card__name { font-size: 1.3rem; font-weight: 700; color: var(--main); line-height: 1.2; transition: color var(--motion-duration-base) var(--motion-ease); }
+  .svc-card:hover .svc-card__name { color: var(--cta); }
+  .svc-card__text { font-size: 0.95rem; color: var(--text-muted); flex: 1; }
+  .svc-card__more { font-weight: 700; color: var(--cta); font-size: 0.95rem; margin-block-start: var(--space-xs); }
+
+  @media (max-width: 1100px) { .svc-index__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 767px) { .svc-index__grid { grid-template-columns: 1fr; } .svc-index__inner { gap: 3rem; } }
+</style>

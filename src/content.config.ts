@@ -84,6 +84,34 @@ const services = defineCollection({
     }),
 });
 
+// Spanish service pages (bilingual site, 2026-11-17). One entry per English
+// service, served at /es/servicios-veterinarios/<file name>/ — the file names
+// are the client's old Spanish URLs, so those keep working. `enSlug` = the
+// English service's id (src/content/services/<enSlug>.md); the page's EN/ES
+// switch and hreflang link the pair. Same content structure as `services`.
+const servicesEs = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/services-es" }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      enSlug: z.string(),
+      pageHeaderImage: image().optional(),
+      contentBlocks: z
+        .array(
+          z.object({
+            body: z.string(),
+            image: image().optional(),
+            style: z.enum(["default", "cta"]).default("default"),
+          })
+        )
+        .default([]),
+      featuredText: z.string().optional(),
+      metaTitle: z.string().optional(),
+      metaDescription: z.string().optional(),
+      faqs: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
+    }),
+});
+
 // BLOG POST CONTRACT — docs/BLOG-POST-CONTRACT.md. Posts are also published by
 // external automations (Zapier / Make / n8n → GitHub), so the storage is fixed
 // in every fork even when the public URL changes (/blog, /resources, …):
@@ -142,4 +170,4 @@ const socialLinks = defineCollection({
   }),
 });
 
-export const collections = { doctors, staff, serviceCategories, blogCategories, services, blog, socialLinks, testimonials };
+export const collections = { doctors, staff, serviceCategories, blogCategories, services, servicesEs, blog, socialLinks, testimonials };

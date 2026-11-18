@@ -1,34 +1,52 @@
 ---
-// Full-width call-to-action band. Generic/token-driven; not grounded in a
-// staged real-markup reference. See Skeleton-Build-Spec.md §6.
-// The button defaults to the site's booking action (site.bookingUrl /
-// bookingLabel) — pass ctaText/ctaHref only when a page needs another target.
+// Closing call-to-action band — Clearview V3b (2026-11-17): navy panel with
+// the light paw pattern, heading with an optional italic accent, the booking
+// button and the phone number. The button defaults to the site's booking
+// action (site.bookingUrl / bookingLabel) — pass ctaText/ctaHref only when a
+// page needs another target.
 import { getSiteInfo } from "../lib/data/site";
+import { phoneHref } from "../lib/utils/phone";
+import type { Lang } from "../data/i18n";
 
 export interface Props {
   heading: string;
+  accent?: string;
   text?: string;
   ctaText?: string;
   ctaHref?: string;
+  /** Show the phone button next to the booking button (default true). */
+  showPhone?: boolean;
+  lang?: Lang;
 }
 const site = await getSiteInfo();
-const { heading, text, ctaText = site.bookingLabel || "Book Now", ctaHref = site.bookingUrl || "/contact-us" } = Astro.props;
+const { heading, accent, text, lang = "en", showPhone = true } = Astro.props;
+const ctaText = Astro.props.ctaText ?? (lang === "es" ? "Agendar Cita" : site.bookingLabel || "Book Now");
+const ctaHref = Astro.props.ctaHref ?? (site.bookingUrl || "/contact-us");
+const external = /^https?:/.test(ctaHref);
 ---
 
-<section class="cta-band">
-  <div class="cta-band__inner">
+<section class="cta-band paws paws--light">
+  <div class="cta-band__inner" data-reveal>
     <div class="cta-band__copy">
-      <h2 class="cta-band__heading">{heading}</h2>
+      <h2 class="cta-band__heading">{heading}{accent && <> <span class="accent">{accent}</span></>}</h2>
       {text && <p class="cta-band__text">{text}</p>}
     </div>
-    <a class="cta-band__cta" href={ctaHref}>{ctaText}</a>
+    <div class="cta-band__actions">
+      <a class="btn btn--cta" href={ctaHref} {...(external ? { target: "_blank", rel: "noopener" } : {})}>{ctaText} <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      {showPhone && site.phoneNumber && <a class="btn btn--line-light" href={phoneHref(site)}>{lang === "es" ? "Llamar al" : "Call"} <span class="cta-band__nowrap">{site.phoneNumber}</span></a>}
+    </div>
   </div>
 </section>
 
 <style>
-  .cta-band { background: var(--main); color: var(--on-main); }
-  .cta-band__inner { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-lg); }
-  .cta-band__heading { margin: 0 0 var(--space-xs); color: inherit; }
-  .cta-band__text { margin: 0; opacity: 0.9; }
-  .cta-band__cta { display: inline-block; padding: var(--space-sm) var(--space-lg); border-radius: var(--radius-sm); background: var(--on-main); color: var(--main); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  .cta-band { background: var(--main); color: var(--white); }
+  .cta-band__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; padding-block: 4.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-xl); }
+  .cta-band__copy { max-inline-size: 40rem; }
+  .cta-band__heading { margin: 0; color: inherit; font-size: var(--font-size-section); }
+  .cta-band__heading .accent { color: var(--accent-soft); }
+  .cta-band__text { margin: var(--space-md) 0 0; color: var(--on-dark-muted); font-size: 1.08rem; }
+  .cta-band__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .cta-band__nowrap { white-space: nowrap; }
+  .cta-band :global(.btn--cta), .cta-band :global(.btn--cta:hover) { color: var(--on-cta); }
+  .cta-band :global(.btn--line-light:hover) { color: var(--main); }
 </style>

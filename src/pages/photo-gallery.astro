@@ -4,16 +4,18 @@
 // §13). Real client photos get added per-build.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeaderBanner from "../components/PageHeaderBanner.astro";
-import bannerGeneric from "../assets/banner-generic.png";
 ---
 
-<BaseLayout title="Photo Gallery | Clearview Animal Hospital in Easley, SC" titleTemplate="full" breadcrumb="Photo Gallery" description="Take a look inside Clearview Animal Hospital in Easley, SC: our hospital, our team and some of the dogs and cats we are lucky to care for across the Upstate.">
-  <PageHeaderBanner heading="Photo Gallery" image={bannerGeneric} />
+<BaseLayout title="Photo Gallery | Clearview Animal Hospital in Easley, SC" titleTemplate="full" breadcrumb="Photo Gallery" noindex description="Take a look inside Clearview Animal Hospital in Easley, SC: our hospital, our team and some of the dogs and cats we are lucky to care for across the Upstate.">
+  {/* Hidden (noindex, not in the menus) until the client sends hospital photos. */}
+  <PageHeaderBanner heading="Photo Gallery" eyebrow="Inside Clearview" />
   <div class="page-section">
-    <p>Gallery images go here — replace with real client photos per build.</p>
+    <p>Photos of our hospital and team are coming soon.</p>
   </div>
 </BaseLayout>
 
 <style>
-  .page-section { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); }
+  .page-section { inline-size: min(44rem, 100% - 2.5rem); margin-inline: auto; margin-block: 4.5rem 5rem; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2.5rem; }
+  @media (max-width: 767px) { .page-section { padding: 1.5rem; } }
+  .page-section p { margin: 0; text-align: center; }
 </style>

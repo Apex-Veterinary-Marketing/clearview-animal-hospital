@@ -14,6 +14,8 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeaderBanner from "../../components/PageHeaderBanner.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import avatarGeneric from "../../assets/avatar-generic.png";
 import { getAllDoctors, getDoctorBySlug } from "../../lib/data/doctors";
 import { stripHtml } from "../../lib/utils/stripHtml";
 
@@ -37,36 +39,43 @@ const graph = [
     description: plainBioShort,
   },
 ];
+const hasHeadshot = !!doctor.data.mainImage && doctor.data.mainImage.src !== avatarGeneric.src;
+const initials = doctor.data.name.replace(/^Dr\.?\s*/, "").split(/\s+/).map((w) => w[0]).join("").slice(0, 2);
 ---
 
 <BaseLayout title={heading} description={plainBioShort} schemaGraph={graph}>
-  <PageHeaderBanner heading={heading} />
+  <PageHeaderBanner heading={heading} eyebrow="Our Doctor" />
 
   <div class="general-section">
     <div class="doctors-flex">
-      <div class="doctors-flex__images">
-        {doctor.data.mainImage && (
-          <Image src={doctor.data.mainImage} alt={doctor.data.imageAltText || heading} class="doctors-flex__image" />
-        )}
-        {doctor.data.secondaryImage && (
-          <Image src={doctor.data.secondaryImage} alt="" class="doctors-flex__image" />
+      <div class="doctors-flex__arch">
+        {hasHeadshot && doctor.data.mainImage ? (
+          <Image src={doctor.data.mainImage} alt={doctor.data.imageAltText || heading} widths={[360, 540, 720]} sizes="(max-width: 900px) 320px, 380px" />
+        ) : (
+          <span class="doctors-flex__mono" aria-hidden="true">{initials}</span>
         )}
       </div>
       <div class="doctors-flex__content">
-        <p class="doctors-flex__eyebrow">Meet</p>
+        <p class="eyebrow">Meet</p>
         <h2 class="doctors-flex__heading">{heading}</h2>
-        {doctor.data.bio && <div class="content-rt" set:html={doctor.data.bio} />}
+        <p class="doctors-flex__role">Veterinarian</p>
+        {doctor.data.bio && <div class="doctors-flex__bio" set:html={doctor.data.bio} />}
+        <a class="btn btn--line" href="/meet-the-team">Meet the Team</a>
       </div>
     </div>
   </div>
+  <CtaBand heading="Ready to book" accent="your visit?" text="Book online in minutes or give us a call, we’re happy to help." />
 </BaseLayout>
 
 <style>
-  .general-section { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); }
-  .doctors-flex { display: flex; flex-wrap: wrap; gap: var(--space-xl); align-items: flex-start; }
-  .doctors-flex__images { flex: 1 1 20rem; display: flex; gap: var(--space-sm); }
-  .doctors-flex__image { flex: 1 1 0; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius-md); }
-  .doctors-flex__content { flex: 2 1 24rem; }
-  .doctors-flex__eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: var(--font-size-sm); color: var(--main); margin: 0 0 var(--space-2xs); }
-  .doctors-flex__heading { margin: 0 0 var(--space-md); }
+  .general-section { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; padding-block: 4.5rem 5rem; }
+  .doctors-flex { display: grid; grid-template-columns: 380px 1fr; gap: 4rem; align-items: center; }
+  .doctors-flex__arch { aspect-ratio: 4 / 5; border-radius: var(--radius-pill) var(--radius-pill) var(--radius-xl) var(--radius-xl); overflow: hidden; background: linear-gradient(160deg, var(--surface-sky) 0%, var(--surface-sky-edge) 100%); border: 10px solid var(--white); box-shadow: var(--shadow-dropdown); display: grid; place-items: center; }
+  .doctors-flex__arch :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .doctors-flex__mono { font-family: var(--font-accent); font-size: 6rem; color: var(--main); opacity: 0.35; line-height: 1; }
+  .doctors-flex__heading { margin: 0; font-size: var(--font-size-section); }
+  .doctors-flex__role { margin: var(--space-2xs) 0 var(--space-lg); font-family: var(--font-accent); font-style: italic; font-size: 1.6rem; color: var(--cta); }
+  .doctors-flex__bio { font-size: 1.08rem; margin-block-end: var(--space-lg); }
+  .doctors-flex__bio :global(p) { margin: 0 0 var(--space-md); }
+  @media (max-width: 900px) { .doctors-flex { grid-template-columns: 1fr; gap: 2.5rem; } .doctors-flex__arch { max-inline-size: 320px; } }
 </style>

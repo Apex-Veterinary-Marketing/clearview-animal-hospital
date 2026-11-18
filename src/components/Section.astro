@@ -19,19 +19,25 @@
 export interface Props {
   tone?: "default" | "soft" | "dark" | "alt";
   narrow?: boolean; // container-max-narrow instead of container-max
+  /** Clearview: the paw-print background pattern (V3b). */
+  paws?: boolean;
+  id?: string;
 }
-const { tone = "default", narrow = false } = Astro.props;
+const { tone = "default", narrow = false, paws = false, id } = Astro.props;
 ---
 
-<section class:list={["section", tone !== "default" && `section--${tone}`]}>
+<section id={id} class:list={["section", tone !== "default" && `section--${tone}`, paws && "paws", paws && (tone === "dark" || tone === "alt" ? "paws--light" : tone === "default" && "paws--warm")]}>
   <div class:list={["section__inner", narrow && "section__inner--narrow"]}>
     <slot />
   </div>
 </section>
 
 <style>
-  .section { padding-block: var(--space-xl); }
-  .section__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--space-md); }
+  /* Clearview V3b: warm cream is the default page tone, soft blue the
+     alternate, dark navy the deep one (same rhythm as the homepage). */
+  .section { padding-block: 5rem; background: var(--surface-warm); overflow-x: clip; }
+  .section__inner { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  @media (max-width: 900px) { .section { padding-block: 3.5rem; } }
   .section__inner--narrow { max-width: var(--container-max-narrow); }
 
   .section--soft { background: var(--solid-bg); }

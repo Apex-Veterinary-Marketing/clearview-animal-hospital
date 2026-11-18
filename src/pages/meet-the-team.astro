@@ -1,79 +1,10 @@
 ---
-// Meet the Team. Section order set 2026-09-08 by direct instruction:
-// header banner, doctors grid, about-the-clinic (mission/vision/approach-
-// shaped blurbs, deliberately not labeled with those words), about-the-
-// team paragraph, staff grid. The three-blurb grid is page-specific markup
-// (not promoted to a shared component) since it's the only page that needs
-// it right now — revisit if another page wants the same pattern.
+// Meet the Team (old site: /staff/ → 301 here; old meta kept). Body shared
+// with the Spanish page /es/staff/ — components/team/TeamPage.astro.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHeaderBanner from "../components/PageHeaderBanner.astro";
-import DoctorGrid from "../components/DoctorGrid.astro";
-import StaffGrid from "../components/StaffGrid.astro";
-import { getAllDoctors } from "../lib/data/doctors";
-import { getAllStaff } from "../lib/data/staff";
-import bannerGeneric from "../assets/banner-generic.png";
-
-const doctors = await getAllDoctors();
-const staff = await getAllStaff();
-
-const clinicBlurbs = [
-  {
-    heading: "What We Stand For",
-    body: "We are here to give Easley's pets compassionate, high-quality veterinary care with a personal touch, and to make every family feel welcome from the moment they walk in.",
-  },
-  {
-    heading: "Where We're Headed",
-    body: "We want to keep bringing more of the care pets need close to home, so Upstate families can count on one familiar team through every stage of their pet's life.",
-  },
-  {
-    heading: "How We Care For Your Pet",
-    body: "Every visit starts with listening. We take time to understand your pet and your concerns, explain what we find in plain terms, and work with you on a plan that fits your pet and your family.",
-  },
-];
+import TeamPage from "../components/team/TeamPage.astro";
 ---
 
-<BaseLayout title="Staff - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Meet the Team" description="Our staff is experienced with keeping your pets healthy and happy. We are a comprehensive small animal veterinary hospital in Easley, SC">
-  <PageHeaderBanner heading="Meet the Team" image={bannerGeneric} />
-
-  {doctors.length > 0 && (
-    <section class="page-section">
-      <h2>Our Doctors</h2>
-      <DoctorGrid doctors={doctors} />
-    </section>
-  )}
-
-  <section class="page-section about-clinic">
-    <h2>About Our Practice</h2>
-    <div class="about-clinic__grid">
-      {clinicBlurbs.map((blurb) => (
-        <div class="about-clinic__item">
-          <h3>{blurb.heading}</h3>
-          <p>{blurb.body}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="page-section about-staff">
-    <h2>About Our Team</h2>
-    <p class="about-staff__body">Led by Dr. Aimee Seguin, our team of veterinary assistants, a certified veterinary technician and a friendly front desk is here for you and your pet at every visit. Expect a warm welcome, gentle handling and people who are glad to answer your questions, because to us your pet is family too.</p>
-  </section>
-
-  {staff.length > 0 && (
-    <section class="page-section">
-      <h2>Our Staff</h2>
-      <StaffGrid staff={staff} />
-    </section>
-  )}
+<BaseLayout title="Staff - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Meet the Team" description="Our staff is experienced with keeping your pets healthy and happy. We are a comprehensive small animal veterinary hospital in Easley, SC" webPage={{ "@type": "AboutPage" }} altLangPath="/es/staff/">
+  <TeamPage lang="en" />
 </BaseLayout>
-
-<style>
-  .page-section { max-width: var(--container-max); margin-inline: auto; padding: var(--space-xl) var(--space-md); }
-  .page-section + .page-section { padding-block-start: 0; }
-
-  .about-clinic__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-lg); margin-block-start: var(--space-lg); }
-  .about-clinic__item h3 { margin: 0 0 var(--space-xs); font-size: var(--font-size-md); color: var(--main); }
-  .about-clinic__item p { margin: 0; color: var(--text-muted); }
-
-  .about-staff__body { max-width: 48rem; }
-</style>

@@ -1,0 +1,11 @@
+---
+// Staff en español (old URL /es/staff/ and old meta kept). The old Spanish
+// page listed a 2024 roster; this shows the current team, same as the
+// English page.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TeamPage from "../../components/team/TeamPage.astro";
+---
+
+<BaseLayout lang="es" title="Staff - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Staff" description="Nuestro personal tiene experiencia en mantener a sus mascotas saludables y felices. Somos un hospital veterinario integral para pequeñas especies en Easley, Carolina del Sur." webPage={{ "@type": "AboutPage" }} altLangPath="/meet-the-team">
+  <TeamPage lang="es" />
+</BaseLayout>

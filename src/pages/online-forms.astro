@@ -9,12 +9,13 @@ import GravityFormEmbed from "../components/GravityFormEmbed.astro";
 ---
 
 <BaseLayout title="Online Pet Forms | Clearview Animal Hospital, Easley SC" titleTemplate="full" breadcrumb="Online Forms" description="Fill out new patient and other forms for Clearview Animal Hospital online before your visit, so your appointment in Easley, SC can start right on time.">
-  <PageHeaderBanner heading="Online Forms" />
+  <PageHeaderBanner heading="Online Forms" eyebrow="Before your visit" lede="Fill out your forms ahead of time so your appointment can start right on time." />
   <div class="page-section">
     <GravityFormEmbed formId="new-patient" context="general-info" heading="New Patient Form" />
   </div>
 </BaseLayout>
 
 <style>
-  .page-section { max-width: 40rem; margin-inline: auto; padding: var(--space-xl) var(--space-md); }
+  .page-section { inline-size: min(44rem, 100% - 2.5rem); margin-inline: auto; margin-block: 4.5rem 5rem; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2.5rem; }
+  @media (max-width: 767px) { .page-section { padding: 1.5rem; } }
 </style>

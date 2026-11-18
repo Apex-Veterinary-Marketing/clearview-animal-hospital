@@ -1,20 +1,23 @@
 ---
 // Used by service-detail FAQs (services.faqs) and the site FAQ page.
 // Native <details>/<summary> — zero JS, same accessible pattern as Footer.
-// See Skeleton-Build-Spec.md §6 and §10 ("LLM data" — Q&A-shaped content).
+// Clearview V3b look (2026-11-17): white cards on cream, a round +/- toggle,
+// answer sources in small muted type (`<p class="faq-source">`).
 export interface Props {
   faqs: { question: string; answer: string }[];
   heading?: string;
+  eyebrow?: string;
 }
-const { faqs, heading } = Astro.props;
+const { faqs, heading, eyebrow } = Astro.props;
 ---
 
 {faqs.length > 0 && (
   <div class="faq-accordion">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     {heading && <h2 class="faq-accordion__heading">{heading}</h2>}
     {faqs.map((faq) => (
       <details class="faq-accordion__item">
-        <summary class="faq-accordion__question">{faq.question}</summary>
+        <summary class="faq-accordion__question"><span>{faq.question}</span><i class="faq-accordion__toggle" aria-hidden="true"></i></summary>
         <div class="faq-accordion__answer" set:html={faq.answer} />
       </details>
     ))}
@@ -23,8 +26,17 @@ const { faqs, heading } = Astro.props;
 
 <style>
   .faq-accordion { display: flex; flex-direction: column; gap: var(--space-sm); }
-  .faq-accordion__heading { margin: 0 0 var(--space-sm); }
-  .faq-accordion__item { border: 1px solid var(--light-grey); border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md); }
-  .faq-accordion__question { cursor: pointer; font-weight: 600; }
-  .faq-accordion__answer { margin-block-start: var(--space-sm); color: var(--text-muted); }
+  .faq-accordion__heading { margin: 0 0 var(--space-md); }
+  .faq-accordion__item { background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-lg); transition: border-color var(--motion-duration-base) var(--motion-ease); }
+  .faq-accordion__item[open], .faq-accordion__item:hover { border-color: var(--main); }
+  .faq-accordion__question { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding: var(--space-md) var(--space-lg); cursor: pointer; font-weight: 700; color: var(--main); list-style: none; }
+  .faq-accordion__question::-webkit-details-marker { display: none; }
+  .faq-accordion__toggle { position: relative; flex-shrink: 0; inline-size: 30px; block-size: 30px; border-radius: 50%; background: var(--solid-bg); }
+  .faq-accordion__toggle::before, .faq-accordion__toggle::after { content: ""; position: absolute; inset-inline-start: 50%; inset-block-start: 50%; inline-size: 12px; block-size: 2px; background: var(--cta); translate: -50% -50%; transition: transform var(--motion-duration-base) var(--motion-ease); }
+  .faq-accordion__toggle::after { transform: rotate(90deg); }
+  .faq-accordion__item[open] .faq-accordion__toggle::after { transform: rotate(0deg); }
+  .faq-accordion__answer { padding: 0 var(--space-lg) var(--space-md); color: var(--text); }
+  .faq-accordion__answer :global(p) { margin: 0 0 var(--space-sm); }
+  .faq-accordion__answer :global(.faq-source) { font-size: var(--font-size-sm); color: var(--text-muted); }
+  .faq-accordion__answer :global(.faq-source a) { color: var(--main); font-weight: 600; }
 </style>

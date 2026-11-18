@@ -1,66 +1,75 @@
 ---
-// Grounded in the real V2 export's .services-sidebar-2 (detail_services.html
-// / svc-long-version-template.html) — mounted on every services-related
-// page per direct instruction 2026-09-17 (the export's own sidebar only
-// appears on service detail pages; generalized here to all of them for a
-// consistent nav aid). Real export's sidebar is a flat list scoped to the
-// current service's own category; this instead groups every category into
-// its own collapsible <details> (native, zero JS — same pattern as
-// Footer's accordion columns and MobileMenu's dropdowns), matching the
-// "dropdowns by service category" instruction, heading "Other Services".
-// Respects the services schema's showOnSidebarMenu flag (defined since the
-// schema's creation, never actually consumed until this component).
+// "Other services" sidebar on every service page. One collapsible <details>
+// group per service category (native, zero JS); the current page's category
+// starts open and the current service is shown highlighted, not linked.
+// Respects services.showOnSidebarMenu. Clearview V3b look (2026-11-17): a
+// white card; on Spanish pages the names and links point to the /es/ pages.
 import { getAllServiceCategories } from "../lib/data/serviceCategories";
 import { getServicesByCategory } from "../lib/data/services";
+import { getAllServicesEs, getEsSlugMap, ES_SERVICES_BASE } from "../lib/data/servicesEs";
+import { type Lang, serviceCategoryEs } from "../data/i18n";
 
 export interface Props {
-  // Pre-opens this category's group and skips rendering that link (the
-  // current page's own category/service shouldn't link to itself).
   activeCategoryId?: string;
-  activeServiceId?: string;
+  activeServiceId?: string; // English service id
+  lang?: Lang;
 }
-const { activeCategoryId, activeServiceId } = Astro.props;
+const { activeCategoryId, activeServiceId, lang = "en" } = Astro.props;
+const es = lang === "es";
 
 const categories = await getAllServiceCategories();
+const esSlugs = es ? await getEsSlugMap() : {};
+const esNames = es ? Object.fromEntries((await getAllServicesEs()).map((s) => [s.data.enSlug, s.data.name])) : {};
 const groups = (
   await Promise.all(
     categories.map(async (category) => ({
       category,
-      services: (await getServicesByCategory(category.id)).filter(
-        (service) => service.data.showOnSidebarMenu && service.id !== activeServiceId
-      ),
+      name: es ? serviceCategoryEs[category.id] ?? category.data.name : category.data.name,
+      services: (await getServicesByCategory(category.id))
+        .filter((service) => service.data.showOnSidebarMenu)
+        .map((service) => ({
+          id: service.id,
+          name: es ? esNames[service.id] ?? service.data.customName ?? service.data.name : service.data.customName || service.data.name,
+          href: es && esSlugs[service.id] ? `${ES_SERVICES_BASE}/${esSlugs[service.id]}/` : `/services/${service.id}`,
+        })),
     }))
   )
 ).filter((group) => group.services.length > 0);
 ---
 
-<nav class="services-sidebar" aria-label="Other services">
-  <h2 class="services-sidebar__heading">Other Services</h2>
+<nav class="services-sidebar" aria-label={es ? "Otros servicios" : "Other services"}>
+  <p class="services-sidebar__heading">{es ? "Nuestros Servicios" : "Our Services"}</p>
   {groups.map((group) => (
     <details class="services-sidebar__group" open={group.category.id === activeCategoryId}>
-      <summary class="services-sidebar__group-title">{group.category.data.name}</summary>
+      <summary class="services-sidebar__group-title">{group.name}<i aria-hidden="true"></i></summary>
       <ul class="services-sidebar__list">
         {group.services.map((service) => (
-          <li><a href={`/services/${service.id}`}>{service.data.customName || service.data.name}</a></li>
+          <li>
+            {service.id === activeServiceId ? (
+              <span class="services-sidebar__current" aria-current="page">{service.name}</span>
+            ) : (
+              <a href={service.href}>{service.name}</a>
+            )}
+          </li>
         ))}
       </ul>
     </details>
   ))}
-  <a class="services-sidebar__all-link" href="/services">All Services</a>
+  <a class="services-sidebar__all-link" href={es ? `${ES_SERVICES_BASE}/` : "/services"}>{es ? "Todos los Servicios" : "All Services"} →</a>
 </nav>
 
 <style>
-  .services-sidebar { flex: 0 0 16rem; }
-  .services-sidebar__heading { margin: 0 0 var(--space-sm); font-size: var(--font-size-md); text-transform: uppercase; letter-spacing: 0.04em; }
-  .services-sidebar__group { border-block-start: 1px solid var(--light-grey); padding-block: var(--space-xs); }
-  .services-sidebar__group-title { cursor: pointer; font-weight: 600; padding-block: var(--space-xs); }
-  .services-sidebar__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-xs); margin-block-start: var(--space-xs); }
-  .services-sidebar__list a { color: inherit; text-decoration: none; }
-  .services-sidebar__list a:hover { text-decoration: underline; }
-  .services-sidebar__all-link { display: inline-block; margin-block-start: var(--space-sm); font-weight: 700; color: var(--main); text-decoration: none; }
-  .services-sidebar__all-link:hover { text-decoration: underline; }
-
-  @media (max-width: 767px) {
-    .services-sidebar { flex-basis: 100%; }
-  }
+  .services-sidebar { background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: var(--space-lg); }
+  .services-sidebar__heading { margin: 0 0 var(--space-sm); font-family: var(--font-accent); font-style: italic; font-size: 1.6rem; line-height: 1.1; color: var(--main); }
+  .services-sidebar__group { border-block-start: 1px solid var(--light-grey); }
+  .services-sidebar__group-title { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); padding-block: var(--space-sm); cursor: pointer; font-weight: 700; color: var(--main); list-style: none; }
+  .services-sidebar__group-title::-webkit-details-marker { display: none; }
+  .services-sidebar__group-title i { flex-shrink: 0; inline-size: 0.45em; block-size: 0.45em; border-inline-end: 2px solid var(--cta); border-block-end: 2px solid var(--cta); transform: rotate(45deg); margin-block-start: -0.2em; transition: transform var(--motion-duration-base) var(--motion-ease); }
+  .services-sidebar__group[open] .services-sidebar__group-title i { transform: rotate(225deg); margin-block-start: 0.2em; }
+  .services-sidebar__list { list-style: none; margin: 0 0 var(--space-sm); padding: 0; display: flex; flex-direction: column; gap: var(--space-xs); }
+  .services-sidebar__list a { color: var(--text); font-size: 0.95rem; }
+  .services-sidebar__list a:hover { color: var(--cta); }
+  .services-sidebar__current { font-size: 0.95rem; font-weight: 700; color: var(--cta); }
+  .services-sidebar__all-link { display: inline-block; margin-block-start: var(--space-sm); font-weight: 700; color: var(--cta); }
+  .services-sidebar__all-link:hover { color: var(--cta-hover); }
 </style>

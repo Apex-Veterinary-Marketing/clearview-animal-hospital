@@ -1,0 +1,77 @@
+---
+// Low Cost Spay & Neuter Clinic (old URL + meta title kept; the old page had
+// no meta description — this one is new). Not in the menu, same as the old
+// site. Copy and prices word for word from the old page.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeaderBanner from "../components/PageHeaderBanner.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { getSiteInfo } from "../lib/data/site";
+import { phoneHref } from "../lib/utils/phone";
+
+const site = await getSiteInfo();
+const prices = [
+  { title: "Male Dogs", rows: [["Small (up to 20 lbs)", "$250"], ["Medium (21-50 lbs)", "$275"], ["Large (51+ lbs)", "$295"]] },
+  { title: "Female Dogs", rows: [["Small (up to 20 lbs)", "$325"], ["Medium (21-50 lbs)", "$350"], ["Large (51+ lbs)", "$375"]] },
+];
+const requirements = ["For dogs 5 Years of age or Younger", "Required exam prior to scheduling", "$100 booking fee required", "Heartworm test required", "Rabies Vaccination Required"];
+---
+
+<BaseLayout title="Low Cost Spay & Neuter Clinic - Clearview Animal Hospital" titleTemplate="full" breadcrumb="Low Cost Spay & Neuter Clinic" description="Discounted dog spay and neuter surgery at Clearview Animal Hospital in Easley, SC. See prices by size, the requirements, and call to schedule your free exam.">
+  <PageHeaderBanner heading="Low Cost Spay & Neuter Clinic" eyebrow="For dogs" />
+
+  <section class="sn-sec">
+    <div class="sn-wrap">
+      <h2 class="sn-title" data-reveal>Come see us to get your Dog's Spay or Neuter at a Discount!</h2>
+      <div class="sn-prices" data-reveal-stagger>
+        {prices.map((p) => (
+          <div class="sn-card" data-reveal>
+            <h3>{p.title}</h3>
+            <ul>
+              {p.rows.map(([size, price]) => <li><span>{size}</span><b>{price}</b></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sn-sec sn-sec--soft">
+    <div class="sn-wrap sn-req" data-reveal>
+      <div>
+        <h2 class="sn-title">Requirements</h2>
+        <ul class="sn-list">
+          {requirements.map((r) => <li>{r}</li>)}
+        </ul>
+      </div>
+      <div class="sn-call paws paws--light">
+        <h3>Call today for more information or to schedule your FREE exam!</h3>
+        <a class="btn btn--cta" href={phoneHref(site)}>Call 864-442-6192</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Ready to book" accent="your visit?" text="Book online in minutes or give us a call — we’re happy to help." />
+</BaseLayout>
+
+<style>
+  .sn-sec { padding-block: 5rem; overflow-x: clip; }
+  .sn-sec--soft { background: var(--solid-bg); }
+  .sn-wrap { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .sn-title { margin: 0 0 2.5rem; font-size: var(--font-size-section); max-inline-size: 22ch; }
+  .sn-prices { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .sn-card { background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 2rem; }
+  .sn-card h3 { margin: 0 0 var(--space-md); font-family: var(--font-accent); font-style: italic; font-weight: 400; font-size: 1.8rem; color: var(--cta); }
+  .sn-card ul { list-style: none; margin: 0; padding: 0; }
+  .sn-card li { display: flex; justify-content: space-between; gap: var(--space-md); padding-block: 0.7rem; border-block-end: 1px solid var(--light-grey); }
+  .sn-card li:last-child { border-block-end: 0; }
+  .sn-card b { color: var(--main); font-size: 1.15rem; }
+  .sn-req { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .sn-req .sn-title { margin-block-end: var(--space-lg); }
+  .sn-list { margin: 0; padding-inline-start: 1.2rem; font-size: 1.1rem; }
+  .sn-list li { margin-block-end: var(--space-xs); }
+  .sn-list li::marker { color: var(--cta); }
+  .sn-call { background: var(--main); color: var(--white); border-radius: var(--radius-xl); padding: 2.5rem; }
+  .sn-call h3 { margin: 0 0 var(--space-lg); color: var(--white); font-size: 1.6rem; line-height: 1.2; }
+  .sn-call :global(.btn--cta), .sn-call :global(.btn--cta:hover) { color: var(--on-cta); }
+  @media (max-width: 900px) { .sn-sec { padding-block: 3.5rem; } .sn-prices, .sn-req { grid-template-columns: 1fr; gap: 2rem; } }
+</style>

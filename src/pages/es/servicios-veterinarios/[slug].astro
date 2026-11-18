@@ -1,0 +1,69 @@
+---
+// Spanish service page: /es/servicios-veterinarios/<slug>/ (the client's old
+// Spanish URLs). Content from src/content/services-es/<slug>.md; same body
+// component and schema as the English page, which it links to via enSlug.
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ServiceDetail from "../../../components/services/ServiceDetail.astro";
+import { getAllServicesEs } from "../../../lib/data/servicesEs";
+import { getServiceBySlug } from "../../../lib/data/services";
+import { getSiteInfo } from "../../../lib/data/site";
+import { stripHtml } from "../../../lib/utils/stripHtml";
+import { withTrackingPhone } from "../../../lib/utils/phone";
+import { serviceCategoryEs } from "../../../data/i18n";
+
+export async function getStaticPaths() {
+  const services = await getAllServicesEs();
+  return services.map((service) => ({ params: { slug: service.id }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const site = await getSiteInfo();
+const en = await getServiceBySlug(service.data.enSlug);
+const categoryId = en?.data.serviceCategory[0]?.id;
+const heading = service.data.name;
+const clean = (html: string) => withTrackingPhone(html, site);
+const blocks = service.data.contentBlocks.map((b) => ({ ...b, body: clean(b.body) }));
+const faqs = service.data.faqs.map((f) => ({ ...f, answer: clean(f.answer) }));
+
+const graph: Record<string, any>[] = [
+  {
+    "@type": "Service",
+    "@id": "#service",
+    name: heading,
+    description: service.data.metaDescription || service.data.featuredText || undefined,
+    url: new URL(Astro.url.pathname, Astro.site).href,
+    provider: { "@id": "#business" },
+  },
+];
+if (faqs.length > 0) {
+  graph.push({
+    "@type": "FAQPage",
+    "@id": "#faq",
+    mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: stripHtml(faq.answer) } })),
+  });
+}
+---
+
+<BaseLayout
+  lang="es"
+  title={service.data.metaTitle || heading}
+  titleTemplate={service.data.metaTitle ? "full" : "page"}
+  description={service.data.metaDescription}
+  ogImage={service.data.pageHeaderImage}
+  ogImageAlt={`${heading} en ${site.practiceName}`}
+  schemaGraph={graph}
+  webPage={{ mainEntity: { "@id": "#service" } }}
+  breadcrumb={heading}
+  altLangPath={en ? `/services/${en.id}` : undefined}
+>
+  <ServiceDetail
+    lang="es"
+    heading={heading}
+    categoryName={categoryId ? serviceCategoryEs[categoryId] : undefined}
+    categoryId={categoryId}
+    serviceId={service.data.enSlug}
+    headerImage={service.data.pageHeaderImage}
+    blocks={blocks}
+    faqs={faqs}
+  />
+</BaseLayout>

@@ -13,7 +13,7 @@ import { getHomeDoctors } from "../../lib/data/doctors";
 import { getAllTestimonials } from "../../lib/data/testimonials";
 import { phoneHref } from "../../lib/utils/phone";
 import { homeCopy } from "../../data/home-copy";
-import type { Lang } from "../../data/i18n";
+import { type Lang, routes } from "../../data/i18n";
 import avatarGeneric from "../../assets/avatar-generic.png";
 import heroImg from "../../assets/home/hero-german-shepherd.jpg";
 import aboutImg from "../../assets/home/about-lab-and-cat.jpg";
@@ -103,7 +103,7 @@ const bookHref = site.bookingUrl || "/contact-us";
       <p class="eyebrow">{c.aboutEyebrow}</p>
       <h2 class="sec__title">{c.aboutTitle} <span class="accent">{c.aboutAccent}</span></h2>
       <p class="about__text">{c.aboutText}</p>
-      <a class="btn btn--line" href="/meet-the-team">{c.meetTeam} <Fragment set:html={arrow} /></a>
+      <a class="btn btn--line" href={routes[lang].team}>{c.meetTeam} <Fragment set:html={arrow} /></a>
     </div>
   </div>
 </section>
@@ -115,7 +115,7 @@ const bookHref = site.bookingUrl || "/contact-us";
         <p class="eyebrow">{c.servicesEyebrow}</p>
         <h2 class="sec__title">{c.servicesTitle} <span class="accent">{c.servicesAccent}</span></h2>
       </div>
-      <a class="btn btn--cta" href="/services">{c.allServices} <Fragment set:html={arrow} /></a>
+      <a class="btn btn--cta" href={routes[lang].services}>{c.allServices} <Fragment set:html={arrow} /></a>
     </div>
     <ol class="svc-list" data-reveal-stagger>
       {c.services.map((s, i) => (
@@ -157,7 +157,7 @@ const bookHref = site.bookingUrl || "/contact-us";
           <a class="btn btn--cta" href={bookHref}>{c.bookAppointment} <Fragment set:html={arrow} /></a>
           <a class="btn btn--line" href={`/doctors/${doctor.id}`}>{c.readBio(doctor.data.shortName || doctor.data.name)}</a>
         </div>
-        <a class="team" href="/meet-the-team">
+        <a class="team" href={routes[lang].team}>
           <Image class="team__img" src={teamImg} alt={c.teamImageAlt} widths={[320, 480, 640]} sizes="(max-width: 560px) 90vw, 220px" />
           <span class="team__copy">
             <b>{c.teamTitle}</b>

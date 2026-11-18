@@ -1,0 +1,22 @@
+---
+// Legal text page (Clearview V3b look): banner, then the policy in a white
+// reading card. Used by the privacy policy in both languages.
+import PageHeaderBanner from "./PageHeaderBanner.astro";
+
+interface Props { heading: string; eyebrow?: string }
+const { heading, eyebrow } = Astro.props;
+---
+
+<PageHeaderBanner heading={heading} eyebrow={eyebrow} />
+<section class="legal">
+  <div class="legal__body"><slot /></div>
+</section>
+
+<style>
+  .legal { padding-block: 4.5rem 5rem; }
+  .legal__body { inline-size: min(var(--container-max-narrow), 100% - 2.5rem); margin-inline: auto; background: var(--white); border: 1px solid var(--light-grey); border-radius: var(--radius-xl); padding: 3rem; overflow-wrap: anywhere; }
+  .legal__body :global(h2) { margin: 2.25rem 0 var(--space-sm); font-size: 1.35rem; letter-spacing: 0.02em; }
+  .legal__body :global(h2:first-child) { margin-block-start: 0; }
+  .legal__body :global(p), .legal__body :global(li) { font-size: 1rem; }
+  @media (max-width: 767px) { .legal__body { padding: 1.5rem; } }
+</style>

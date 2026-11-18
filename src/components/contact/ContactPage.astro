@@ -1,0 +1,123 @@
+---
+// Contact — Clearview V3b (2026-11-17), shared by /contact-us (old /contact/
+// → 301) and /es/contacto/. The old page's headings, buttons and notice are
+// kept (EN and ES); the hours table is built from site.ts so it never drifts
+// from the homepage. The message form is the info-request Gravity Form
+// (formId "contact" — wired when the client's form is built).
+import PageHeaderBanner from "../PageHeaderBanner.astro";
+import GravityFormEmbed from "../GravityFormEmbed.astro";
+import { getSiteInfo } from "../../lib/data/site";
+import { phoneHref } from "../../lib/utils/phone";
+import type { Lang } from "../../data/i18n";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === "es";
+const site = await getSiteInfo();
+
+const GOOGLE = "https://www.google.com/search?q=Clearview+Animal+Hospital&stick=H4sIAAAAAAAA_-NgU1I1qLCwMLUwsUwxtDQ0tzBPSja2MqhINDBPMUxOMjQ0tkxMM0k0W8Qq6ZyTmlhUlplaruCYl5mbmKPgkV9ckFmSmAMA8kDpvkUAAAA&hl=en";
+
+type Range = { opens: string; closes: string };
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const dayLabels = es ? ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"] : dayNames;
+const week: Range[][] = dayNames.map((name) =>
+  (site.openingHoursSpecification ?? []).filter((s) => s.dayOfWeek.includes(name)).map(({ opens, closes }) => ({ opens, closes })).sort((a, b) => a.opens.localeCompare(b.opens))
+);
+const fmt = (hhmm: string) => {
+  const [h, m] = hhmm.split(":").map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`;
+};
+const rows = [1, 2, 3, 4, 5, 6, 0].map((d) => ({
+  day: dayLabels[d],
+  value: week[d].length ? `${fmt(week[d][0].opens)} – ${fmt(week[d][week[d].length - 1].closes)}` : es ? "Cerrado" : "Closed",
+}));
+
+const c = es
+  ? { heading: "Contacto", eyebrow: "Visítenos o llámenos", name: "Hospital Animal Clearview", directions: "Mapa y dirección", hoursTitle: "Horarios de oficina", lunch: "Cerrado todos los dias laborables por lunch 1:00-2:30pm", google: "Encuentranos en Google", message: "Mandanos un mensaje", emergency: "Si su mascota tiene una emergencia médica, no. tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.", afterTitle: "Fuera de horario", map: "Mapa al Hospital de Animales Clearview" }
+  : { heading: "Contact", eyebrow: "Visit or call us", name: "Clearview Animal Hospital", directions: "Map & Directions", hoursTitle: "Office Hours", lunch: "Closed 1:00-2:30pm for lunch everyday", google: "Find us on Google", message: "Send us a Message", emergency: "If your pet is experiencing a medical emergency, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.", afterTitle: "After hours", map: "Map to Clearview Animal Hospital" };
+const afterHours = es ? site.afterHoursEs ?? site.afterHours : site.afterHours;
+---
+
+<PageHeaderBanner heading={c.heading} eyebrow={c.eyebrow} />
+
+<section class="ct-sec">
+  <div class="ct-wrap ct-grid">
+    <div class="ct-info" data-reveal>
+      <h2 class="ct-title">{c.name}</h2>
+      <p class="ct-addr">{site.address}<br />{site.addressLine2}</p>
+      <div class="ct-actions">
+        {site.addressLink && <a class="btn btn--cta" href={site.addressLink} target="_blank" rel="noopener">{c.directions}</a>}
+        {site.phoneNumber && <a class="btn btn--line" href={phoneHref(site)}>{site.phoneNumber}</a>}
+        {site.email && <a class="btn btn--line" href={`mailto:${site.email}`}>{site.email}</a>}
+      </div>
+
+      <h2 class="ct-title ct-title--sm">{c.hoursTitle}</h2>
+      <table class="ct-hours">
+        <tbody>
+          {rows.map((r) => <tr><td>{r.day}</td><td>{r.value}</td></tr>)}
+        </tbody>
+      </table>
+      <p class="ct-note">{c.lunch}</p>
+      <a class="ct-google" href={GOOGLE} target="_blank" rel="noopener">{c.google} →</a>
+    </div>
+    {site.mapEmbedLink && (
+      <div class="ct-map" data-reveal="right">
+        <iframe title={c.map} src={site.mapEmbedLink.replace("hl=en", `hl=${lang}`)} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    )}
+  </div>
+</section>
+
+<section class="ct-sec ct-sec--soft paws">
+  <div class="ct-wrap ct-msg">
+    <div class="ct-form" data-reveal>
+      <GravityFormEmbed formId="contact" context="contact" heading={c.message} />
+    </div>
+    <aside class="ct-emergency" data-reveal>
+      <p class="ct-emergency__lead">{c.emergency}</p>
+      {afterHours && (
+        <>
+          <h3>{c.afterTitle}</h3>
+          <div class="ct-emergency__body" set:html={afterHours} />
+        </>
+      )}
+      {site.phoneNumber && <a class="btn btn--cta" href={phoneHref(site)}>{es ? "Llamar al" : "Call"} {site.phoneNumber}</a>}
+    </aside>
+  </div>
+</section>
+
+<style>
+  .ct-sec { padding-block: 5rem; background: var(--surface-warm); overflow-x: clip; }
+  .ct-sec--soft { background: var(--solid-bg); }
+  .ct-wrap { inline-size: min(var(--container-max), 100% - 2.5rem); margin-inline: auto; }
+  .ct-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; }
+  .ct-title { margin: 0 0 var(--space-md); font-size: var(--font-size-section); }
+  .ct-title--sm { margin-block-start: 2.5rem; font-size: var(--font-size-h2); }
+  .ct-addr { font-size: 1.2rem; margin: 0 0 var(--space-lg); }
+  .ct-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .ct-hours { inline-size: 100%; max-inline-size: 30rem; border-collapse: collapse; }
+  .ct-hours td { padding: 0.6rem 0; border-block-end: 1px solid var(--light-grey); }
+  .ct-hours td:last-child { text-align: end; font-weight: 600; color: var(--main); white-space: nowrap; }
+  .ct-note { margin: var(--space-sm) 0 var(--space-lg); color: var(--text-muted); font-size: 0.95rem; }
+  .ct-google { font-weight: 700; color: var(--cta); }
+  .ct-google:hover { color: var(--cta-hover); }
+  .ct-map { aspect-ratio: 4 / 5; border-radius: var(--radius-pill) var(--radius-pill) var(--radius-xl) var(--radius-xl); overflow: hidden; border: 10px solid var(--white); box-shadow: var(--shadow-dropdown); }
+  .ct-map iframe { inline-size: 100%; block-size: 100%; border: 0; }
+
+  .ct-msg { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: start; }
+  .ct-form { background: var(--white); border-radius: var(--radius-xl); padding: 2.5rem; border: 1px solid var(--light-grey); }
+  .ct-emergency { background: var(--main); color: var(--on-dark-muted); border-radius: var(--radius-xl); padding: 2.5rem; }
+  .ct-emergency__lead { margin: 0 0 var(--space-lg); color: var(--white); font-size: 1.15rem; font-weight: 600; }
+  .ct-emergency h3 { margin: 0 0 var(--space-xs); color: var(--accent-soft); }
+  .ct-emergency__body :global(p) { margin: 0 0 var(--space-lg); }
+  .ct-emergency__body :global(a) { color: var(--white); font-weight: 600; }
+  .ct-emergency__body :global(a:hover) { color: var(--accent-soft); }
+  .ct-emergency :global(.btn--cta), .ct-emergency :global(.btn--cta:hover) { color: var(--on-cta); }
+
+  @media (max-width: 900px) {
+    .ct-sec { padding-block: 3.5rem; }
+    .ct-grid, .ct-msg { grid-template-columns: 1fr; gap: 2.5rem; }
+    .ct-map { aspect-ratio: 1; }
+    .ct-form, .ct-emergency { padding: 1.75rem; }
+  }
+</style>

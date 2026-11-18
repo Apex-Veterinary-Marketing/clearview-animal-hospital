@@ -181,7 +181,7 @@ const graph = normalizeIds(
     <style is:global>
       :root { box-sizing: border-box; }
       *, *::before, *::after { box-sizing: inherit; }
-      body { margin: 0; font-family: var(--font-body); color: var(--text); line-height: 1.6; background: var(--white); }
+      body { margin: 0; font-family: var(--font-body); color: var(--text); line-height: 1.6; background: var(--surface-warm); }
       img { max-width: 100%; height: auto; display: block; }
       /* Base typography + focus — token-driven so re-skinning never touches components.
          :where() keeps specificity at zero so any component rule still wins. Sections on
@@ -192,6 +192,8 @@ const graph = normalizeIds(
       :where(a) { color: var(--main); text-decoration: none; }
       :where(a:hover) { color: var(--main-dark); }
       :where(h1, h2, h3) { letter-spacing: var(--letter-spacing-tight); line-height: 1.08; }
+      :where(h2) { font-size: var(--font-size-h2); }
+      :where(h3) { font-size: 1.35rem; letter-spacing: 0; line-height: 1.25; }
 
       /* Shared primitives (Clearview V3b). Pill buttons with an optional arrow
          icon that nudges right on hover; eyebrow label with a short rule;
@@ -214,6 +216,7 @@ const graph = normalizeIds(
       .paws { position: relative; isolation: isolate; }
       .paws::before { content: ""; position: absolute; inset: 0; z-index: -1; background-color: var(--pattern-ink); -webkit-mask: url("/images/paw-tile.svg") 0 0 / 420px 420px repeat; mask: url("/images/paw-tile.svg") 0 0 / 420px 420px repeat; pointer-events: none; }
       .paws--warm { background-color: var(--surface-warm); }
+      .paws--light::before { background-color: var(--pattern-ink-light); }
       .paws--warm::before { background-color: var(--pattern-ink-warm); -webkit-mask-position: 120px 60px; mask-position: 120px 60px; }
       :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
       /* No top padding here (2026-09-08) — the header is fixed+transparent

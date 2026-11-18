@@ -1,0 +1,31 @@
+# 301 redirects (Cloudflare Workers static assets read this file; it is copied
+# to dist/ at build). Old clearvieweasley.com URLs whose path changed, plus the
+# template pages this site retired. Paths that stay the same (services, /es/
+# pages, /blog/, /privacy-policy/ …) need no rule. Each old path is listed
+# with and without its trailing slash. 2026-11-17.
+
+# Old site pages
+/contact/ /contact-us/ 301
+/contact /contact-us/ 301
+/staff/ /meet-the-team/ 301
+/staff /meet-the-team/ 301
+/pay/ /payment-plans/ 301
+/pay /payment-plans/ 301
+
+# Old blog posts lived at the site root
+/fresh-breath-happy-pets-why-dental-care-matters-more-than-you-think/ /blog/fresh-breath-happy-pets-why-dental-care-matters-more-than-you-think/ 301
+/fresh-breath-happy-pets-why-dental-care-matters-more-than-you-think /blog/fresh-breath-happy-pets-why-dental-care-matters-more-than-you-think/ 301
+/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ /blog/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ 301
+/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection /blog/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ 301
+
+# Retired template pages: booking happens in AllyDVM; the info-request form
+# lives on the Contact page.
+/appointment-request/ https://practices.allydvm.com/online-booking?practice=clearviewanimal 301
+/appointment-request https://practices.allydvm.com/online-booking?practice=clearviewanimal 301
+/general-information-request/ /contact-us/ 301
+/general-information-request /contact-us/ 301
+
+# The client's privacy policy is also their terms of use (old page title:
+# "Privacy Policy and Terms of Use").
+/terms-of-use/ /privacy-policy/ 301
+/terms-of-use /privacy-policy/ 301
