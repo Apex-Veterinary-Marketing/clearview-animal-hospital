@@ -23,6 +23,9 @@ import svcWellness from "../../assets/home/svc-wellness.jpg";
 import svcDental from "../../assets/home/svc-dental.jpg";
 import svcSurgery from "../../assets/home/svc-surgery.jpg";
 import svcUrgent from "../../assets/home/svc-urgent.jpg";
+import erVeg from "../../assets/home/emergency/veg.png";
+import erFetch from "../../assets/home/emergency/fetch.png";
+import erUpstate from "../../assets/home/emergency/upstate-vet.png";
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -215,6 +218,23 @@ const bookHref = site.bookingUrl || "/contact-us";
     </div>
   </section>
 )}
+
+<section class="sec er paws paws--light" id="emergency" aria-labelledby="er-title">
+  <div class="wrap er__inner" data-reveal>
+    <p class="eyebrow er__eyebrow">{c.erEyebrow}</p>
+    <h2 class="sec__title er__title" id="er-title">{c.erTitle}</h2>
+    <p class="er__text">{c.erText}</p>
+    <ul class="er__logos" role="list">
+      {[
+        { href: "https://veterinaryemergencygroup.com/lp/greenville/", img: erVeg, name: "Veterinary Emergency Group (Greenville)" },
+        { href: "https://fetchvets.com/greenville-sc/", img: erFetch, name: "FETCH Greenville" },
+        { href: "https://upstatevet.com/", img: erUpstate, name: "Upstate Veterinary Specialists" },
+      ].map((er) => (
+        <li><a href={er.href} target="_blank" rel="noopener"><Image src={er.img} alt={er.name} widths={[260, 520]} sizes="15rem" /></a></li>
+      ))}
+    </ul>
+  </div>
+</section>
 
 <section class="sec visit" id="visit">
   <div class="wrap visit__grid">
@@ -439,6 +459,23 @@ const bookHref = site.bookingUrl || "/contact-us";
   .reviews .side-q { border-inline-start: 2px solid var(--cta); padding: 0.2rem 0 0.2rem 1.4rem; margin-block-end: 2.2rem; }
   .side-q blockquote { margin: 0.4rem 0 0.6rem; }
   .side-q blockquote p { margin: 0; }
+
+  /* --- After-hours emergencies: navy band with the 3 partner ER logos (white artwork) --- */
+  .er { background: var(--main); color: var(--on-dark-muted); padding-block: 4.5rem; }
+  .er__inner { text-align: center; }
+  .er__eyebrow { justify-content: center; color: var(--accent-soft); }
+  .er__title { color: var(--white); margin-block-end: var(--space-md); }
+  .er__text { max-inline-size: 46rem; margin: 0 auto var(--space-xl); font-size: 1.1rem; }
+  .er__logos { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-lg); list-style: none; margin: 0; padding: 0; }
+  .er__logos a { display: block; padding: var(--space-md) var(--space-lg); border: 1px solid var(--hairline-on-dark); border-radius: 18px; transition: background-color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease); }
+  .er__logos a:hover { background: var(--hairline-on-dark); transform: translateY(-2px); }
+  .er__logos :global(img) { display: block; inline-size: 13rem; block-size: auto; }
+  @media (max-width: 600px) {
+    .er { padding-block: 3.5rem; }
+    .er__logos { gap: var(--space-sm); }
+    .er__logos a { padding: var(--space-sm) var(--space-md); }
+    .er__logos :global(img) { inline-size: 8rem; }
+  }
 
   /* --- Visit: hours + map (softly rounded, not arched: the arch clipped the map's info card, 2026-11-18) on dark navy --- */
   .visit { background: var(--main-dark); color: var(--on-dark-muted); }
