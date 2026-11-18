@@ -1,0 +1,37 @@
+---
+name: "Radiografías"
+enSlug: "radiographs"
+pageHeaderImage: "../../assets/services/radiographs-1.jpg"
+featuredText: "Usamos rayos X digitales para ver huesos, pecho y abdomen y encontrar qué le pasa a su mascota."
+metaTitle: "Radiografías - Clearview Animal Hospital"
+metaDescription: "Rayos X digitales para mascotas en Easley, SC. Clearview Animal Hospital usa radiografías para ver huesos, pecho y abdomen y encontrar qué está mal."
+contentBlocks:
+  - image: "../../assets/services/radiographs-2.jpg"
+    body: |-
+      <h2>Radiografías digitales para mascotas cerca de Easley, SC</h2><p>Cuando su perro cojea, su gato tose o su mascota pudo haberse tragado algo que no debía, un examen solo nos dice una parte desde afuera. Las radiografías, más conocidas como rayos X, nos permiten ver el interior del cuerpo de su mascota y encontrar respuestas rápidamente.</p><p>En Clearview Animal Hospital, las radiografías son una de las pruebas que realizamos aquí mismo, con radiografía digital. Los rayos X muestran especialmente bien los huesos y las articulaciones, además del contorno del corazón, los pulmones y los órganos del abdomen. Nos ayudan a buscar fracturas, artritis y otros problemas de las articulaciones, objetos tragados, piedras en la vejiga, líquido en el pecho y cambios en el tamaño o la forma de los órganos. Como las imágenes son digitales, están listas para revisarse rápidamente, y le explicaremos lo que vemos.</p>
+  - image: "../../assets/services/radiographs-3.jpg"
+    body: |-
+      <h2>Qué esperar cuando su mascota tiene rayos X</h2><p>Todo comienza con un examen. Revisaremos a su mascota, le preguntaremos por sus síntomas y decidiremos qué zona del cuerpo conviene examinar. Casi siempre tomamos más de una vista (por ejemplo, de lado y desde arriba) para ver la zona desde distintos ángulos.</p><p>Tomar radiografías no duele. Su mascota solo necesita quedarse quieta en la posición correcta unos momentos mientras se toma cada imagen. Se le acomoda con cuidado para cada vista, y se usan cubiertas y protectores para limitar la exposición. Si su mascota tiene dolor, está ansiosa o no se queda quieta, se puede recomendar un sedante para mantenerla relajada y obtener imágenes claras. Por seguridad, normalmente los dueños no están en la sala mientras se toman los rayos X.</p><p>Después, revisaremos las imágenes con usted y le explicaremos lo que muestran. Las radiografías se usan con frecuencia junto con nuestro <a href="/es/servicios-veterinarios/laboratorio-en-casa/">laboratorio interno</a> y el ultrasonido para formar un panorama completo de la salud de su mascota y planear los siguientes pasos.</p>
+  - image: "../../assets/services/radiographs-4.jpg"
+    body: |-
+      <h2>¿Necesita su mascota radiografías?</h2><p>Podemos recomendar rayos X si su mascota cojea o está rígida, sufrió una lesión o una caída, tose o tiene dificultad para respirar, vomita o pudo haberse tragado un juguete u otro objeto, hace esfuerzo para orinar, tiene el abdomen hinchado, o tiene un bulto o un problema que necesitamos ver más de cerca. Las radiografías también ayudan a revisar problemas dentales debajo de la encía y a vigilar la recuperación después de una lesión o de una cirugía ortopédica.</p><h2>¿Con qué frecuencia debe tener rayos X su mascota?</h2><p>Las radiografías no son una prueba anual de rutina; se toman cuando hay una pregunta específica que responder. Algunas condiciones requieren imágenes de seguimiento, como revisar cómo sana una fractura o vigilar con el tiempo una condición del corazón, los pulmones o las articulaciones. Le diremos si conviene repetir los rayos X de su mascota y cuándo.</p><h2>Lo que nos distingue</h2><p>Por qué las familias eligen Clearview cuando su mascota necesita respuestas:</p><ul><li><strong>Radiografía digital</strong> — Los rayos X se toman aquí mismo en nuestro hospital, así que no tiene que ir a otro lugar para las imágenes.</li><li><strong>Ultrasonido y laboratorio interno</strong> — Las imágenes y los resultados de laboratorio trabajan juntos para encontrar la raíz del problema.</li><li><strong>Cuidando a Easley desde 1958</strong> — Un hospital de animales local de confianza para generaciones de mascotas del Upstate.</li><li><strong>Opciones de pago</strong> — CareCredit y Cherry pueden ayudarle a planear el costo de la atención.</li></ul>
+  - style: "cta"
+    body: |-
+      <h2>¿Su mascota cojea, tose o simplemente no está bien?</h2><p>Obtenga respuestas sin adivinar. Agende un examen en Clearview Animal Hospital y le ayudaremos a saber qué está pasando por dentro.</p>
+faqs:
+  - question: "¿Qué pueden mostrar los rayos X en mi mascota?"
+    answer: |-
+      <p>Las radiografías muestran bien los huesos y las articulaciones, incluidas muchas anomalías óseas. También muestran el contorno del corazón y los vasos sanguíneos grandes, líquido en los pulmones, objetos extraños o gas en los intestinos, el tamaño y la forma de órganos como el hígado, los riñones y el bazo, y problemas dentales debajo de las encías.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/radiographs-for-dogs">VCA Animal Hospitals, Radiographs (X-Rays) for Dogs</a></p>
+  - question: "¿Duelen los rayos X? ¿Habrá que sedar a mi mascota?"
+    answer: |-
+      <p>Tomar rayos X no duele. A algunas mascotas se les seda para reducir el estrés y ayudarlas a quedarse quietas, lo que ayuda a obtener imágenes claras. Su veterinario le dirá si la sedación es una buena idea para su mascota.</p><p class="faq-source">Fuente: <a href="https://www.merckvetmanual.com/special-pet-topics/diagnostic-tests-and-imaging/diagnostic-imaging">Merck Veterinary Manual, Diagnostic Imaging</a></p>
+  - question: "¿Son seguros los rayos X para mi mascota?"
+    answer: |-
+      <p>La exposición a los rayos X es muy breve y usa una dosis baja de radiación. Los protectores de plomo ayudan a proteger el resto del cuerpo y a las personas que toman las imágenes, y por eso normalmente los dueños esperan afuera mientras se toman.</p><p class="faq-source">Fuente: <a href="https://www.merckvetmanual.com/special-pet-topics/diagnostic-tests-and-imaging/diagnostic-imaging">Merck Veterinary Manual, Diagnostic Imaging</a></p>
+  - question: "¿Cuál es la diferencia entre los rayos X y el ultrasonido?"
+    answer: |-
+      <p>Los rayos X son buenos para los huesos y las cavidades grandes del cuerpo, y para detectar fracturas, tumores, lesiones y deformidades, pero los tejidos blandos no se ven tan bien. El ultrasonido es mejor para mostrar los tejidos blandos, pero no puede ver bien los pulmones, los intestinos ni los huesos. Por eso, con frecuencia se usan juntos.</p><p class="faq-source">Fuente: <a href="https://www.merckvetmanual.com/special-pet-topics/diagnostic-tests-and-imaging/diagnostic-imaging">Merck Veterinary Manual, Diagnostic Imaging</a></p>
+  - question: "¿Hay algo que los rayos X no puedan mostrar?"
+    answer: |-
+      <p>Sí. Las radiografías estándar no muestran bien el interior del cráneo, incluido el cerebro, ni estructuras internas finas como el interior del corazón y de la vejiga. Algunos órganos también pueden ser más difíciles de ver en mascotas muy delgadas o con mucho sobrepeso. En estos casos, se pueden recomendar otras imágenes, como ultrasonido, tomografía computarizada o resonancia magnética.</p><p class="faq-source">Fuente: <a href="https://vcahospitals.com/know-your-pet/radiographs-for-dogs">VCA Animal Hospitals, Radiographs (X-Rays) for Dogs</a></p>
+---
