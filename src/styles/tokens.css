@@ -78,6 +78,8 @@
    * ---------------------------------------------------------------------- */
   --heading: var(--main); /* h1-h6 color */
   --on-main: var(--white); /* text/icons on --main surfaces */
+  --on-main-muted: rgb(255 255 255 / 0.8); /* secondary text on --main (header top bar) */
+  --on-main-line: rgb(255 255 255 / 0.35); /* hairline borders on --main */
   --on-cta: var(--white); /* text/icons on --cta buttons. The generator sets this
                             to --main-dark instead when the brand accent is too
                             light for white text. */
@@ -149,7 +151,9 @@
    * (Breakpoints can't be variables inside @media; they are the literals
    * 900px (nav/callbar switch) and 767px (narrow) — see AGENTS.md.)
    */
-  --header-height: 5rem; /* fixed one-row header (Clearview V3b); heroes pad by this */
+  --topbar-height: 2.75rem; /* navy utility bar above the header row (phone, EN|ES, booking) */
+  --header-row-height: 5rem; /* logo + menu row */
+  --header-height: calc(var(--topbar-height) + var(--header-row-height)); /* whole fixed header; heroes pad by this */
   --callbar-height: 5.5rem; /* mobile call bar; BaseLayout pads <main> by this */
   --logo-height: 2.75rem;
   --page-header-height: 26rem; /* PageHeaderBanner min-height (incl. the header it sits under) */
