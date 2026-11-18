@@ -219,20 +219,32 @@ const bookHref = site.bookingUrl || "/contact-us";
   </section>
 )}
 
-<section class="sec er paws paws--light" id="emergency" aria-labelledby="er-title">
-  <div class="wrap er__inner" data-reveal>
-    <p class="eyebrow er__eyebrow">{c.erEyebrow}</p>
-    <h2 class="sec__title er__title" id="er-title">{c.erTitle}</h2>
-    <p class="er__text">{c.erText}</p>
-    <ul class="er__logos" role="list">
-      {[
-        { href: "https://veterinaryemergencygroup.com/lp/greenville/", img: erVeg, name: "Veterinary Emergency Group (Greenville)" },
-        { href: "https://fetchvets.com/greenville-sc/", img: erFetch, name: "FETCH Greenville" },
-        { href: "https://upstatevet.com/", img: erUpstate, name: "Upstate Veterinary Specialists" },
-      ].map((er) => (
-        <li><a href={er.href} target="_blank" rel="noopener"><Image src={er.img} alt={er.name} widths={[260, 520]} sizes="15rem" /></a></li>
-      ))}
-    </ul>
+<section class="er" id="emergency" aria-labelledby="er-title">
+  {/* Two bands, as on the current site (2026-11-18): red "Emergencies", then
+      navy "After Hours Emergencies" with the partner ER logos. Old copy word for word. */}
+  <div class="er__now">
+    <div class="wrap" data-reveal>
+      <h2 class="er__title" id="er-title">{c.erTitle}</h2>
+      <p>{c.erHoursBefore} <a href={phoneHref(site)}>{site.phoneNumber}</a>{lang === "es" ? "." : ""}</p>
+      <p>{c.erLine}</p>
+    </div>
+  </div>
+  <div class="er__after paws paws--light">
+    <div class="wrap er__after-grid" data-reveal>
+      <div>
+        <h2 class="er__title">{c.erAfterTitle}</h2>
+        <p>{c.erAfterText}</p>
+      </div>
+      <ul class="er__logos" role="list">
+        {[
+          { href: "https://upstatevet.com/", img: erUpstate, name: "Upstate Veterinary Specialists" },
+          { href: "https://fetchvets.com/greenville-sc/", img: erFetch, name: "FETCH Greenville" },
+          { href: "https://veterinaryemergencygroup.com/lp/greenville/", img: erVeg, name: "Veterinary Emergency Group (Greenville)" },
+        ].map((er) => (
+          <li><a href={er.href} target="_blank" rel="noopener"><Image src={er.img} alt={er.name} widths={[260, 520]} sizes="13rem" /></a></li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -460,20 +472,24 @@ const bookHref = site.bookingUrl || "/contact-us";
   .side-q blockquote { margin: 0.4rem 0 0.6rem; }
   .side-q blockquote p { margin: 0; }
 
-  /* --- After-hours emergencies: navy band with the 3 partner ER logos (white artwork) --- */
-  .er { background: var(--main); color: var(--on-dark-muted); padding-block: 4.5rem; }
-  .er__inner { text-align: center; }
-  .er__eyebrow { justify-content: center; color: var(--accent-soft); }
-  .er__title { color: var(--white); margin-block-end: var(--space-md); }
-  .er__text { max-inline-size: 46rem; margin: 0 auto var(--space-xl); font-size: 1.1rem; }
-  .er__logos { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-lg); list-style: none; margin: 0; padding: 0; }
-  .er__logos a { display: block; padding: var(--space-md) var(--space-lg); border: 1px solid var(--hairline-on-dark); border-radius: 18px; transition: background-color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease); }
-  .er__logos a:hover { background: var(--hairline-on-dark); transform: translateY(-2px); }
-  .er__logos :global(img) { display: block; inline-size: 13rem; block-size: auto; }
+  /* --- Emergencies: red band (business hours) + navy band (after-hours partner ERs), like the current site --- */
+  .er__title { margin: 0 0 var(--space-md); color: var(--white); font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+  .er p { margin: 0 0 var(--space-sm); font-size: 1.05rem; }
+  .er p:last-child { margin-block-end: 0; }
+  .er a { color: var(--white); font-weight: 700; }
+  .er__now { background: var(--cta); color: var(--white); padding-block: 3rem; }
+  .er__after { background: var(--main); color: var(--on-dark-muted); padding-block: 3rem; }
+  .er__after-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 3rem; align-items: center; }
+  .er__logos { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-md); list-style: none; margin: 0; padding: 0; }
+  .er__logos a { display: block; padding: var(--space-xs); border-radius: 12px; transition: transform var(--motion-duration-base) var(--motion-ease), opacity var(--motion-duration-base) var(--motion-ease); }
+  .er__logos a:hover { transform: translateY(-2px); opacity: 0.85; }
+  .er__logos :global(img) { display: block; inline-size: 11rem; block-size: auto; }
+  @media (max-width: 900px) {
+    .er__after-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .er__logos { justify-content: center; }
+  }
   @media (max-width: 600px) {
-    .er { padding-block: 3.5rem; }
-    .er__logos { gap: var(--space-sm); }
-    .er__logos a { padding: var(--space-sm) var(--space-md); }
+    .er__now, .er__after { padding-block: 2.5rem; }
     .er__logos :global(img) { inline-size: 8rem; }
   }
 

@@ -51,9 +51,13 @@ export interface HomeCopy {
   facts: { stat: string; title: string; text: string }[];
   reviewsEyebrow: string;
   reviewSource: string;
-  erEyebrow: string;
+  /** Part 1 (red band): "Emergencies" — business-hours line (phone gets linked) + emergency line. */
   erTitle: string;
-  erText: string;
+  erHoursBefore: string;
+  erLine: string;
+  /** Part 2 (navy band): after-hours partner ERs. */
+  erAfterTitle: string;
+  erAfterText: string;
   visitEyebrow: string;
   visitTitle: string;
   visitAccent: string;
@@ -136,9 +140,11 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     reviewSource: "Google review",
     // After-hours emergencies: the current site's homepage section (#emergency),
     // its text word for word (2026-11-18).
-    erEyebrow: "Emergencies",
-    erTitle: "After Hours Emergencies",
-    erText: "If you’re having an emergency after hours, we recommend these emergency centers.",
+    erTitle: "Emergencies",
+    erHoursBefore: "During regular business hours we are happy to see your pet for an emergency or urgent care need call us at",
+    erLine: "If your pet is experiencing a medical emergency, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.",
+    erAfterTitle: "After Hours Emergencies",
+    erAfterText: "If you’re having an emergency after hours, we recommend these emergency centers.",
     visitEyebrow: "Visit",
     visitTitle: "Come see us",
     visitAccent: "in Easley",
@@ -214,9 +220,11 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     ],
     reviewsEyebrow: "Reseñas",
     reviewSource: "Reseña de Google",
-    erEyebrow: "Emergencias",
-    erTitle: "Emergencias fuera de horario",
-    erText: "Si tiene una emergencia fuera del horario de atención, le recomendamos estos centros de emergencia. Durante el horario comercial habitual, estaremos encantados de ver a su mascota por una emergencia o necesidad de atención urgente, llámenos al (864) 442-6192.",
+    erTitle: "Emergencias",
+    erHoursBefore: "Durante el horario comercial habitual, estaremos encantados de ver a su mascota por una emergencia o necesidad de atención urgente, llámenos al",
+    erLine: "Si su mascota tiene una emergencia médica, no tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.",
+    erAfterTitle: "Emergencias fuera de horario",
+    erAfterText: "Si tiene una emergencia fuera del horario de atención, le recomendamos estos centros de emergencia.",
     visitEyebrow: "Visítenos",
     visitTitle: "Venga a vernos",
     visitAccent: "en Easley",
