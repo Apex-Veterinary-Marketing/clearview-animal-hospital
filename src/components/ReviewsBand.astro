@@ -1,59 +1,83 @@
 ---
-// Floating Google-reviews pill. Grounded in the real V2 export's
+// Floating Google-reviews card. Grounded in the real V2 export's
 // .google-reviews-widget-wrapper-2 (found in services.html): the source
 // CSS confirms it's actually `position: fixed` (bottom-left, floating over
 // content), not in-flow footer content — the export's markup just happens
-// to sit inside footer.html; its own CSS pulls it out visually. Backed by
-// the agency's own third-party widget script (fetches from
-// vetmarketing.googlewidget.com keyed by a Google Business Profile id) —
-// that live widget renders its own already-styled pill, so the hand-built
-// pill markup below is only the static fallback shown before a
-// googleWidgetId is configured.
+// to sit inside footer.html; its own CSS pulls it out visually.
 //
-// Mounted from Footer.astro (2026-09-08 decision) so it's active on every
-// page — component-tree home only; CSS position:fixed is what actually
-// places it, coordinated with AccessibilityWidget.astro which sits
-// immediately to its left at the same bottom offset (real visual ref:
-// ref1.jpg). Hidden below MobileCallbar's breakpoint — ref2.jpg's callbar
-// closeup has no reviews pill; that screen real-estate goes to the
-// callbar's own reserved a11y-widget column instead.
+// Data: with site.googleWidgetId set, the agency's widget service
+// (vetmarketing.googlewidget.com, keyed by a Google Business Profile / Place
+// id) is fetched client-side and only its rating + review count are read
+// out of the returned snippet. Without it, site.googleRating /
+// googleReviewCount render statically. Either way the markup is ours.
+//
+// Ported from Acton (Wild Magnolia → Manistee → Arbor Hills lineage) to
+// Clearview 2026-11-18, with EN/ES strings: small surface card — Google "G", a hairline
+// divider, then the rating and stars stacked vertically (review count beside
+// the number). Stars fill partially to the exact rating. In widget mode the
+// card stays hidden until real numbers arrive, and stays hidden if the
+// fetch fails.
+//
+// Mounted from Footer.astro so it's on every page; CSS position:fixed places
+// it, coordinated with AccessibilityWidget.astro (immediately to its left,
+// same bottom offset). Hidden below MobileCallbar's breakpoint.
 // See Skeleton-Build-Spec.md §6.
 import { getSiteInfo } from "../lib/data/site";
+import type { Lang } from "../data/i18n";
 
-// rating/reviewCount props are an override; default source is site.ts so any
-// caller (e.g. Footer, mounted site-wide) gets real per-client values with no
-// per-page wiring needed.
+// rating/reviewCount props are an override; default source is site.ts.
 export interface Props {
   rating?: number;
   reviewCount?: number;
+  lang?: Lang;
 }
+const { lang = "en" } = Astro.props;
+const es = lang === "es";
+const words = es ? "reseñas" : "reviews";
 const site = await getSiteInfo();
+const widgetId = site.googleWidgetId;
 const rating = Astro.props.rating ?? site.googleRating;
 const reviewCount = Astro.props.reviewCount ?? site.googleReviewCount;
-const stars = "★★★★★";
+const show = Boolean(widgetId || rating);
+const fill = rating ? `${Math.min(100, (rating / 5) * 100)}%` : "0%";
+const label = rating
+  ? es
+    ? `Calificación de ${rating.toFixed(1)} de 5${reviewCount ? ` en ${reviewCount} reseñas de Google` : " en Google"}`
+    : `Rated ${rating.toFixed(1)} out of 5${reviewCount ? ` from ${reviewCount} Google reviews` : " on Google"}`
+  : es ? "Reseñas de Google" : "Google reviews";
 ---
 
-<div class="reviews-band">
-  {site.googleWidgetId ? (
-    <div class="reviews-band__widget" data-google-widget-id={site.googleWidgetId}>
-      <div id="reviews-container"></div>
-    </div>
-  ) : (
-    rating && (
-      <a class="reviews-band__pill" href={site.googleReviewsLink || "#"} target="_blank" rel="noopener noreferrer">
-        <svg class="reviews-band__g-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-          <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-          <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-          <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-        </svg>
-        <span class="reviews-band__rating">{rating.toFixed(1)}</span>
-        <span class="reviews-band__stars">{stars}</span>
-        {reviewCount && <span class="reviews-band__count">{reviewCount} reviews</span>}
-      </a>
-    )
-  )}
-</div>
+{show && (
+  <div class="reviews-band">
+    <a
+      class:list={["reviews-card", widgetId && "is-pending"]}
+      href={site.googleReviewsLink || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      data-google-widget-id={widgetId}
+      data-lang={lang}
+    >
+      <svg class="reviews-card__g" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+        <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+      </svg>
+      <span class="reviews-card__divider" aria-hidden="true"></span>
+      <span class="reviews-card__score" aria-hidden="true">
+        <span class="reviews-card__top">
+          <span class="reviews-card__rating" data-rating>{rating ? rating.toFixed(1) : ""}</span>
+          <span class="reviews-card__count" data-count>{reviewCount ? `${reviewCount} ${words}` : ""}</span>
+        </span>
+        <span class="reviews-card__stars" data-stars style={`--fill: ${fill}`}>
+          ★★★★★
+          <span class="reviews-card__stars-on">★★★★★</span>
+        </span>
+      </span>
+    </a>
+  </div>
+)}
 
 <style>
   .reviews-band { display: none; }
@@ -68,36 +92,57 @@ const stars = "★★★★★";
     }
   }
 
-  .reviews-band__pill {
+  .reviews-card {
     display: flex;
     align-items: center;
-    gap: 0.4em;
+    gap: var(--space-sm);
     box-sizing: border-box;
-    height: 50px; /* matches AccessibilityWidget's 50x50 override — see that component */
+    min-height: 50px; /* matches AccessibilityWidget's 50x50 button beside it */
+    padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
     background: var(--white);
-    color: var(--heading);
-    border-radius: 999px;
-    padding-inline: 0.9em;
+    border: 1px solid var(--light-grey);
+    border-radius: var(--radius-sm);
     box-shadow: var(--shadow-float);
+    color: var(--text);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    white-space: nowrap;
+    transition: box-shadow var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease);
   }
-  .reviews-band__g-icon { inline-size: 28px; block-size: 28px; flex-shrink: 0; }
-  .reviews-band__stars { color: var(--star); letter-spacing: -1px; }
-  .reviews-band__count { color: var(--main-light); font-weight: 500; text-decoration: underline; }
+  .reviews-card:hover { box-shadow: var(--shadow-dropdown); transform: translateY(-1px); }
+  .reviews-card.is-pending { display: none; }
+
+  .reviews-card__g { inline-size: 26px; block-size: 26px; flex-shrink: 0; }
+  .reviews-card__divider { align-self: stretch; inline-size: 1px; margin-block: var(--space-2xs); background: var(--light-grey); }
+
+  .reviews-card__score { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
+  .reviews-card__top { display: flex; align-items: baseline; gap: var(--space-xs); white-space: nowrap; }
+  .reviews-card__rating { font-size: 1.05rem; font-weight: 600; color: var(--main-dark); }
+  .reviews-card__count { font-size: var(--font-size-xs); color: var(--text-muted); }
+
+  /* Partial fill: grey base row, gold row clipped to --fill (rating / 5). */
+  /* Grey base row is text in the markup (not CSS content): the CSS file is served
+     without a charset, so a star in CSS content rendered as mojibake (2026-10-16). */
+  .reviews-card__stars { --fill: 0%; position: relative; display: inline-block; white-space: nowrap; font-size: 0.85rem; letter-spacing: 1px; color: var(--light-grey); }
+  .reviews-card__stars-on { position: absolute; inset-block-start: 0; inset-inline-start: 0; inline-size: var(--fill); overflow: hidden; white-space: nowrap; color: var(--star); }
 </style>
 
 <script>
-  document.querySelectorAll("[data-google-widget-id]").forEach((widget) => {
-    const gmbId = widget.getAttribute("data-google-widget-id");
-    const container = widget.querySelector("#reviews-container");
-    if (!gmbId || !container) return;
-    fetch(`https://vetmarketing.googlewidget.com/api/reviews/${gmbId}`)
-      .then((res) => res.text())
-      .then((html) => {
-        container.innerHTML = html;
+  // Widget mode: fill our own card with the live rating + count
+  // (src/lib/utils/googleRating.ts). Stays hidden if the fetch fails.
+  import { fetchGoogleRating } from "../lib/utils/googleRating";
+
+  document.querySelectorAll<HTMLElement>(".reviews-card[data-google-widget-id]").forEach((card) => {
+    const id = card.dataset.googleWidgetId;
+    if (!id) return;
+    fetchGoogleRating(id)
+      .then(({ rating, count }) => {
+        card.querySelector("[data-rating]")!.textContent = rating.toFixed(1);
+        const es = card.dataset.lang === "es";
+        card.querySelector("[data-count]")!.textContent = count ? `${count} ${es ? "reseñas" : "reviews"}` : "";
+        card.querySelector<HTMLElement>("[data-stars]")!.style.setProperty("--fill", `${(rating / 5) * 100}%`);
+        card.setAttribute("aria-label", es
+          ? `Calificación de ${rating.toFixed(1)} de 5${count ? ` en ${count} reseñas de Google` : " en Google"}`
+          : `Rated ${rating.toFixed(1)} out of 5${count ? ` from ${count} Google reviews` : " on Google"}`);
+        card.classList.remove("is-pending");
       })
       .catch((err) => console.error("Error fetching reviews:", err));
   });

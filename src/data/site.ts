@@ -116,10 +116,13 @@ export const siteInfo: SiteInfo = {
   // 156 characters.
   footerAbout:
     "Clearview Animal Hospital offers compassionate, personal veterinary care for dogs, cats and other furry family members in Easley, SC and across the Upstate.",
+  // Google Place ID (from the Maps listing's feature id, 2026-11-18): drives
+  // the agency review widget — live rating + count in ReviewsBand.
+  googleWidgetId: "ChIJw3t4kdFJWIgRpvSaE7EcfaA",
   googleReviewsLink: "https://g.page/r/Cab0mhOxHH2gEBM/review",
   facebookReviewsLink: "https://www.facebook.com/clearviewanimalhospitalSC/reviews",
-  // No Yelp profile; googleRating/googleReviewCount left unset until the real
-  // numbers are confirmed (the reviews pill hides without a rating).
+  // No Yelp profile; no static googleRating/googleReviewCount — the widget
+  // loads the live numbers.
   url: "https://example.com", // REPLACE with the real domain before launch — see the field comment above
   // Logo from the current site (PNG, 1200x304). logo-white.png = the same file
   // with the grey artwork turned white for dark backgrounds (footer). Swap in
