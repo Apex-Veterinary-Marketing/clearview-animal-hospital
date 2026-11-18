@@ -63,6 +63,9 @@ const bookHref = site.bookingUrl || "/contact-us";
 
 <section class="hero">
   <Image class="hero__bg" src={heroImg} alt={c.heroImageAlt} widths={[640, 960, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+  {/* Hero video (client, 2026-11-18) plays over the photo; the photo stays as
+      the still for loading and for reduced-motion visitors (video removed). */}
+  <video class="hero__bg hero__video" src="/video/hero.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true" data-hero-video></video>
   <div class="hero__inner">
     <div class="hero__copy">
       <p class="eyebrow hero__eyebrow">{c.heroEyebrow}</p>
@@ -279,6 +282,19 @@ const bookHref = site.bookingUrl || "/contact-us";
     });
   }
 
+  // Hero video fades in once it's actually playing; reduced motion keeps the photo.
+  const heroVideo = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+  if (heroVideo) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) heroVideo.remove();
+    else {
+      const show = () => heroVideo.classList.add("is-playing");
+      // The first frame advancing is the reliable "it's really playing" signal
+      // (autoplay can start before this script runs, so "playing" may be missed).
+      if (!heroVideo.paused && heroVideo.currentTime > 0) show();
+      else heroVideo.addEventListener("timeupdate", show, { once: true });
+    }
+  }
+
   // Paw trail on the navy bar: prints step in one by one (left → right,
   // alternating left/right paws), the trail holds, then they step out one by
   // one in the same order and at the same pace, and the walk repeats.
@@ -322,6 +338,8 @@ const bookHref = site.bookingUrl || "/contact-us";
   /* --- Hero: full-bleed photo, navy scrim on the text side, bottom fades into the bar --- */
   .hero { position: relative; overflow: hidden; display: flex; align-items: center; min-block-size: min(84vh, 46rem); padding-block: calc(var(--header-height) + 4rem) 5rem; margin-block-end: -1px; color: var(--white); }
   .hero :global(.hero__bg) { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 70% 30%; }
+  .hero .hero__video.hero__bg { object-position: 50% 50%; opacity: 0; transition: opacity var(--motion-duration-slow) var(--motion-ease); }
+  .hero .hero__video.is-playing { opacity: 1; }
   .hero::after { content: ""; position: absolute; inset: 0; background:
       linear-gradient(180deg, var(--main-transparent) 55%, var(--hero-fade-mid) 78%, var(--main) 96%, var(--main) 100%),
       linear-gradient(90deg, var(--hero-scrim) 0%, var(--hero-scrim-mid) 38%, var(--hero-scrim-light) 70%, var(--dark-transparent) 100%); }
