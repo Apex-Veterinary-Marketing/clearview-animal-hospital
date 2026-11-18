@@ -422,7 +422,7 @@ const bookHref = site.bookingUrl || "/contact-us";
   .side-q blockquote { margin: 0.4rem 0 0.6rem; }
   .side-q blockquote p { margin: 0; }
 
-  /* --- Visit: hours + arched map on dark navy --- */
+  /* --- Visit: hours + map (softly rounded, not arched: the arch clipped the map's info card, 2026-11-18) on dark navy --- */
   .visit { background: var(--main-dark); color: var(--on-dark-muted); }
   .visit .sec__title { color: var(--white); margin-block-end: var(--space-lg); }
   .visit .accent, .visit__eyebrow { color: var(--accent-soft); }
@@ -441,7 +441,7 @@ const bookHref = site.bookingUrl || "/contact-us";
   .hours tr.is-today .hours__today { display: inline; }
   .visit__small { font-size: 0.86rem; max-inline-size: 440px; margin: 0 0 var(--space-xl); }
   .visit__actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
-  .visit__map { border-radius: var(--radius-pill) var(--radius-pill) 24px 24px; overflow: hidden; aspect-ratio: 4 / 5; border: 8px solid var(--hairline-on-dark); }
+  .visit__map { border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 5; border: 8px solid var(--hairline-on-dark); }
   .visit__map iframe { inline-size: 100%; block-size: 100%; border: 0; }
 
   @media (max-width: 900px) {
