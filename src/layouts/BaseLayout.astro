@@ -228,7 +228,9 @@ const graph = normalizeIds(
          two (404 included) — a page that didn't would render its content
          under the fixed header. */
       main { padding-block-start: 0; padding-block-end: 0; }
-      @media (max-width: 900px) { main { padding-block-end: var(--callbar-height); } }
+      /* No callbar padding on <main>: the footer bottom already clears the
+         mobile callbar (Footer.astro .footer__bottom), and padding here left an
+         empty cream strip between the last section and the footer on phones. */
       body.has-open-modal { overflow: hidden; }
 
       .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
