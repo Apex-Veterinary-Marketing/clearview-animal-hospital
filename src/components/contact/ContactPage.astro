@@ -101,7 +101,8 @@ const afterHours = es ? site.afterHoursEs ?? site.afterHours : site.afterHours;
   .ct-note { margin: var(--space-sm) 0 var(--space-lg); color: var(--text-muted); font-size: 0.95rem; }
   .ct-google { font-weight: 700; color: var(--cta); }
   .ct-google:hover { color: var(--cta-hover); }
-  .ct-map { aspect-ratio: 4 / 5; border-radius: var(--radius-pill) var(--radius-pill) var(--radius-xl) var(--radius-xl); overflow: hidden; border: 10px solid var(--white); box-shadow: var(--shadow-dropdown); }
+  /* Map: softly rounded, not arched (the arch clipped the map's info card), same as the homepage map (2026-11-19). */
+  .ct-map { aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; border: 10px solid var(--white); box-shadow: var(--shadow-dropdown); }
   .ct-map iframe { inline-size: 100%; block-size: 100%; border: 0; }
 
   .ct-msg { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: start; }
