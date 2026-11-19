@@ -6,6 +6,9 @@
 // that isn't part of this site — add `oneTimePaymentUrl` below once the
 // client gives the payment link. The CareCredit banner (an external GIF on
 // the old site) is a styled card linking to CareCredit's application.
+// Cherry financing widget (2026-11-19): same account and sections as the old
+// English page, where it sat between the note and CareCredit. The old Spanish
+// page had no Cherry widget, so /es/ keeps without it (the widget is English).
 import PageHeaderBanner from "../PageHeaderBanner.astro";
 import CtaBand from "../CtaBand.astro";
 import type { Lang } from "../../data/i18n";
@@ -34,6 +37,12 @@ const CARECREDIT = "https://www.carecredit.com/apply/";
       </div>
     )}
 
+    {!es && (
+      <div class="pp-card pp-card--cherry">
+        <div class="cherry" id="all"></div>
+      </div>
+    )}
+
     <div class="pp-card pp-card--cc" data-reveal>
       {es ? <h2>Opciones de pago diferido de CareCredit</h2> : <h2>CareCredit</h2>}
       {es ? (
@@ -52,6 +61,29 @@ const CARECREDIT = "https://www.carecredit.com/apply/";
 
 <CtaBand lang={lang} heading={es ? "¿Listo para agendar" : "Ready to book"} accent={es ? "su visita?" : "your visit?"} text={es ? "Agende en línea en minutos o llámenos; con gusto le ayudamos." : "Book online in minutes or give us a call — we’re happy to help."} />
 
+{!es && (
+  <script is:inline>
+    // Cherry widget (old site's account + sections); renders into #all. Its
+    // primary color follows the site's --main token.
+    (function (w, d, s, o, f, js, fjs) {
+      w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments); };
+      (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
+      js.id = o; js.src = f; js.async = 1;
+      fjs.parentNode.insertBefore(js, fjs);
+    })(window, document, "script", "_hw", "https://files.withcherry.com/widgets/widget.js");
+    var main = getComputedStyle(document.documentElement).getPropertyValue("--main").trim();
+    _hw(
+      "init",
+      {
+        debug: false,
+        variables: { slug: "clearview-animal-hospital", name: "Clearview Animal Hospital" },
+        styles: { primaryColor: main, secondaryColor: main + "10", fontFamily: "Open Sans" },
+      },
+      ["all", "hero", "howitworks", "testimony", "faq", "calculator"]
+    );
+  </script>
+)}
+
 <style>
   .pp-sec { padding-block: 5rem; overflow-x: clip; }
   .pp-wrap { inline-size: min(var(--container-max-narrow), 100% - 2.5rem); margin-inline: auto; display: flex; flex-direction: column; gap: var(--space-xl); }
@@ -66,5 +98,13 @@ const CARECREDIT = "https://www.carecredit.com/apply/";
   .pp-banner__text { flex: 1; color: var(--on-dark-muted); }
   .pp-banner__btn { color: var(--on-cta); }
   .pp-banner:hover .pp-banner__btn { background: var(--cta-hover); }
+  /* Cherry lays its photo (360px) and panel (650px min) side by side for the
+     viewport width, wider than this column, so it always stacks here (ported
+     from Acton). Its class names carry a build hash: match the stable prefix. */
+  .pp-card--cherry { padding-block: 1.5rem; }
+  .cherry { max-inline-size: 100%; overflow: hidden; }
+  .cherry :global([class*="main-widget_layout"]) { flex-direction: column !important; align-items: stretch !important; gap: var(--space-lg) !important; max-inline-size: 100% !important; padding-inline: 0 !important; margin-inline: 0 !important; }
+  .cherry :global([class*="heroImage-image_container"]) { min-inline-size: 0 !important; inline-size: min(100%, 20rem) !important; margin-inline: 0 !important; }
+  .cherry :global([class*="main-widgets_container"]) { min-inline-size: 0 !important; inline-size: 100% !important; max-inline-size: 100% !important; margin-inline: 0 !important; }
   @media (max-width: 900px) { .pp-sec { padding-block: 3.5rem; } .pp-card { padding: 1.75rem; } }
 </style>
