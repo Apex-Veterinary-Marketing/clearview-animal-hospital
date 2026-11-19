@@ -1,5 +1,5 @@
 ---
-mainImage: "../../assets/avatar-generic.png"
+mainImage: "../../assets/team/dr-aimee-seguin.jpg"
 name: "Dr. Aimee Seguin"
 shortName: "Dr. Seguin"
 bioShort: "<p>Dr. Aimee Seguin is the veterinarian at Clearview Animal Hospital in Easley, SC, where she and her team care for dogs, cats and other furry family members.</p>"
