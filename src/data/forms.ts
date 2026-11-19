@@ -48,6 +48,12 @@
 // intake, never blocks a build.
 export const gravityFormEmbeds: Record<string, string> = {
   // contact: `<iframe src="https://example.com/embed/contact-form/" title="Contact form" loading="lazy" style="width:100%;border:0;min-height:32rem;"></iframe>`,
+  // GF 920 Contact (2026-11-19, /contact-us + /es/contacto + sitewide contact modal):
+  // Name* (single field), Phone*, Email*, Subject, Your Message*, CAPTCHA. The old
+  // clearvieweasley.com/contact Formidable form had First* + Last*, Email*, Subject*,
+  // Message*, no phone, no CAPTCHA — GF adds Phone + CAPTCHA, Subject is optional.
+  contact: `<iframe src="//onboarding.apexveterinarymarketing.com/gfembed/?f=920" width="100%" height="500" frameBorder="0" class="gfiframe" title="Contact form"></iframe>
+<script src="//onboarding.apexveterinarymarketing.com/wp-content/plugins/gravity-forms-iframe-master/assets/scripts/gfembed.min.js" type="text/javascript"></script>`,
   // GF 919 "How'd We Do?" (2026-11-19, ReputationWidget popup): Name*, Phone*, Email*,
   // Message*, CAPTCHA — the agency standard (Acton GF 819). The old clearviewanimal
   // site had no private feedback form, only Google review links, so nothing to compare.
