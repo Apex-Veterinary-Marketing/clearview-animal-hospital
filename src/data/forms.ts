@@ -48,4 +48,9 @@
 // intake, never blocks a build.
 export const gravityFormEmbeds: Record<string, string> = {
   // contact: `<iframe src="https://example.com/embed/contact-form/" title="Contact form" loading="lazy" style="width:100%;border:0;min-height:32rem;"></iframe>`,
+  // GF 919 "How'd We Do?" (2026-11-19, ReputationWidget popup): Name*, Phone*, Email*,
+  // Message*, CAPTCHA — the agency standard (Acton GF 819). The old clearviewanimal
+  // site had no private feedback form, only Google review links, so nothing to compare.
+  "reputation-feedback": `<iframe src="//onboarding.apexveterinarymarketing.com/gfembed/?f=919" width="100%" height="500" frameBorder="0" class="gfiframe" title="Feedback form"></iframe>
+<script src="//onboarding.apexveterinarymarketing.com/wp-content/plugins/gravity-forms-iframe-master/assets/scripts/gfembed.min.js" type="text/javascript"></script>`,
 };

@@ -19,7 +19,12 @@ export interface Props {
 const { formId, context, heading } = Astro.props;
 // GF's embed code comes protocol-relative (src="//…") or occasionally
 // http://; force https so the iframe never depends on the page's scheme.
-const snippet = gravityFormEmbeds[formId]?.trim().replace(/\b(src|href)="(?:https?:)?\/\//g, '$1="https://');
+const snippet = gravityFormEmbeds[formId]?.trim().replace(/\b(src|href)="(?:https?:)?\/\//g, '$1="https://')
+  // The GF iframe plugin's gfembed.min.js is replaced by this component's own
+  // resizer (script below): it only starts on the iframe's load event (often
+  // already past) and matches iframes by page-wide index, which other widgets'
+  // iframes (Cherry) throw off — it set the modal form's height to NaN.
+  .replace(/<script\b[^>]*gfembed[^>]*>\s*<\/script>/gi, "");
 // A bare WordPress shortcode (e.g. `[gravityform id="1"]`) is the likely
 // real mistake here — it renders nothing outside WordPress's own PHP
 // pipeline. Detect it and say so, instead of silently showing broken
@@ -41,7 +46,7 @@ const looksLikeBareShortcode = !!snippet && /^\[gravityform\b/i.test(snippet);
     </div>
   ) : (
     <div class="form-embed__body form-embed__placeholder" data-gravity-form-id={formId}>
-      <p>[Gravity Forms embed: {formId} — add it to <code>src/data/forms.ts</code>]</p>
+      <p>[Gravity Forms embed: {formId}. Add it to <code>src/data/forms.ts</code>]</p>
     </div>
   )}
 </div>
@@ -60,12 +65,36 @@ const looksLikeBareShortcode = !!snippet && /^\[gravityform\b/i.test(snippet);
   // embeds are a plain <iframe> and need nothing here, but if a client's
   // snippet is a JS-widget loader instead, this makes it actually run:
   // re-create each script tag via createElement/appendChild and swap it in.
+  // The same form can be on a page twice (e.g. /contact-us + the sitewide
+  // contact modal), so an external loader script runs once per page, not once
+  // per embed.
+  const loaded = new Set<string>();
   document.querySelectorAll<HTMLElement>("[data-gravity-form-id]").forEach((container) => {
     container.querySelectorAll("script").forEach((old) => {
+      const src = old.getAttribute("src");
+      if (src && loaded.has(src)) { old.remove(); return; }
+      if (src) loaded.add(src);
       const fresh = document.createElement("script");
       for (const attr of Array.from(old.attributes)) fresh.setAttribute(attr.name, attr.value);
       fresh.textContent = old.textContent;
       old.replaceWith(fresh);
     });
   });
+
+  // Auto-height for GF iframe embeds (class "gfiframe"): the embedded page
+  // answers {message:"size"} with its body height. Ask every 500ms while the
+  // iframe is visible (a form in a closed modal measures 0 until opened) and
+  // match replies by source window, not by index.
+  const gfFrames = () => [...document.querySelectorAll<HTMLIFrameElement>("[data-gravity-form-id] iframe.gfiframe")];
+  if (gfFrames().length) {
+    window.addEventListener("message", (e) => {
+      if (e.data?.message !== "size") return;
+      const frame = gfFrames().find((f) => f.contentWindow === e.source);
+      const h = parseInt(e.data.height, 10);
+      if (frame && h > 50) { frame.height = String(h); frame.setAttribute("scrolling", "no"); }
+    });
+    setInterval(() => {
+      gfFrames().forEach((f, i) => { if (f.offsetParent) f.contentWindow?.postMessage({ message: "size", index: i }, "*"); });
+    }, 500);
+  }
 </script>
