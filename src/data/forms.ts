@@ -59,4 +59,12 @@ export const gravityFormEmbeds: Record<string, string> = {
   // site had no private feedback form, only Google review links, so nothing to compare.
   "reputation-feedback": `<iframe src="//onboarding.apexveterinarymarketing.com/gfembed/?f=919" width="100%" height="500" frameBorder="0" class="gfiframe" title="Feedback form"></iframe>
 <script src="//onboarding.apexveterinarymarketing.com/wp-content/plugins/gravity-forms-iframe-master/assets/scripts/gfembed.min.js" type="text/javascript"></script>`,
+  // GF 921 New Patient (2026-11-19, /online-forms): Reason for first visit*, Contact
+  // Name*, Address*, Email*, Phone*, Alternate Phone, Co-Owner Name + Phone, Emergency
+  // Contact Name* + Phone*, How did you hear about us?*, How many pets?*, Pet Name*,
+  // Species*, Breed*, Color, Sex*, Birthdate*, previous vet info, insurance?,
+  // Signature*, Date*, CAPTCHA. The old clearvieweasley.com had no new-patient form
+  // (new clients booked through AllyDVM), so nothing to compare.
+  "new-patient": `<iframe src="//onboarding.apexveterinarymarketing.com/gfembed/?f=921" width="100%" height="500" frameBorder="0" class="gfiframe" title="New patient form"></iframe>
+<script src="//onboarding.apexveterinarymarketing.com/wp-content/plugins/gravity-forms-iframe-master/assets/scripts/gfembed.min.js" type="text/javascript"></script>`,
 };
