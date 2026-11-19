@@ -1,15 +1,14 @@
 ---
 // FAQs — Clearview V3b (2026-11-17). A "Visiting Clearview" group first
 // (answers built only from facts on the client's own site: booking, same-day
-// visits, emergencies, payment, refills, late arrivals, spay/neuter clinic),
-// then every service's FAQs grouped by service, linking to its page. One
-// FAQPage schema node covers them all.
+// visits, emergencies, payment, refills, late arrivals, spay/neuter clinic).
+// 2026-11-19: the per-service FAQ groups were removed (user: keep only the
+// general questions; the old clearvieweasley.com had no FAQ page). Service
+// FAQs stay on each service page.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeaderBanner from "../components/PageHeaderBanner.astro";
 import FaqAccordion from "../components/FaqAccordion.astro";
 import CtaBand from "../components/CtaBand.astro";
-import { getAllServiceCategories } from "../lib/data/serviceCategories";
-import { getServicesByCategory } from "../lib/data/services";
 import { getSiteInfo } from "../lib/data/site";
 import { phoneHref } from "../lib/utils/phone";
 import { stripHtml } from "../lib/utils/stripHtml";
@@ -29,19 +28,11 @@ const general = [
   { question: "Do you offer low-cost spay and neuter?", answer: `<p>Yes, we offer discounted spay and neuter surgery for dogs 5 years of age or younger. See our <a href="/low-cost-spay-neuter-clinic">Low Cost Spay &amp; Neuter Clinic</a> page for prices and requirements.</p>` },
 ];
 
-const categories = await getAllServiceCategories();
-const serviceGroups = (
-  await Promise.all(categories.map((c) => getServicesByCategory(c.id)))
-)
-  .flat()
-  .filter((s) => s.data.faqs.length > 0)
-  .map((s) => ({ id: s.id, name: s.data.customName || s.data.name, faqs: s.data.faqs }));
-
 const graph = [
   {
     "@type": "FAQPage",
     "@id": "#faq",
-    mainEntity: [...general, ...serviceGroups.flatMap((g) => g.faqs)].map((f) => ({
+    mainEntity: general.map((f) => ({
       "@type": "Question",
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: stripHtml(f.answer) },
@@ -54,21 +45,9 @@ const graph = [
   <PageHeaderBanner heading="Frequently Asked" accent="Questions" eyebrow="FAQs" lede="Answers to common questions about visits, payments, prescriptions and pet care." />
 
   <div class="faq-page">
-    <nav class="faq-page__pills" aria-label="FAQ topics">
-      <a href="#visiting">Visiting Clearview</a>
-      {serviceGroups.map((g) => <a href={`#faq-${g.id}`}>{g.name}</a>)}
-    </nav>
-
     <section class="faq-page__group" id="visiting" data-reveal>
       <FaqAccordion faqs={general} heading="Visiting Clearview" />
     </section>
-
-    {serviceGroups.map((g) => (
-      <section class="faq-page__group" id={`faq-${g.id}`} data-reveal>
-        <FaqAccordion faqs={g.faqs} heading={g.name} />
-        <a class="faq-page__more" href={`/services/${g.id}`}>More about {g.name} →</a>
-      </section>
-    ))}
   </div>
 
   <CtaBand heading="Still have" accent="questions?" text={`Call us at ${site.phoneNumber}, we’re happy to help.`} />
@@ -76,9 +55,5 @@ const graph = [
 
 <style>
   .faq-page { inline-size: min(52rem, 100% - 2.5rem); margin-inline: auto; padding-block: 4rem 5rem; display: flex; flex-direction: column; gap: 3.5rem; }
-  .faq-page__pills { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-  .faq-page__pills a { border: 1px solid var(--light-grey); background: var(--white); border-radius: var(--radius-pill); padding: 0.45rem 1rem; font-size: 0.88rem; font-weight: 600; color: var(--main); }
-  .faq-page__pills a:hover { background: var(--main); color: var(--on-main); }
   .faq-page__group { scroll-margin-block-start: calc(var(--header-height) + var(--space-lg)); }
-  .faq-page__more { display: inline-block; margin-block-start: var(--space-md); font-weight: 700; color: var(--cta); }
 </style>
