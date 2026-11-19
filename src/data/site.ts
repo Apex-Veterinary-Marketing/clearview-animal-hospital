@@ -83,6 +83,7 @@ export interface SiteInfo {
 export const siteInfo: SiteInfo = {
   practiceName: "Clearview Animal Hospital",
   phoneNumber: "(864) 442-6192",
+  callTrackingNumber: "+18644473520", // 2026-11-19 Twilio: every tel: link dials this; (864) 442-6192 stays the number shown
   email: "hello@clearvieweasley.com",
   address: "6714 Calhoun Memorial Hwy",
   addressLine2: "Easley, SC 29640",
