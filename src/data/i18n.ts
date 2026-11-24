@@ -27,7 +27,7 @@ export const routes = {
 } as const;
 
 /** External links from the client's current site. */
-export const PHARMACY_URL = "https://clearvieweasley.vetsfirstchoice.com/";
+export const PHARMACY_URL = "https://clearvieweasley.covetruspharmacy.com/";
 // AllyDVM PetPage links (same as the current site's buttons).
 export const PET_RECORDS_URL = "https://practices.allydvm.com?practice=clearviewanimal";
 export const RX_REFILL_URL = "https://practices.allydvm.com/product-request?practice=clearviewanimal";

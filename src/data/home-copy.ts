@@ -76,7 +76,7 @@ export interface HomeCopy {
 // Links from the client's current site (intake.json nav).
 const PETPAGE = "https://practices.allydvm.com?practice=clearviewanimal";
 const RX_REFILL = "https://practices.allydvm.com/product-request?practice=clearviewanimal";
-const PHARMACY = "https://clearvieweasley.vetsfirstchoice.com/";
+const PHARMACY = "https://clearvieweasley.covetruspharmacy.com/";
 
 export const homeCopy: Record<Lang, HomeCopy> = {
   en: {
