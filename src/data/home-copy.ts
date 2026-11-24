@@ -34,6 +34,7 @@ export interface HomeCopy {
   servicesTitle: string;
   servicesAccent: string;
   allServices: string;
+  // href "TEL" = the practice's call link (phoneHref), for Same-Day Appointments.
   services: { title: string; text: string; href: string; image: "wellness" | "dental" | "surgery" | "urgent" }[];
   moreServices: string[];
   doctorEyebrow: string;
@@ -112,13 +113,14 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     servicesTitle: "Everything your pet needs,",
     servicesAccent: "under one roof",
     allServices: "All Services",
+    // Top three services from the client's onboarding form (2026-11-24):
+    // same-day access appointments, dental services, urgent care.
     services: [
-      { title: "Wellness & Preventive Care", text: "Annual exams, bloodwork, fecal and heartworm testing, and vaccines matched to your pet’s lifestyle.", href: "/services/wellness", image: "wellness" },
-      { title: "Dental Cleaning", text: "Cleanings and extractions to keep your pet comfortable.", href: "/services/dental", image: "dental" },
-      { title: "Surgery", text: "Soft tissue and orthopedic procedures, close to home.", href: "/services/surgical", image: "surgery" },
-      { title: "Urgent Care", text: "Same-day visits during business hours when your pet can’t wait.", href: "/services/emergency", image: "urgent" },
+      { title: "Same-Day Appointments", text: "Sick or not quite right? Call us and we’ll do our best to see your pet the same day.", href: "TEL", image: "wellness" },
+      { title: "Dental Care", text: "Teeth cleaning, dental X-rays, extractions and dental surgery for a healthier mouth.", href: "/services-categories/dental", image: "dental" },
+      { title: "Urgent Care", text: "When your pet can’t wait, we fit in urgent cases during business hours.", href: "/services/emergency", image: "urgent" },
     ],
-    moreServices: ["In-house laboratory", "Ultrasound", "Microchipping", "Pet nutrition", "Pet pharmacy", "End of life care"],
+    moreServices: ["Physical exams", "Vaccinations", "In-house laboratory", "Digital radiology", "Surgery", "Orthopedics", "Dermatology", "Allergy testing"],
     doctorEyebrow: "Meet the Doctor",
     doctorRole: "Veterinarian",
     headshotSoon: "Headshot coming soon",
@@ -194,12 +196,11 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     servicesAccent: "en un solo lugar",
     allServices: "Todos los Servicios",
     services: [
-      { title: "Bienestar y Medicina Preventiva", text: "Exámenes anuales, análisis de sangre, pruebas de heces y de gusano del corazón, y vacunas según el estilo de vida de su mascota.", href: "/es/servicios-veterinarios/bienestar-y-medicina-preventiva/", image: "wellness" },
-      { title: "Limpieza Dental", text: "Limpiezas y extracciones para mantener a su mascota cómoda.", href: "/es/servicios-veterinarios/limpieza-dental-extracciones-dentales/", image: "dental" },
-      { title: "Cirugía", text: "Procedimientos de tejidos blandos y ortopédicos, cerca de casa.", href: "/es/servicios-veterinarios/procedimientos-quirurgicos/", image: "surgery" },
-      { title: "Cuidado Urgente", text: "Citas el mismo día, en horario de atención, cuando su mascota no puede esperar.", href: "/es/servicios-veterinarios/emergencias-cuidado-urgente/", image: "urgent" },
+      { title: "Citas el Mismo Día", text: "¿Su mascota está enferma o no se siente bien? Llámenos y haremos lo posible por atenderla el mismo día.", href: "TEL", image: "wellness" },
+      { title: "Cuidado Dental", text: "Limpieza dental, radiografías dentales, extracciones y cirugía dental para una boca más sana.", href: "/es/servicios-veterinarios/limpieza-dental-extracciones-dentales/", image: "dental" },
+      { title: "Cuidado Urgente", text: "Cuando su mascota no puede esperar, atendemos casos urgentes en horario de atención.", href: "/es/servicios-veterinarios/emergencias-cuidado-urgente/", image: "urgent" },
     ],
-    moreServices: ["Laboratorio en casa", "Ultrasonido", "Microchip", "Nutrición para mascotas", "Farmacia veterinaria", "Cuidado al final de la vida"],
+    moreServices: ["Exámenes físicos", "Vacunas", "Laboratorio en casa", "Radiología digital", "Cirugía", "Ortopedia", "Dermatología", "Pruebas de alergia"],
     doctorEyebrow: "Conozca a la Doctora",
     doctorRole: "Veterinaria",
     doctorBio:

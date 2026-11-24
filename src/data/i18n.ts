@@ -107,4 +107,5 @@ export const serviceCategoryEs: Record<string, string> = {
   "urgent-emergency": "Cuidado Urgente y de Emergencia",
   pharmacy: "Farmacia",
   "end-of-life": "Cuidado al Final de la Vida",
+  specialty: "Servicios Especializados",
 };

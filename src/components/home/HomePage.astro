@@ -126,7 +126,7 @@ const bookHref = site.bookingUrl || "/contact-us";
     <ol class="svc-list" data-reveal-stagger>
       {c.services.map((s, i) => (
         <li data-reveal>
-          <a class="svc" href={s.href}>
+          <a class="svc" href={s.href === "TEL" ? phoneHref(site) : s.href}>
             <span class="svc__n">{String(i + 1).padStart(2, "0")}</span>
             <h3 class="svc__title">{s.title}</h3>
             <p class="svc__text">{s.text}</p>

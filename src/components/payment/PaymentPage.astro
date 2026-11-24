@@ -37,6 +37,23 @@ const CARECREDIT = "https://www.carecredit.com/apply/";
       </div>
     )}
 
+    {/* Payment methods + insurance, from the onboarding form (2026-11-24). */}
+    <div class="pp-card" data-reveal>
+      {es ? (
+        <>
+          <h2>Formas de pago</h2>
+          <p>Aceptamos efectivo, tarjetas de crédito y planes de pago a través de Cherry y CareCredit.</p>
+          <p>No facturamos directamente a las compañías de seguros para mascotas, pero con gusto le damos la documentación que necesita para enviar su reclamo a su aseguradora y solicitar el reembolso.</p>
+        </>
+      ) : (
+        <>
+          <h2>Payment Methods</h2>
+          <p>We accept cash, credit cards, and payment plans through Cherry and CareCredit.</p>
+          <p>We don’t bill pet insurance companies directly, but we’ll gladly provide the documentation you need to submit a claim to your insurer for reimbursement.</p>
+        </>
+      )}
+    </div>
+
     {!es && (
       <div class="pp-card pp-card--cherry">
         <div class="cherry" id="all"></div>

@@ -99,7 +99,11 @@ export const siteInfo: SiteInfo = {
   bookingUrl: "https://practices.allydvm.com/online-booking?practice=clearviewanimal",
   bookingLabel: "Book Now",
   cityState: "Easley, SC",
-  // Contact-page hours. The old footer says Mon–Fri 8am–5pm — CONFIRM with the client.
+  // Onboarding form: where patients come from (→ schema areaServed).
+  serviceAreaOfCoverage: "Easley, Pickens, Clemson, Liberty, Greenville",
+  // Hours confirmed by the client's onboarding form (2026-11-24): Mon, Tue, Thu,
+  // Fri 9–5, Wed 9–1, Sat–Sun closed. The 1:00–2:30 lunch closure is from the
+  // current site's contact page (the form doesn't ask about lunch).
   hours:
     "<p>Mon, Tue, Thu, Fri: 9am&ndash;5pm<br>Wed: 9am&ndash;1pm<br>Sat&ndash;Sun: Closed<br>Closed daily 1:00&ndash;2:30pm for lunch</p>",
   openingHoursSpecification: [
@@ -113,7 +117,7 @@ export const siteInfo: SiteInfo = {
   afterHoursEs:
     '<p>En horario de atención, llámenos al (864) 442-6192 para cuidado urgente. Fuera de horario, comuníquese con <a href="https://veterinaryemergencygroup.com/lp/greenville/">Veterinary Emergency Group (Greenville)</a>, <a href="https://fetchvets.com/greenville-sc/">FETCH Greenville</a> o <a href="https://upstatevet.com/">Upstate Veterinary Specialists</a>.</p>',
   businessDescription:
-    "Clearview Animal Hospital is a full-service veterinary hospital in Easley, SC, caring for pets across the Upstate since 1958. Services include wellness care, dentistry, surgery, an in-house laboratory, ultrasound and urgent care.",
+    "Clearview Animal Hospital is a full-service veterinary hospital in Easley, SC, across from Home Depot, caring for pets from Easley, Pickens, Clemson, Liberty and Greenville since 1958. We offer same-day appointments, urgent care, dental care, surgery, an in-house laboratory and digital radiology, with payment plans through Cherry and CareCredit.",
   // 156 characters.
   footerAbout:
     "Clearview Animal Hospital offers compassionate, personal veterinary care for dogs, cats and other furry family members in Easley, SC and across the Upstate.",
