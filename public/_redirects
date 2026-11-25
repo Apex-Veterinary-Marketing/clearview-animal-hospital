@@ -18,6 +18,12 @@
 /heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ /blog/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ 301
 /heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection /blog/heartworms-dont-knock-why-every-dog-and-cat-needs-heartworm-protection/ 301
 
+# WordPress archive pages from the old sitemap (Yoast author/category sitemaps)
+/author/jpleakis/ /blog/ 301
+/author/jpleakis /blog/ 301
+/category/uncategorized/ /blog/ 301
+/category/uncategorized /blog/ 301
+
 # Retired template pages: booking happens in AllyDVM; the info-request form
 # lives on the Contact page.
 /appointment-request/ https://practices.allydvm.com/online-booking?practice=clearviewanimal 301
