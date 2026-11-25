@@ -1,0 +1,83 @@
+# Builds the site and publishes dist/ to GitHub Pages on every change.
+# Needs Settings → Pages → Source: "GitHub Actions" (and a public repo while the
+# org is on GitHub Free).
+#
+# Triggers:
+# - push to main: every edit, merge or local push.
+# - workflow_run: blog posts from issues. publish-from-issue.yml pushes with
+#   GITHUB_TOKEN, and GitHub doesn't start workflows from those pushes, so the
+#   deploy hangs off that workflow finishing instead.
+# - schedule: the weekly rebuild that releases scheduled posts (first build
+#   after their pubDate). Match the weekday to the posts' pubDates.
+# - workflow_dispatch: "Run workflow" in the Actions tab re-publishes on demand.
+#
+# Two modes, picked automatically from the Pages settings:
+# - No custom domain yet (served at apex-veterinary-marketing.github.io/<repo>/):
+#   preview build. SITE_URL points canonicals/sitemap at github.io, every page
+#   is noindex, robots.txt disallows all, and links get the /<repo> prefix.
+# - Custom domain set in Settings → Pages: production build from site.ts `url`
+#   (set it to the real domain BEFORE attaching the domain).
+#
+# A failed build never deploys, so the site keeps its last good version.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Publish blog post from issue"]
+    types: [completed]
+  schedule:
+    - cron: "0 13 * * 4" # Thursdays 13:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; a queued one waits rather than cancelling a running one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - id: pages
+        uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          # Only while there's no custom domain (base_path is "/<repo>").
+          SITE_URL: ${{ steps.pages.outputs.base_path != '' && steps.pages.outputs.base_url || '' }}
+      - name: Serve under /<repo>/ (no custom domain yet)
+        if: steps.pages.outputs.base_path != ''
+        run: node scripts/pages-base-path.mjs "${{ steps.pages.outputs.base_path }}" dist
+      - name: No Jekyll processing
+        run: touch dist/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
