@@ -19,6 +19,7 @@ export interface HomeCopy {
   bookAppointment: string;
   call: string;
   since: string;
+  sealCta: string;
   hoursFallback: string;
   openUntil: (time: string) => string;
   closedNowOpensToday: (range: string) => string;
@@ -65,8 +66,11 @@ export interface HomeCopy {
   days: string[]; // Sunday first, like Date#getDay()
   closed: string;
   weekend: string;
+  saturdayValue: string;
+  saturdayPill: string;
   today: string;
   lunch: (range: string) => string;
+  saturdays: string;
   afterHours: string;
   bookNow: string;
   directions: string;
@@ -86,11 +90,13 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     heroEyebrow: "Easley, South Carolina",
     heroTitle: "Veterinary care,",
     heroAccent: "made easy.",
-    heroLede: "The animal hospital with a heart for Easley and the Upstate.",
+    heroLede: "The animal hospital with a heart for Easley and the Upstate—here for everything from routine Wellness Visits to same-day Urgent Care appointments.",
     heroImageAlt: "German shepherd smiling outdoors",
     bookAppointment: "Book an Appointment",
     call: "Call",
     since: "Since",
+    // Pastel 4wq5nl74 #5: the hero seal is now a call button.
+    sealCta: "Click here for an urgent care appointment immediately",
     hoursFallback: "Mon, Tue, Thu, Fri 9am–5pm · Wed 9am–1pm",
     openUntil: (time) => `Open now · until ${time} today`,
     closedNowOpensToday: (range) => `Closed right now · open ${range} today`,
@@ -104,7 +110,7 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     ],
     aboutEyebrow: "About Us",
     aboutTitle: "Your neighborhood animal hospital",
-    aboutAccent: "since 1958",
+    aboutAccent: "since 2022",
     aboutText:
       "Clearview Animal Hospital has cared for pets and their families in Easley since 1958. Today Dr. Aimee Seguin and her team carry that tradition forward, pairing compassionate, personal attention with the medical and surgical care your pet needs close to home. We focus on four-legged friends: if they have fur, we’re here to help.",
     aboutImageAlt: "Labrador and tabby cat resting in the grass",
@@ -134,7 +140,7 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     whyText:
       "From urgent care when your pet needs to be seen quickly to dental care, ultrasound and orthopedic procedures, our team offers more of the care your pet needs without a long drive. We take time to listen, explain your options clearly and build a plan around what you know about your pet.",
     facts: [
-      { stat: "1958", title: "Rooted in Easley", text: "Caring for local pets for generations." },
+      { stat: "2022", title: "Rooted in Easley", text: "Caring for local pets and their families." },
       { stat: "Same day", title: "Urgent care access", text: "When your pet can’t wait." },
       { stat: "In house", title: "Lab & ultrasound", text: "Answers without a second trip." },
       { stat: "Pay later", title: "Cherry & CareCredit", text: "Help with vet bills when you need it." },
@@ -144,8 +150,8 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     // After-hours emergencies: the current site's homepage section (#emergency),
     // its text word for word (2026-11-18).
     erTitle: "Emergencies",
-    erHoursBefore: "During regular business hours we are happy to see your pet for an emergency or urgent care need call us at",
-    erLine: "If your pet is experiencing a medical emergency, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.",
+    erHoursBefore: "During regular business hours, please contact us immediately for a same day or urgent care appointment.",
+    erLine: "If your pet is experiencing a medical emergency after hours, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.",
     erAfterTitle: "After Hours Emergencies",
     erAfterText: "If you’re having an emergency after hours, we recommend these emergency centers.",
     visitEyebrow: "Visit",
@@ -154,8 +160,11 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     closed: "Closed",
     weekend: "Saturday–Sunday",
+    saturdayValue: "Call for hours",
+    saturdayPill: "Open two Saturdays a month · call for hours",
     today: "today",
     lunch: (range) => `Closed ${range} for lunch.`,
+    saturdays: "Open two Saturdays of the month. Call for hours.",
     afterHours: "After hours: Veterinary Emergency Group or FETCH, Greenville.",
     bookNow: "Book Now",
     directions: "Get Directions",
@@ -168,11 +177,12 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     heroEyebrow: "Easley, Carolina del Sur",
     heroTitle: "Atención veterinaria,",
     heroAccent: "sin complicaciones.",
-    heroLede: "El hospital de animales con corazón para Easley y toda la región.",
+    heroLede: "El hospital de animales con corazón para Easley y toda la región, aquí para todo, desde Visitas de Bienestar de rutina hasta citas de Atención Urgente el mismo día.",
     heroImageAlt: "Pastor alemán sonriendo al aire libre",
     bookAppointment: "Solicitar una Cita",
     call: "Llamar al",
     since: "Desde",
+    sealCta: "Haga clic aquí para una cita de atención urgente de inmediato",
     hoursFallback: "Lun, Mar, Jue, Vie 9am–5pm · Mié 9am–1pm",
     openUntil: (time) => `Abierto ahora · hasta las ${time}`,
     closedNowOpensToday: (range) => `Cerrado en este momento · hoy de ${range}`,
@@ -186,7 +196,7 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     ],
     aboutEyebrow: "Sobre Nosotros",
     aboutTitle: "Su hospital de animales de confianza",
-    aboutAccent: "desde 1958",
+    aboutAccent: "desde 2022",
     aboutText:
       "El Hospital de Animales Clearview cuida a las mascotas y a sus familias en Easley desde 1958. Hoy, la Dra. Aimee Seguin y su equipo continúan esa tradición, combinando una atención personal y compasiva con el cuidado médico y quirúrgico que su mascota necesita, cerca de casa. Nos enfocamos en los amigos de cuatro patas: si tienen pelo, estamos aquí para ayudar.",
     aboutImageAlt: "Labrador y gato atigrado descansando en el pasto",
@@ -216,7 +226,7 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     whyText:
       "Desde cuidado urgente cuando su mascota necesita ser atendida rápido hasta cuidado dental, ultrasonido y procedimientos ortopédicos, nuestro equipo ofrece más de la atención que su mascota necesita sin tener que manejar lejos. Nos tomamos el tiempo de escuchar, explicarle sus opciones con claridad y crear un plan basado en lo que usted conoce de su mascota.",
     facts: [
-      { stat: "1958", title: "Raíces en Easley", text: "Cuidando a las mascotas locales por generaciones." },
+      { stat: "2022", title: "Raíces en Easley", text: "Cuidando a las mascotas locales y a sus familias." },
       { stat: "Mismo día", title: "Acceso a cuidado urgente", text: "Cuando su mascota no puede esperar." },
       { stat: "En casa", title: "Laboratorio y ultrasonido", text: "Respuestas sin una segunda visita." },
       { stat: "Pague después", title: "Cherry y CareCredit", text: "Ayuda con los gastos veterinarios cuando la necesite." },
@@ -224,8 +234,8 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     reviewsEyebrow: "Reseñas",
     reviewSource: "Reseña de Google",
     erTitle: "Emergencias",
-    erHoursBefore: "Durante el horario comercial habitual, estaremos encantados de ver a su mascota por una emergencia o necesidad de atención urgente, llámenos al",
-    erLine: "Si su mascota tiene una emergencia médica, no tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.",
+    erHoursBefore: "Durante el horario de atención, comuníquese con nosotros de inmediato para una cita el mismo día o de atención urgente:",
+    erLine: "Si su mascota tiene una emergencia médica fuera de horario, no tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.",
     erAfterTitle: "Emergencias fuera de horario",
     erAfterText: "Si tiene una emergencia fuera del horario de atención, le recomendamos estos centros de emergencia.",
     visitEyebrow: "Visítenos",
@@ -234,8 +244,11 @@ export const homeCopy: Record<Lang, HomeCopy> = {
     days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
     closed: "Cerrado",
     weekend: "Sábado–Domingo",
+    saturdayValue: "Llame para el horario",
+    saturdayPill: "Abrimos dos sábados al mes · llame para el horario",
     today: "hoy",
     lunch: (range) => `Cerrado de ${range} para almorzar.`,
+    saturdays: "Abrimos dos sábados al mes. Llame para conocer el horario.",
     afterHours: "Fuera de horario: Veterinary Emergency Group o FETCH, Greenville.",
     bookNow: "Agendar Cita",
     directions: "Cómo Llegar",

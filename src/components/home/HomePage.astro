@@ -52,11 +52,9 @@ const fmt = (hhmm: string) => {
 const span = (ranges: Range[]) => `${fmt(ranges[0].opens)}–${fmt(ranges[ranges.length - 1].closes)}`;
 const rows: { label: string; days: number[]; value: string }[] = [];
 for (const d of [1, 2, 3, 4, 5]) rows.push({ label: c.days[d], days: [d], value: week[d].length ? span(week[d]) : c.closed });
-const satOpen = week[6].length > 0, sunOpen = week[0].length > 0;
-if (!satOpen && !sunOpen) rows.push({ label: c.weekend, days: [6, 0], value: c.closed });
-else for (const d of [6, 0]) rows.push({ label: c.days[d], days: [d], value: week[d].length ? span(week[d]) : c.closed });
-const lunchDay = week.find((r) => r.length > 1);
-const lunch = lunchDay ? c.lunch(`${fmt(lunchDay[0].closes)}–${fmt(lunchDay[1].opens)}`) : "";
+// Saturday: open two Saturdays a month, call for hours (Pastel 4wq5nl74 #1).
+rows.push({ label: c.days[6], days: [6], value: week[6].length ? span(week[6]) : c.saturdayValue });
+rows.push({ label: c.days[0], days: [0], value: week[0].length ? span(week[0]) : c.closed });
 
 // Doctor: monogram until a real headshot replaces the generic avatar.
 const hasHeadshot = doctor?.data.mainImage && doctor.data.mainImage.src !== avatarGeneric.src;
@@ -81,7 +79,8 @@ const bookHref = site.bookingUrl || "/contact-us";
       <p class="hero__today" data-today data-lang={lang} data-hours={JSON.stringify(week)}><i aria-hidden="true"></i><span>{c.hoursFallback}</span></p>
     </div>
   </div>
-  <div class="hero__seal" aria-hidden="true"><div><small>{c.since}</small><b>1958</b></div></div>
+  {/* Pastel 4wq5nl74 #5 (2026-11-25): the "Since 1958" seal became a call button. */}
+  {site.phoneNumber && <a class="hero__seal" href={phoneHref(site)}><span>{c.sealCta}</span></a>}
 </section>
 
 <div class="band">
@@ -265,7 +264,7 @@ const bookHref = site.bookingUrl || "/contact-us";
           ))}
         </tbody>
       </table>
-      <p class="visit__small">{lunch} {c.afterHours}</p>
+      <p class="visit__small">{c.saturdays} {c.afterHours}</p>
       <div class="visit__actions">
         <a class="btn btn--cta" href={bookHref}>{c.bookNow}</a>
         {site.addressLink && <a class="btn btn--line-light" href={site.addressLink} target="_blank" rel="noopener">{c.directions}</a>}
@@ -297,7 +296,9 @@ const bookHref = site.bookingUrl || "/contact-us";
     const current = today.find((r) => mins >= toMin(r.opens) && mins < toMin(r.closes));
     const label = pill.querySelector("span");
     if (label && week.length) {
-      if (current) {
+      if (d === 6 && !today.length) {
+        label.textContent = c.saturdayPill;
+      } else if (current) {
         label.textContent = c.openUntil(fmt(today[today.length - 1].closes));
         pill.classList.add("is-open");
       } else if (today.length && mins < toMin(today[today.length - 1].closes)) {
@@ -386,8 +387,8 @@ const bookHref = site.bookingUrl || "/contact-us";
   .hero__today i { inline-size: 10px; block-size: 10px; border-radius: 50%; background: var(--text-muted); }
   .hero__today.is-open i { background: var(--status-open); box-shadow: 0 0 0 5px var(--status-open-ring); }
   .hero__seal { position: absolute; z-index: 1; inset-inline-end: 6%; inset-block-end: 2.6rem; inline-size: 128px; block-size: 128px; border-radius: 50%; background: var(--main); border: 3px solid var(--white); color: var(--white); display: grid; place-items: center; text-align: center; line-height: 1.05; transform: rotate(-8deg); box-shadow: var(--shadow-float); }
-  .hero__seal small { display: block; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.8; }
-  .hero__seal b { font-family: var(--font-accent); font-weight: 400; font-size: 2.5rem; }
+  .hero__seal { inline-size: 168px; block-size: 168px; padding: 1.4rem; font-weight: 700; font-size: 0.98rem; line-height: 1.2; transition: background-color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease); }
+  .hero__seal:hover, .hero__seal:focus-visible { background: var(--cta); color: var(--white); transform: rotate(-8deg) scale(1.04); }
 
   /* --- Navy bar: paw trail + quick links --- */
   .band { background: var(--main); color: var(--white); }
@@ -522,7 +523,7 @@ const bookHref = site.bookingUrl || "/contact-us";
     .hero :global(.hero__bg) { inset-block-start: var(--header-height); block-size: 400px; object-position: 64% 40%; }
     .hero::after { inset-block: var(--header-height) auto; block-size: 402px; background: linear-gradient(0deg, var(--main-dark) 0%, var(--hero-scrim-mid) 22%, var(--dark-transparent) 55%); }
     .hero__seal { inset-block: calc(var(--header-height) + 1.2rem) auto; inset-inline-end: 16px; inline-size: 92px; block-size: 92px; }
-    .hero__seal b { font-size: 1.8rem; }
+    .hero__seal { inline-size: 124px; block-size: 124px; padding: 0.9rem; font-size: 0.74rem; }
     .quick { grid-template-columns: 1fr 1fr; }
     .quick li + li:nth-child(odd) { border-inline-start: 0; }
     .quick li:nth-child(n + 3) { border-block-start: 1px solid var(--hairline-on-dark); }

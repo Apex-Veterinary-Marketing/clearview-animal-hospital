@@ -22,8 +22,8 @@ export function langAlternates(lang: Lang, pathname: string, altLangPath?: strin
 /** Where each shared link goes in each language. Spanish entries fall back to
  *  the English page until a Spanish version exists. */
 export const routes = {
-  en: { services: "/services", contact: "/contact-us", team: "/meet-the-team", payment: "/payment-plans", events: "/events", privacy: "/privacy-policy" },
-  es: { services: "/es/servicios-veterinarios/", contact: "/es/contacto/", team: "/es/staff/", payment: "/es/opciones-de-pago/", events: "/events", privacy: "/es/poliza-de-privacidad/" },
+  en: { services: "/services", contact: "/contact-us", team: "/meet-the-team", payment: "/payment-plans", events: "/events", privacy: "/privacy-policy", app: "/download-our-app" },
+  es: { services: "/es/servicios-veterinarios/", contact: "/es/contacto/", team: "/es/staff/", payment: "/es/opciones-de-pago/", events: "/events", privacy: "/es/poliza-de-privacidad/", app: "/es/descargue-nuestra-app/" },
 } as const;
 
 /** External links from the client's current site. */
@@ -32,6 +32,10 @@ export const PHARMACY_URL = "https://clearvieweasley.covetruspharmacy.com/";
 export const PET_RECORDS_URL = "https://practices.allydvm.com?practice=clearviewanimal";
 export const RX_REFILL_URL = "https://practices.allydvm.com/product-request?practice=clearviewanimal";
 export const PETPAGE_APP_URL = "https://www.allydvm.com/solutions/petpage-patient-portal/mobile-app";
+// PetPage app store links (Pastel 4wq5nl74 #6, 2026-11-25), on the app page
+// the header's "Download Our App!" button opens.
+export const PETPAGE_IOS_URL = "https://apps.apple.com/us/app/petpage/id6443568264";
+export const PETPAGE_ANDROID_URL = "https://play.google.com/store/apps/details?id=com.allydvm.ast&hl=en_US";
 
 export const ui = {
   en: {
@@ -55,6 +59,8 @@ export const ui = {
     sameDay: "Same Day Appointments Available",
     rxRefill: "Rx Refill Request",
     petPageApp: "PetPage App",
+    downloadApp: "Download Our App!",
+    downloadAppShort: "Our App",
     menu: "Menu",
     language: "Language",
     callUs: "Call us at",
@@ -86,6 +92,8 @@ export const ui = {
     sameDay: "Citas Disponibles para el Mismo Día",
     rxRefill: "Resurtido de Recetas",
     petPageApp: "App PetPage",
+    downloadApp: "¡Descargue Nuestra App!",
+    downloadAppShort: "Nuestra App",
     menu: "Menú",
     language: "Idioma",
     callUs: "Llámenos al",

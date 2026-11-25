@@ -48,7 +48,7 @@ const patientLinks = [
   { label: es ? "Historial de Mascotas" : "Pet Records", href: "https://practices.allydvm.com?practice=clearviewanimal" },
   { label: es ? "Solicitud de Cita" : "Appointment Request", href: site.bookingUrl || "https://practices.allydvm.com/online-booking?practice=clearviewanimal" },
   { label: es ? "Resurtido de Recetas" : "Rx Refill Request", href: "https://practices.allydvm.com/product-request?practice=clearviewanimal" },
-  { label: es ? "App PetPage" : "PetPage App", href: "https://www.allydvm.com/solutions/petpage-patient-portal/mobile-app" },
+  { label: es ? "App PetPage" : "PetPage App", href: r.app }, // app page (Pastel 4wq5nl74 #6)
   { label: es ? "Farmacia en Línea" : "Online Pharmacy", href: PHARMACY_URL },
 ];
 ---
@@ -100,7 +100,7 @@ const patientLinks = [
     <details class="footer__column" open>
       <summary class="footer__column-title">{es ? "Para Pacientes" : "For Patients"}</summary>
       <ul class="footer__link-list">
-        {patientLinks.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        {patientLinks.map((l) => <li><a href={l.href} {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>{l.label}</a></li>)}
       </ul>
     </details>
 

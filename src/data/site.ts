@@ -102,18 +102,19 @@ export const siteInfo: SiteInfo = {
   // Onboarding form: where patients come from (→ schema areaServed).
   serviceAreaOfCoverage: "Easley, Pickens, Clemson, Liberty, Greenville",
   // Hours confirmed by the client's onboarding form (2026-11-24): Mon, Tue, Thu,
-  // Fri 9–5, Wed 9–1, Sat–Sun closed. The 1:00–2:30 lunch closure is from the
-  // current site's contact page (the form doesn't ask about lunch).
+  // Fri 9–5, Wed 9–1, Sun closed. Pastel 4wq5nl74 #1 (2026-11-25): no lunch
+  // closure, and open two Saturdays a month (call for hours) — those Saturdays
+  // vary, so they stay out of openingHoursSpecification (schema + "Open now").
   hours:
-    "<p>Mon, Tue, Thu, Fri: 9am&ndash;5pm<br>Wed: 9am&ndash;1pm<br>Sat&ndash;Sun: Closed<br>Closed daily 1:00&ndash;2:30pm for lunch</p>",
+    "<p>Mon, Tue, Thu, Fri: 9am&ndash;5pm<br>Wed: 9am&ndash;1pm<br>Sat: Two Saturdays a month, call for hours<br>Sun: Closed</p>",
   openingHoursSpecification: [
-    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "13:00" },
-    { dayOfWeek: ["Monday", "Tuesday", "Thursday", "Friday"], opens: "14:30", closes: "17:00" },
+    { dayOfWeek: ["Monday", "Tuesday", "Thursday", "Friday"], opens: "09:00", closes: "17:00" },
+    { dayOfWeek: ["Wednesday"], opens: "09:00", closes: "13:00" },
   ],
   afterHours:
     '<p>During business hours, call us at (864) 442-6192 for urgent care. After hours, please contact <a href="https://veterinaryemergencygroup.com/lp/greenville/">Veterinary Emergency Group (Greenville)</a>, <a href="https://fetchvets.com/greenville-sc/">FETCH Greenville</a> or <a href="https://upstatevet.com/">Upstate Veterinary Specialists</a>.</p>',
   hoursEs:
-    "<p>Lun, Mar, Jue, Vie: 9am&ndash;5pm<br>Mié: 9am&ndash;1pm<br>Sáb&ndash;Dom: Cerrado<br>Cerrado de 1:00 a 2:30pm para almorzar</p>",
+    "<p>Lun, Mar, Jue, Vie: 9am&ndash;5pm<br>Mié: 9am&ndash;1pm<br>Sáb: Dos sábados al mes, llame para conocer el horario<br>Dom: Cerrado</p>",
   afterHoursEs:
     '<p>En horario de atención, llámenos al (864) 442-6192 para cuidado urgente. Fuera de horario, comuníquese con <a href="https://veterinaryemergencygroup.com/lp/greenville/">Veterinary Emergency Group (Greenville)</a>, <a href="https://fetchvets.com/greenville-sc/">FETCH Greenville</a> o <a href="https://upstatevet.com/">Upstate Veterinary Specialists</a>.</p>',
   businessDescription:

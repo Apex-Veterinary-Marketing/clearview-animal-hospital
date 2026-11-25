@@ -18,7 +18,7 @@ import { getAllServiceCategories } from "../lib/data/serviceCategories";
 import { getServicesByCategory } from "../lib/data/services";
 import { phoneHref } from "../lib/utils/phone";
 import { BLOG_BASE } from "../lib/data/blog";
-import { type Lang, ui, routes, serviceCategoryEs, PHARMACY_URL, PET_RECORDS_URL, RX_REFILL_URL, PETPAGE_APP_URL } from "../data/i18n";
+import { type Lang, ui, routes, serviceCategoryEs, PHARMACY_URL, PET_RECORDS_URL, RX_REFILL_URL } from "../data/i18n";
 import { getEsSlugMap, getAllServicesEs, ES_SERVICES_BASE } from "../lib/data/servicesEs";
 
 interface Props {
@@ -62,6 +62,11 @@ const esHref = lang === "es" ? here : altHref;
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16M8.5 3v4M15.5 3v4m-6 8 1.8 1.8 3.4-3.4"/></svg>{t.sameDay}</li>
       </ul>
       <div class="header__actions">
+        {/* Pastel 4wq5nl74 #6 (2026-11-25): app button → page with both store links. */}
+        <a class="header__app" href={r.app}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+          <span class="header__app-long">{t.downloadApp}</span><span class="header__app-short">{t.downloadAppShort}</span>
+        </a>
         <div class="header__lang" role="group" aria-label={t.language}>
           <svg class="header__lang-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.5 3.9 5.5 3.9 9s-1.3 6.5-3.9 9c-2.6-2.5-3.9-5.5-3.9-9S9.4 5.5 12 3z"/></svg>
           <a class="header__lang-option" href={enHref} hreflang="en" lang="en" aria-current={lang === "en" ? "true" : undefined}>EN</a>
@@ -135,7 +140,7 @@ const esHref = lang === "es" ? here : altHref;
             <li><a href={r.payment}>{t.paymentPlans}</a></li>
             <li><a href={PET_RECORDS_URL} target="_blank" rel="noopener">{t.petRecords}</a></li>
             <li><a href={RX_REFILL_URL} target="_blank" rel="noopener">{t.rxRefill}</a></li>
-            <li><a href={PETPAGE_APP_URL} target="_blank" rel="noopener">{t.petPageApp}</a></li>
+            <li><a href={r.app}>{t.petPageApp}</a></li>
           </ul>
         </li>
 
@@ -163,6 +168,10 @@ const esHref = lang === "es" ? here : altHref;
 
   /* Navy utility bar: phone left, EN|ES + booking right (2026-11-18). */
   .header__topbar { background: var(--main); color: var(--on-main); }
+  .header__app { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.95rem; border: 1.5px solid currentColor; border-radius: 999px; color: var(--on-main); font-weight: 700; font-size: 0.85rem; white-space: nowrap; transition: background-color var(--motion-duration-fast) var(--motion-ease), color var(--motion-duration-fast) var(--motion-ease); }
+  .header__app:hover { background: var(--white); color: var(--main); }
+  .header__app svg { inline-size: 1.05rem; block-size: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .header__app-short { display: none; }
   .header__topbar-inner { max-width: var(--container-max); margin-inline: auto; block-size: var(--topbar-height); padding-inline: var(--space-lg); display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
 
   .header__inner { max-width: var(--container-max); margin-inline: auto; min-block-size: var(--header-row-height); padding-inline: var(--space-lg); display: flex; align-items: center; gap: var(--space-lg); }
@@ -241,6 +250,9 @@ const esHref = lang === "es" ? here : altHref;
     /* Phones: the call bar already dials, so the top bar keeps EN|ES + booking. */
     .header__phone { display: none; }
     .header__cta { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+    .header__app { padding: 0.3rem 0.65rem; font-size: 0.78rem; }
+    .header__app-long { display: none; }
+    .header__app-short { display: inline; }
   }
   @media (max-width: 380px) {
     .header__logo-image { block-size: 1.85rem; }

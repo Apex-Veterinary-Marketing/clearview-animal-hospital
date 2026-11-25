@@ -35,5 +35,5 @@ faqs:
       <p>A microchip helps prevent a lost pet from staying lost. Collars and tags can fall off, but a registered microchip gives shelters and veterinary clinics a permanent way to identify your pet and contact you. It can also help show that a found pet belongs to you.</p>
   - question: "How do I schedule a microchip appointment and what are your hours?"
     answer: |-
-      <p>Call us at <a href="tel:+18644426192">(864) 442-6192</a> or visit our clinic at <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, across from Home Depot. We’re open Monday, Tuesday, Thursday, and Friday 9:00am–5:00pm and Wednesday 9:00am–1:00pm, and closed Saturday and Sunday.</p>
+      <p>Call us at <a href="tel:+18644426192">(864) 442-6192</a> or visit our clinic at <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, across from Home Depot. We’re open Monday, Tuesday, Thursday, and Friday 9:00am–5:00pm and Wednesday 9:00am–1:00pm, and two Saturdays a month (call for hours); closed Sunday.</p>
 ---

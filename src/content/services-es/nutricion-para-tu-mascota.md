@@ -33,5 +33,5 @@ faqs:
       <p>Una dieta a la medida puede ayudar con problemas de peso, problemas digestivos, alergias alimentarias, salud cardíaca y problemas urinarios. Mantener a su mascota en un peso saludable también reduce el riesgo de dolor en las articulaciones, diabetes y otras condiciones crónicas.</p>
   - question: "¿Cómo agendo una visita de nutrición y cuál es su horario?"
     answer: |-
-      <p>Llámenos al <a href="tel:+18644426192">(864) 442-6192</a> o visite nuestra clínica en <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, frente a Home Depot. Abrimos lunes, martes, jueves y viernes de 9:00 a. m. a 5:00 p. m.; miércoles de 9:00 a. m. a 1:00 p. m.; cerrado sábado y domingo.</p>
+      <p>Llámenos al <a href="tel:+18644426192">(864) 442-6192</a> o visite nuestra clínica en <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, frente a Home Depot. Abrimos lunes, martes, jueves y viernes de 9:00 a. m. a 5:00 p. m.; miércoles de 9:00 a. m. a 1:00 p. m.; dos sábados al mes (llame para conocer el horario); cerrado el domingo.</p>
 ---

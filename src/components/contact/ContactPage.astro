@@ -29,12 +29,12 @@ const fmt = (hhmm: string) => {
 };
 const rows = [1, 2, 3, 4, 5, 6, 0].map((d) => ({
   day: dayLabels[d],
-  value: week[d].length ? `${fmt(week[d][0].opens)} – ${fmt(week[d][week[d].length - 1].closes)}` : es ? "Cerrado" : "Closed",
+  value: week[d].length ? `${fmt(week[d][0].opens)} – ${fmt(week[d][week[d].length - 1].closes)}` : d === 6 ? (es ? "Llame para el horario" : "Call for hours") : es ? "Cerrado" : "Closed",
 }));
 
 const c = es
-  ? { heading: "Contacto", eyebrow: "Visítenos o llámenos", name: "Hospital Animal Clearview", directions: "Mapa y dirección", hoursTitle: "Horarios de oficina", lunch: "Cerrado todos los dias laborables por lunch 1:00-2:30pm", google: "Encuentranos en Google", message: "Mandanos un mensaje", emergency: "Si su mascota tiene una emergencia médica, no. tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.", afterTitle: "Fuera de horario", map: "Mapa al Hospital de Animales Clearview" }
-  : { heading: "Contact", eyebrow: "Visit or call us", name: "Clearview Animal Hospital", directions: "Map & Directions", hoursTitle: "Office Hours", lunch: "Closed 1:00-2:30pm for lunch everyday", google: "Find us on Google", message: "Send us a Message", emergency: "If your pet is experiencing a medical emergency, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.", afterTitle: "After hours", map: "Map to Clearview Animal Hospital" };
+  ? { heading: "Contacto", eyebrow: "Visítenos o llámenos", name: "Hospital Animal Clearview", directions: "Mapa y dirección", hoursTitle: "Horarios de oficina", lunch: "Abrimos dos sábados al mes. Llame para conocer el horario.", google: "Encuentranos en Google", message: "Mandanos un mensaje", emergency: "Si su mascota tiene una emergencia médica, no. tarde en llamar para obtener asistencia inmediata o diríjase al centro de emergencia veterinario más cercano.", afterTitle: "Fuera de horario", map: "Mapa al Hospital de Animales Clearview" }
+  : { heading: "Contact", eyebrow: "Visit or call us", name: "Clearview Animal Hospital", directions: "Map & Directions", hoursTitle: "Office Hours", lunch: "Open two Saturdays of the month. Call for hours.", google: "Find us on Google", message: "Send us a Message", emergency: "If your pet is experiencing a medical emergency, don’t delay, please call for immediate assistance or proceed to the nearest veterinary emergency center.", afterTitle: "After hours", map: "Map to Clearview Animal Hospital" };
 const afterHours = es ? site.afterHoursEs ?? site.afterHours : site.afterHours;
 ---
 

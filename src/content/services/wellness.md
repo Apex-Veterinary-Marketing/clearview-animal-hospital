@@ -38,5 +38,5 @@ faqs:
       <p>Wellness exams and screening tests can catch dental disease, skin problems, weight changes, heart murmurs, intestinal parasites, heartworm and early signs of organ disease. Vaccines and parasite prevention help protect your pet from infectious diseases and parasites before they take hold.</p>
   - question: "How do I schedule a wellness visit and what are your hours?"
     answer: |-
-      <p>Call us at <a href="tel:+18644426192">(864) 442-6192</a> or visit our clinic at <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, across from Home Depot. We’re open Monday, Tuesday, Thursday, and Friday 9:00am–5:00pm and Wednesday 9:00am–1:00pm, and closed Saturday and Sunday.</p>
+      <p>Call us at <a href="tel:+18644426192">(864) 442-6192</a> or visit our clinic at <a href="https://www.google.com/maps/search/?api=1&query=6714+Calhoun+Memorial+Highway%2C+Easley%2C+SC+29640%2C+Clearview+Animal+Hospital">6714 Calhoun Memorial Highway, Easley, SC 29640</a>, across from Home Depot. We’re open Monday, Tuesday, Thursday, and Friday 9:00am–5:00pm and Wednesday 9:00am–1:00pm, and two Saturdays a month (call for hours); closed Sunday.</p>
 ---
