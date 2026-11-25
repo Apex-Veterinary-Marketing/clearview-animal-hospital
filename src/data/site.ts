@@ -128,7 +128,7 @@ export const siteInfo: SiteInfo = {
   facebookReviewsLink: "https://www.facebook.com/clearviewanimalhospitalSC/reviews",
   // No Yelp profile; no static googleRating/googleReviewCount — the widget
   // loads the live numbers.
-  url: "https://example.com", // REPLACE with the real domain before launch — see the field comment above
+  url: "https://clearvieweasley.com", // apex is canonical (GitHub Pages custom domain; www 301s to it)
   // Logo from the current site (PNG, 1200x304). logo-white.png = the same file
   // with the grey artwork turned white for dark backgrounds (footer). Swap in
   // vector (SVG) versions if the client has them.
